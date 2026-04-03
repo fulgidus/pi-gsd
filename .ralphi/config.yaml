@@ -1,0 +1,42 @@
+# ralphi configuration
+# Auto-generated — edit as needed
+
+project:
+  name: "pi-gsd"
+  language: "TypeScript"
+  type: "pi-package"
+  status: "TS port complete"
+
+commands:
+  # Type-check without emitting
+  typecheck: "npx tsc --noEmit"
+
+  # Build the bundled dist/gsd-tools.js
+  build: "npm run build"
+
+  # Model-profiles markdown must stay in sync with model-profiles.cjs across all 8 harnesses
+  validate: "node scripts/validate-model-profiles.cjs"
+
+  # Full cross-harness integrity suite — run before publishing
+  # check: "node scripts/validate-harness-sync.cjs"
+
+  # Assemble .gsd/harnesses/ for npm publish
+  # build: "node scripts/build-harnesses.js --clean"
+
+rules:
+  - "Run 'node scripts/build-harnesses.js --clean' before any publish or release"
+  - "Tier-1 binary modules (frontmatter.cjs, milestone.cjs, model-profiles.cjs, roadmap.cjs, security.cjs, state.cjs, template.cjs, uat.cjs, init.cjs) must stay byte-identical across all 8 harnesses"
+  - "Tier-2 modules vary by harness — always edit via the canonical source in .gsd/bin/<harness>/, never directly in .<harness>/get-shit-done/bin/lib/"
+  - "Hook files in .agent/, .claude/, .gemini/, .opencode/, .gsd/ are hardlinked (single inode) — editing one edits all; never copy them"
+  - "The /gsd:<name> colon-prefix is an internal Claude/Gemini dispatch mechanism — never emit it in generated artefacts, ROADMAP entries, or error messages"
+  - "We publish skills/ and scripts/ — the package.json 'files' field controls what ships; don't add harness runtime files to it"
+  - "*.lock and .env* files must never be touched"
+
+boundaries:
+  never_touch:
+    - "*.lock"
+    - ".env*"
+    - ".git/hooks/*"
+
+engine: "pi"
+max_retries: 3
