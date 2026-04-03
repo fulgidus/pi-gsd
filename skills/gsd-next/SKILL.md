@@ -11,9 +11,9 @@ Designed for rapid multi-project workflows where remembering which phase/step yo
 </objective>
 
 <execution_context>
-@.agent/get-shit-done/workflows/next.md
+@.pi/get-shit-done/workflows/next.md
 </execution_context>
 
 <process>
-Execute the next workflow from @.agent/get-shit-done/workflows/next.md end-to-end.
+Execute the next workflow from @.pi/get-shit-done/workflows/next.md end-to-end.
 </process>

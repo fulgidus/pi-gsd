@@ -107,6 +107,15 @@ const HARNESS_CONFIG = {
         nonRuntimeHeading: 'Using Non-Claude Runtimes (Codex, OpenCode, Gemini CLI)',
         nonRuntimeIntro: "When installed for a non-Claude runtime, the GSD installer sets `resolve_model_ids: \"omit\"` in `~/.gsd/defaults.json`. This returns an empty model parameter for all agents, so each agent uses the runtime's default model. No manual setup is needed.",
     },
+    pi: {
+        runtimeName: 'pi',
+        cmdPrefix: '/gsd-',
+        providerHeader: 'Using pi with Non-Default Providers (OpenRouter, Local)',
+        providerIntro: "If you're using pi with OpenRouter, a local model, or any non-default provider, set the `inherit` profile to prevent GSD from calling default models for subagents:",
+        rationaleAlias: "pi",
+        nonRuntimeHeading: 'Using Non-pi Runtimes (Claude Code, Codex, OpenCode, Gemini CLI)',
+        nonRuntimeIntro: "When installed for a non-pi runtime, the GSD installer sets `resolve_model_ids: \"omit\"` in `~/.gsd/defaults.json`. This returns an empty model parameter for all agents, so each agent uses the runtime's default model. No manual setup is needed.",
+    },
     codex: {
         runtimeName: 'Claude',
         cmdPrefix: '$gsd-',

@@ -8,9 +8,13 @@ Display comprehensive project statistics including phase progress, plan executio
 </objective>
 
 <execution_context>
-@.agent/get-shit-done/workflows/stats.md
+@.pi/get-shit-done/workflows/stats.md
 </execution_context>
 
 <process>
-Execute the stats workflow from @.agent/get-shit-done/workflows/stats.md end-to-end.
+1. Run: `gsd-tools stats --output toon`
+   - If successful, present the toon output to the user.
+   - If the command fails or toon output is unavailable, fall back to: `gsd-tools stats` (plain JSON output).
+
+2. Execute the stats workflow from @.pi/get-shit-done/workflows/stats.md end-to-end.
 </process>

@@ -17,11 +17,11 @@ Routes to the update workflow which handles:
 </objective>
 
 <execution_context>
-@.agent/get-shit-done/workflows/update.md
+@.pi/get-shit-done/workflows/update.md
 </execution_context>
 
 <process>
-**Follow the update workflow** from `@.agent/get-shit-done/workflows/update.md`.
+**Follow the update workflow** from `@.pi/get-shit-done/workflows/update.md`.
 
 The workflow handles all logic including:
 1. Installed version detection (local/global)

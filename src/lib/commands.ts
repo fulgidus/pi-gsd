@@ -125,8 +125,22 @@ export function cmdVerifyPathExists(
 
 export function cmdHistoryDigest(cwd: string, raw: boolean): void {
 	const phasesDir = planningPaths(cwd).phases;
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const digest: any = { phases: {}, decisions: [], tech_stack: new Set() };
+	/** Internal phase entry — Sets serialised to arrays in the output step */
+	interface PhaseEntry {
+		name: string;
+		provides: Set<string>;
+		affects: Set<string>;
+		patterns: Set<string>;
+	}
+	const digest: {
+		phases: Record<string, PhaseEntry>;
+		decisions: Array<{ phase: string; decision: string }>;
+		tech_stack: Set<string>;
+	} = {
+		phases: {},
+		decisions: [],
+		tech_stack: new Set<string>(),
+	};
 	const allPhaseDirs: Array<{
 		name: string;
 		fullPath: string;
@@ -156,8 +170,7 @@ export function cmdHistoryDigest(cwd: string, raw: boolean): void {
 		}
 	}
 	if (allPhaseDirs.length === 0) {
-		digest.tech_stack = [];
-		output(digest, raw);
+		output({ phases: {}, decisions: [], tech_stack: [] }, raw);
 		return;
 	}
 	try {
@@ -206,13 +219,23 @@ export function cmdHistoryDigest(cwd: string, raw: boolean): void {
 				}
 			}
 		}
-		Object.keys(digest.phases).forEach((p) => {
-			digest.phases[p].provides = [...digest.phases[p].provides];
-			digest.phases[p].affects = [...digest.phases[p].affects];
-			digest.phases[p].patterns = [...digest.phases[p].patterns];
-		});
-		digest.tech_stack = [...digest.tech_stack];
-		output(digest, raw);
+		// Serialise Sets to arrays for JSON output
+		const serialised = {
+			phases: Object.fromEntries(
+				Object.entries(digest.phases).map(([p, v]) => [
+					p,
+					{
+						name: v.name,
+						provides: [...v.provides],
+						affects: [...v.affects],
+						patterns: [...v.patterns],
+					},
+				]),
+			),
+			decisions: digest.decisions,
+			tech_stack: [...digest.tech_stack],
+		};
+		output(serialised, raw);
 	} catch (e) {
 		gsdError("Failed to generate history digest: " + (e as Error).message);
 	}

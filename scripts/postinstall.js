@@ -246,6 +246,14 @@ function main() {
 		installed++;
 	}
 
+	// ── Pi extension (.pi/extensions/gsd-hooks.ts) ─────────────────────────────
+	// Install the GSD pi lifecycle extension (session_start, tool_call, tool_result hooks).
+	// The extension is auto-discovered by pi from .pi/extensions/ — no manual wiring needed.
+	installPiExtension(PROJECT_ROOT, PKG_DIR, FORCE, (copied) => {
+		if (copied) totalCopied++;
+		else totalSkipped++;
+	});
+
 	console.log("");
 
 	if (installed === 0) {
@@ -296,6 +304,88 @@ function getPackageVersion() {
 		return pkg.version || "unknown";
 	} catch {
 		return "unknown";
+	}
+}
+
+/**
+ * Install the GSD pi extension into the consumer project's .pi/extensions/ directory.
+ * Also updates .pi/settings.json to include the extension in the extensions array.
+ *
+ * The extension registers three non-blocking pi lifecycle hooks:
+ *   session_start  → background GSD update check
+ *   tool_call      → workflow guard advisory (write/edit outside GSD context)
+ *   tool_result    → context usage monitor
+ *
+ * @param {string} projectRoot  Consumer project root
+ * @param {string} pkgDir       This package's root directory
+ * @param {boolean} force       Overwrite existing files
+ * @param {function} callback   Called with (copied: boolean)
+ */
+function installPiExtension(projectRoot, pkgDir, force, callback) {
+	const piDir = path.join(projectRoot, ".pi");
+	const extDir = path.join(piDir, "extensions");
+	const extDest = path.join(extDir, "gsd-hooks.ts");
+	const extSrc = path.join(pkgDir, ".gsd", "extensions", "gsd-hooks.ts");
+
+	if (!fs.existsSync(extSrc)) {
+		log("warn", ".pi/extensions/gsd-hooks.ts  (source absent - skipped)");
+		callback(false);
+		return;
+	}
+
+	if (!force && fs.existsSync(extDest)) {
+		log("skip", ".pi/extensions/gsd-hooks.ts  (already exists)");
+		callback(false);
+	} else {
+		try {
+			fs.mkdirSync(extDir, { recursive: true });
+			fs.copyFileSync(extSrc, extDest);
+			log(
+				"ok",
+				".pi/extensions/gsd-hooks.ts  (GSD lifecycle extension installed)",
+			);
+			callback(true);
+		} catch (e) {
+			log(
+				"warn",
+				".pi/extensions/gsd-hooks.ts  (install failed: " + e.message + ")",
+			);
+			callback(false);
+			return;
+		}
+	}
+
+	// Update .pi/settings.json to include the extension path in the extensions array.
+	// The file is already auto-discovered from .pi/extensions/, but explicit registration
+	// is added as a belt-and-suspenders measure.
+	const settingsFile = path.join(piDir, "settings.json");
+	try {
+		let settings = {};
+		if (fs.existsSync(settingsFile)) {
+			try {
+				settings = JSON.parse(fs.readFileSync(settingsFile, "utf8"));
+			} catch {
+				// Unreadable settings — start fresh object
+			}
+		}
+
+		const extensions = Array.isArray(settings.extensions)
+			? settings.extensions
+			: [];
+
+		// Avoid duplicate entries
+		if (!extensions.includes(extDest)) {
+			settings.extensions = [...extensions, extDest];
+			fs.mkdirSync(piDir, { recursive: true });
+			fs.writeFileSync(
+				settingsFile,
+				JSON.stringify(settings, null, "\t"),
+				"utf8",
+			);
+			log("ok", ".pi/settings.json  (extensions array updated)");
+		}
+	} catch (e) {
+		log("warn", ".pi/settings.json  (could not update: " + e.message + ")");
 	}
 }
 

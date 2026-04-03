@@ -10,10 +10,14 @@ Provides situational awareness before continuing work.
 </objective>
 
 <execution_context>
-@.agent/get-shit-done/workflows/progress.md
+@.pi/get-shit-done/workflows/progress.md
 </execution_context>
 
 <process>
-Execute the progress workflow from @.agent/get-shit-done/workflows/progress.md end-to-end.
-Preserve all routing logic (Routes A through F) and edge case handling.
+1. Run: `gsd-tools progress --output toon`
+   - If successful, present the toon output to the user.
+   - If the command fails or toon output is unavailable, fall back to: `gsd-tools progress` (plain JSON output).
+
+2. Execute the progress workflow from @.pi/get-shit-done/workflows/progress.md end-to-end.
+   Preserve all routing logic (Routes A through F) and edge case handling.
 </process>

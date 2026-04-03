@@ -14,6 +14,7 @@ import {
 	type ProfileKey,
 	VALID_PROFILES,
 } from "./model-profiles.js";
+import type { PlanningConfig } from "./schemas.js";
 
 // ─── Valid config keys ────────────────────────────────────────────────────────
 
@@ -74,8 +75,8 @@ function validateKnownConfigKeyPath(keyPath: string): void {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function buildNewProjectConfig(
-	userChoices: Record<string, any>,
-): Record<string, any> {
+	userChoices: Partial<PlanningConfig>,
+): Record<string, unknown> {
 	const choices = userChoices || {};
 	const homedir = os.homedir();
 
@@ -93,8 +94,7 @@ function buildNewProjectConfig(
 	);
 
 	const globalDefaultsPath = path.join(homedir, ".gsd", "defaults.json");
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	let userDefaults: Record<string, any> = {};
+	let userDefaults: Record<string, unknown> = {};
 	try {
 		if (fs.existsSync(globalDefaultsPath)) {
 			userDefaults = JSON.parse(fs.readFileSync(globalDefaultsPath, "utf-8"));
@@ -104,7 +104,8 @@ function buildNewProjectConfig(
 					standard: "standard",
 					comprehensive: "fine",
 				};
-				userDefaults.granularity = m[userDefaults.depth] || userDefaults.depth;
+				userDefaults.granularity =
+					m[userDefaults.depth as string] || (userDefaults.depth as string);
 				delete userDefaults.depth;
 				try {
 					fs.writeFileSync(
@@ -216,22 +217,23 @@ export function setConfigValue(
 	| { updated: boolean; key: string; value: unknown; previousValue: unknown }
 	| undefined {
 	const configPath = path.join(planningRoot(cwd), "config.json");
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	let config: Record<string, any> = {};
+	let config: Record<string, unknown> = {};
 	try {
 		if (fs.existsSync(configPath))
-			config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+			config = JSON.parse(fs.readFileSync(configPath, "utf-8")) as Record<
+				string,
+				unknown
+			>;
 	} catch (err) {
 		gsdError("Failed to read config.json: " + (err as Error).message);
 	}
 	const keys = keyPath.split(".");
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	let current: Record<string, any> = config;
+	let current: Record<string, unknown> = config;
 	for (let i = 0; i < keys.length - 1; i++) {
 		const key = keys[i];
 		if (current[key] === undefined || typeof current[key] !== "object")
 			current[key] = {};
-		current = current[key];
+		current = current[key] as Record<string, unknown>;
 	}
 	const previousValue = current[keys[keys.length - 1]];
 	current[keys[keys.length - 1]] = parsedValue;
@@ -257,10 +259,10 @@ export function cmdConfigNewProject(
 		return;
 	}
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	let userChoices: Record<string, any> = {};
+	let userChoices: Partial<PlanningConfig> = {};
 	if (choicesJson && choicesJson.trim()) {
 		try {
-			userChoices = JSON.parse(choicesJson);
+			userChoices = JSON.parse(choicesJson) as Partial<PlanningConfig>;
 		} catch (err) {
 			gsdError(
 				"Invalid JSON for config-new-project: " + (err as Error).message,
@@ -327,18 +329,20 @@ export function cmdConfigGet(
 	if (!keyPath) gsdError("Usage: config-get <key.path>");
 	const configPath = path.join(planningRoot(cwd), "config.json");
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	let config: Record<string, any> = {};
+	let config: Record<string, unknown> = {};
 	try {
 		if (fs.existsSync(configPath))
-			config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+			config = JSON.parse(fs.readFileSync(configPath, "utf-8")) as Record<
+				string,
+				unknown
+			>;
 		else gsdError("No config.json found at " + configPath);
 	} catch (err) {
 		if ((err as Error).message.startsWith("Error:")) throw err;
 		gsdError("Failed to read config.json: " + (err as Error).message);
 	}
 	const keys = keyPath.split(".");
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	let current: any = config;
+	let current: unknown = config;
 	for (const key of keys) {
 		if (
 			current === undefined ||
@@ -346,7 +350,7 @@ export function cmdConfigGet(
 			typeof current !== "object"
 		)
 			gsdError(`Key not found: ${keyPath}`);
-		current = current[key];
+		current = (current as Record<string, unknown>)[key];
 	}
 	if (current === undefined) gsdError(`Key not found: ${keyPath}`);
 	output(current, raw, String(current));

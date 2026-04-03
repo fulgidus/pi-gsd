@@ -29,6 +29,8 @@ interface ClaudeMdOptions {
 	output?: string | null;
 	auto?: boolean;
 	force?: boolean;
+	/** When 'pi', generates AGENTS.md instead of CLAUDE.md */
+	harness?: string | null;
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -203,7 +205,8 @@ export function cmdGenerateClaudeMd(
 	options: ClaudeMdOptions,
 	raw: boolean,
 ): void {
-	const outPath = resolveProfileOutput(cwd, options.output, "CLAUDE.md");
+	const defaultName = options.harness === "pi" ? "AGENTS.md" : "CLAUDE.md";
+	const outPath = resolveProfileOutput(cwd, options.output, defaultName);
 	if (fs.existsSync(outPath) && !options.force && !options.auto) {
 		output(
 			{
@@ -216,7 +219,8 @@ export function cmdGenerateClaudeMd(
 		);
 		return;
 	}
-	const body = `# CLAUDE.md\n\n*Agent profile for this project.*\n\n## Quick Start\n\nSee \`.planning/PROJECT.md\` for project overview.\n\n## GSD Integration\n\nThis project uses GSD (Get Shit Done) for structured development. Run \`/gsd-help\` to see available commands.\n`;
+	const heading = options.harness === "pi" ? "AGENTS.md" : "CLAUDE.md";
+	const body = `# ${heading}\n\n*Agent profile for this project.*\n\n## Quick Start\n\nSee \`.planning/PROJECT.md\` for project overview.\n\n## GSD Integration\n\nThis project uses GSD (Get Shit Done) for structured development. Run \`/gsd-help\` to see available commands.\n`;
 	fs.writeFileSync(outPath, body, "utf-8");
 	output(
 		{ written: true, path: toPosixPath(path.relative(cwd, outPath)) },

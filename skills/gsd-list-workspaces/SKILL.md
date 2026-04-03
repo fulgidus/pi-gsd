@@ -8,10 +8,10 @@ Scan `~/gsd-workspaces/` for workspace directories containing `WORKSPACE.md` man
 </objective>
 
 <execution_context>
-@.agent/get-shit-done/workflows/list-workspaces.md
-@.agent/get-shit-done/references/ui-brand.md
+@.pi/get-shit-done/workflows/list-workspaces.md
+@.pi/get-shit-done/references/ui-brand.md
 </execution_context>
 
 <process>
-Execute the list-workspaces workflow from @.agent/get-shit-done/workflows/list-workspaces.md end-to-end.
+Execute the list-workspaces workflow from @.pi/get-shit-done/workflows/list-workspaces.md end-to-end.
 </process>

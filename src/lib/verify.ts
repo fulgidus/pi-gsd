@@ -21,7 +21,61 @@ import {
 	safeReadFile,
 } from "./core.js";
 import { extractFrontmatter, parseMustHavesBlock } from "./frontmatter.js";
+import { PlanningConfigSchema } from "./schemas.js";
 import { writeStateMd } from "./state.js";
+
+// ─── Shared types ─────────────────────────────────────────────────────────────
+
+/** A single health-check issue (error, warning, or info). */
+interface HealthIssue {
+	code: string;
+	message: string;
+	fix: string;
+	repairable: boolean;
+	/** Zod field path, e.g. "workflow.nyquist_validation" */
+	field?: string;
+	/** Human-readable description of the expected type/value */
+	expected?: string;
+	/** Actual value found in the file */
+	actual?: unknown;
+}
+
+/** A repair action performed by --repair. */
+interface HealthRepairAction {
+	action: string;
+	success: boolean;
+	path?: string;
+	error?: string;
+}
+
+/** An artifact entry parsed from must_haves.artifacts. */
+interface ArtifactEntry {
+	path?: string;
+	min_lines?: number;
+	contains?: string;
+	exports?: string | string[];
+}
+
+/** A key-link entry parsed from must_haves.key_links. */
+interface KeyLinkEntry {
+	from?: string;
+	to?: string;
+	via?: string;
+	pattern?: string;
+}
+
+/**
+ * Retrieve a nested value from an unknown object by Zod issue path.
+ * Returns undefined if any segment is missing or the container is not an object.
+ */
+function getNestedValue(obj: unknown, segments: (string | number)[]): unknown {
+	let cur: unknown = obj;
+	for (const key of segments) {
+		if (cur == null || typeof cur !== "object") return undefined;
+		cur = (cur as Record<string | number, unknown>)[key];
+	}
+	return cur;
+}
 
 // ─── cmdVerifySummary ─────────────────────────────────────────────────────────
 
@@ -349,8 +403,7 @@ export function cmdVerifyArtifacts(
 	}> = [];
 	for (const artifact of artifacts) {
 		if (typeof artifact === "string") continue;
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		const art = artifact as any;
+		const art = artifact as ArtifactEntry;
 		if (!art.path) continue;
 		const artFullPath = path.join(cwd, art.path),
 			exists = fs.existsSync(artFullPath);
@@ -428,11 +481,10 @@ export function cmdVerifyKeyLinks(
 	}> = [];
 	for (const link of keyLinks) {
 		if (typeof link === "string") continue;
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		const l = link as any;
+		const l = link as KeyLinkEntry;
 		const check = {
-			from: l.from,
-			to: l.to,
+			from: l.from ?? "",
+			to: l.to ?? "",
 			via: l.via || "",
 			verified: false,
 			detail: "",
@@ -575,10 +627,9 @@ export function cmdValidateHealth(
 		statePath = path.join(planBase, "STATE.md"),
 		configPath = path.join(planRoot, "config.json"),
 		phasesDir = path.join(planBase, "phases");
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const errors: any[] = [],
-		warnings: any[] = [],
-		info: any[] = [],
+	const errors: HealthIssue[] = [],
+		warnings: HealthIssue[] = [],
+		info: HealthIssue[] = [],
 		repairs: string[] = [];
 	const addIssue = (
 		severity: string,
@@ -586,8 +637,9 @@ export function cmdValidateHealth(
 		message: string,
 		fix: string,
 		repairable = false,
+		detail?: { field?: string; expected?: string; actual?: unknown },
 	) => {
-		const issue = { code, message, fix, repairable };
+		const issue: HealthIssue = { code, message, fix, repairable, ...detail };
 		if (severity === "error") errors.push(issue);
 		else if (severity === "warning") warnings.push(issue);
 		else info.push(issue);
@@ -651,35 +703,35 @@ export function cmdValidateHealth(
 		repairs.push("createConfig");
 	} else {
 		try {
-			const parsed = JSON.parse(fs.readFileSync(configPath, "utf-8"));
-			if (
-				parsed.model_profile &&
-				!["quality", "balanced", "budget", "inherit"].includes(
-					parsed.model_profile,
-				)
-			)
-				addIssue(
-					"warning",
-					"W004",
-					`config.json: invalid model_profile "${parsed.model_profile}"`,
-					"Valid values: quality, balanced, budget, inherit",
-				);
-			if (parsed.workflow && parsed.workflow.nyquist_validation === undefined) {
-				addIssue(
-					"warning",
-					"W008",
-					"config.json: workflow.nyquist_validation absent",
-					"Run /gsd-health --repair to add key",
-					true,
-				);
-				if (!repairs.includes("addNyquistKey")) repairs.push("addNyquistKey");
+			const parsed: unknown = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+			// ─── Zod schema validation ───────────────────────────────────────────────
+			const zodResult = PlanningConfigSchema.safeParse(parsed);
+			if (!zodResult.success) {
+				for (const issue of zodResult.error.issues) {
+					const fieldPath = issue.path.join(".") || "(root)";
+					const actual = getNestedValue(parsed, issue.path);
+					addIssue(
+						"warning",
+						"W005",
+						`config.json: field "${fieldPath}" — ${issue.message}`,
+						"Run gsd-tools validate health --repair to fix using schema defaults",
+						true,
+						{
+							field: fieldPath,
+							expected: issue.message,
+							actual,
+						},
+					);
+				}
+				if (!repairs.includes("fixSchemaDefaults"))
+					repairs.push("fixSchemaDefaults");
 			}
 		} catch (err) {
 			addIssue(
 				"error",
 				"E005",
 				`config.json: JSON parse error - ${(err as Error).message}`,
-				"Run /gsd-health --repair to reset to defaults",
+				"Run gsd-tools validate health --repair to reset to defaults",
 				true,
 			);
 			repairs.push("resetConfig");
@@ -699,34 +751,35 @@ export function cmdValidateHealth(
 	} catch {
 		/* non-blocking */
 	}
-	const repairActions: unknown[] = [];
+	const repairActions: HealthRepairAction[] = [];
 	if (options.repair && repairs.length > 0) {
 		for (const repair of repairs) {
 			try {
 				if (repair === "createConfig" || repair === "resetConfig") {
+					// Use PlanningConfigSchema defaults — single source of truth for all fields
+					const defaults = PlanningConfigSchema.parse({});
 					fs.writeFileSync(
 						configPath,
-						JSON.stringify(
-							{
-								model_profile: "balanced",
-								commit_docs: true,
-								search_gitignored: false,
-								branching_strategy: "none",
-								phase_branch_template: "gsd/phase-{phase}-{slug}",
-								milestone_branch_template: "gsd/{milestone}-{slug}",
-								quick_branch_template: null,
-								workflow: {
-									research: true,
-									plan_check: true,
-									verifier: true,
-									nyquist_validation: true,
-								},
-								parallelization: true,
-								brave_search: false,
-							},
-							null,
-							2,
-						),
+						JSON.stringify(defaults, null, 2),
+						"utf-8",
+					);
+					repairActions.push({
+						action: repair,
+						success: true,
+						path: "config.json",
+					});
+				} else if (
+					repair === "fixSchemaDefaults" &&
+					fs.existsSync(configPath)
+				) {
+					// Merge schema defaults into existing config — fills any missing/invalid fields
+					const existing: unknown = JSON.parse(
+						fs.readFileSync(configPath, "utf-8"),
+					);
+					const repaired = PlanningConfigSchema.parse(existing);
+					fs.writeFileSync(
+						configPath,
+						JSON.stringify(repaired, null, 2),
 						"utf-8",
 					);
 					repairActions.push({
@@ -759,18 +812,6 @@ export function cmdValidateHealth(
 						success: true,
 						path: "STATE.md",
 					});
-				} else if (repair === "addNyquistKey" && fs.existsSync(configPath)) {
-					const p = JSON.parse(fs.readFileSync(configPath, "utf-8"));
-					if (!p.workflow) p.workflow = {};
-					if (p.workflow.nyquist_validation === undefined) {
-						p.workflow.nyquist_validation = true;
-						fs.writeFileSync(configPath, JSON.stringify(p, null, 2), "utf-8");
-					}
-					repairActions.push({
-						action: repair,
-						success: true,
-						path: "config.json",
-					});
 				}
 			} catch (err) {
 				repairActions.push({
@@ -791,7 +832,7 @@ export function cmdValidateHealth(
 			info,
 			repairable_count:
 				errors.filter((e) => e.repairable).length +
-				warnings.filter((w: { repairable: boolean }) => w.repairable).length,
+				warnings.filter((w) => w.repairable).length,
 			repairs_performed: repairActions.length > 0 ? repairActions : undefined,
 		},
 		raw,

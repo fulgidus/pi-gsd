@@ -128,18 +128,18 @@ Switch profile: `/gsd-set-profile <profile>`
 | Multi-harness install | ✔️ | ✔️ | 8 harnesses via postinstall |
 | pi harness (`.pi/`) | ❌ | ✔️ | New — GSD installs into pi's config dir |
 | Background hooks (Claude/Gemini) | ✔️ | ✔️ | All 5 hooks, hardlinked |
-| Background hooks (pi) | ❌ | ❌ | Pi uses TS extensions, not command hooks — TODO #2 |
-| Correct skill paths for pi | ✔️ | ❌ | Skills reference `.agent/` not `.pi/` — TODO #1 |
-| Pi harness config entry | ❌ | ❌ | Falls back to `agent`; CLAUDE.md branding — TODO #3 |
+| Background hooks (pi) | ❌ | ✔️ | TypeScript extension (`gsd-hooks.ts`) installed via postinstall |
+| Correct skill paths for pi | ✔️ | ✔️ | All 57 skills use `.pi/get-shit-done/` paths |
+| Pi harness config entry | ❌ | ✔️ | `HARNESS_CONFIG` pi entry — generates `AGENTS.md` via `/gsd-profile-user` |
 | `-o toon` output | ❌ | ✔️ | Token-efficient toon renderer output |
 | `--pick` JSONPath extraction | ❌ | ✔️ | Field extraction from CLI output |
 | TypeScript source | ❌ | ✔️ | Full TS port of gsd-tools (9 k lines) |
-| Compile-time type safety | ❌ | ⚠️ | Partial — loose types remain — TODO #6 |
-| Runtime validation (Zod) | ❌ | ❌ | No schema enforcement on `.planning/` files — TODO #5 |
-| Smarter `--repair` | ❌ | ❌ | Repair is heuristic, not schema-driven — TODO #5 |
-| Toon output in skills | ❌ | ❌ | Skills don't yet use `--output toon` — TODO #4 |
-| Pi session history ingestion | ❌ | ❌ | `/gsd-profile-user` reads Claude sessions only — TODO #7 |
-| `/gsd-setup-pi` onboarding | ❌ | ❌ | No guided pi first-run — TODO #2b |
+| Compile-time type safety | ❌ | ✔️ | Fully typed — `Record<string, any>` replaced with Zod-inferred types |
+| Runtime validation (Zod) | ❌ | ✔️ | Schema-driven `validate health` with field-path errors |
+| Smarter `--repair` | ❌ | ✔️ | Zod schema defaults fill all missing / invalid fields at once |
+| Toon output in skills | ❌ | ✔️ | `gsd-progress`, `gsd-stats`, `gsd-health` use `--output toon` |
+| Pi session history ingestion | ❌ | ✔️ | `/gsd-profile-user` reads pi JSONL sessions from `~/.pi/agent/sessions/` |
+| `/gsd-setup-pi` onboarding | ❌ | ✔️ | Setup skill for bun installs where postinstall is skipped |
 
 ---
 

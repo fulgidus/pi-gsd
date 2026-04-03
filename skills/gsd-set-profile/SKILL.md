@@ -6,4 +6,4 @@ description: Switch model profile for GSD agents (quality/balanced/budget/inheri
 
 Show the following output to the user verbatim, with no extra commentary:
 
-!`node ".agent/get-shit-done/bin/gsd-tools.cjs" config-set-model-profile $ARGUMENTS --raw`
+!`node ".pi/get-shit-done/bin/gsd-tools.cjs" config-set-model-profile $ARGUMENTS --raw`
