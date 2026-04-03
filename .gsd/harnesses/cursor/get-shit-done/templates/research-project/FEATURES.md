@@ -1,6 +1,6 @@
 # Features Research Template
 
-Template for `.planning/research/FEATURES.md` — feature landscape for the project domain.
+Template for `.planning/research/FEATURES.md` - feature landscape for the project domain.
 
 <template>
 
@@ -17,8 +17,8 @@ Template for `.planning/research/FEATURES.md` — feature landscape for the proj
 
 Features users assume exist. Missing these = product feels incomplete.
 
-| Feature | Why Expected | Complexity | Notes |
-|---------|--------------|------------|-------|
+| Feature   | Why Expected       | Complexity      | Notes                  |
+| --------- | ------------------ | --------------- | ---------------------- |
 | [feature] | [user expectation] | LOW/MEDIUM/HIGH | [implementation notes] |
 | [feature] | [user expectation] | LOW/MEDIUM/HIGH | [implementation notes] |
 | [feature] | [user expectation] | LOW/MEDIUM/HIGH | [implementation notes] |
@@ -27,18 +27,18 @@ Features users assume exist. Missing these = product feels incomplete.
 
 Features that set the product apart. Not required, but valuable.
 
-| Feature | Value Proposition | Complexity | Notes |
-|---------|-------------------|------------|-------|
-| [feature] | [why it matters] | LOW/MEDIUM/HIGH | [implementation notes] |
-| [feature] | [why it matters] | LOW/MEDIUM/HIGH | [implementation notes] |
-| [feature] | [why it matters] | LOW/MEDIUM/HIGH | [implementation notes] |
+| Feature   | Value Proposition | Complexity      | Notes                  |
+| --------- | ----------------- | --------------- | ---------------------- |
+| [feature] | [why it matters]  | LOW/MEDIUM/HIGH | [implementation notes] |
+| [feature] | [why it matters]  | LOW/MEDIUM/HIGH | [implementation notes] |
+| [feature] | [why it matters]  | LOW/MEDIUM/HIGH | [implementation notes] |
 
 ### Anti-Features (Commonly Requested, Often Problematic)
 
 Features that seem good but create problems.
 
-| Feature | Why Requested | Why Problematic | Alternative |
-|---------|---------------|-----------------|-------------|
+| Feature   | Why Requested    | Why Problematic   | Alternative       |
+| --------- | ---------------- | ----------------- | ----------------- |
 | [feature] | [surface appeal] | [actual problems] | [better approach] |
 | [feature] | [surface appeal] | [actual problems] | [better approach] |
 
@@ -64,33 +64,33 @@ Features that seem good but create problems.
 
 ### Launch With (v1)
 
-Minimum viable product — what's needed to validate the concept.
+Minimum viable product - what's needed to validate the concept.
 
-- [ ] [Feature] — [why essential]
-- [ ] [Feature] — [why essential]
-- [ ] [Feature] — [why essential]
+- [ ] [Feature] - [why essential]
+- [ ] [Feature] - [why essential]
+- [ ] [Feature] - [why essential]
 
 ### Add After Validation (v1.x)
 
 Features to add once core is working.
 
-- [ ] [Feature] — [trigger for adding]
-- [ ] [Feature] — [trigger for adding]
+- [ ] [Feature] - [trigger for adding]
+- [ ] [Feature] - [trigger for adding]
 
 ### Future Consideration (v2+)
 
 Features to defer until product-market fit is established.
 
-- [ ] [Feature] — [why defer]
-- [ ] [Feature] — [why defer]
+- [ ] [Feature] - [why defer]
+- [ ] [Feature] - [why defer]
 
 ## Feature Prioritization Matrix
 
-| Feature | User Value | Implementation Cost | Priority |
-|---------|------------|---------------------|----------|
-| [feature] | HIGH/MEDIUM/LOW | HIGH/MEDIUM/LOW | P1/P2/P3 |
-| [feature] | HIGH/MEDIUM/LOW | HIGH/MEDIUM/LOW | P1/P2/P3 |
-| [feature] | HIGH/MEDIUM/LOW | HIGH/MEDIUM/LOW | P1/P2/P3 |
+| Feature   | User Value      | Implementation Cost | Priority |
+| --------- | --------------- | ------------------- | -------- |
+| [feature] | HIGH/MEDIUM/LOW | HIGH/MEDIUM/LOW     | P1/P2/P3 |
+| [feature] | HIGH/MEDIUM/LOW | HIGH/MEDIUM/LOW     | P1/P2/P3 |
+| [feature] | HIGH/MEDIUM/LOW | HIGH/MEDIUM/LOW     | P1/P2/P3 |
 
 **Priority key:**
 - P1: Must have for launch
@@ -99,10 +99,10 @@ Features to defer until product-market fit is established.
 
 ## Competitor Feature Analysis
 
-| Feature | Competitor A | Competitor B | Our Approach |
-|---------|--------------|--------------|--------------|
-| [feature] | [how they do it] | [how they do it] | [our plan] |
-| [feature] | [how they do it] | [how they do it] | [our plan] |
+| Feature   | Competitor A     | Competitor B     | Our Approach |
+| --------- | ---------------- | ---------------- | ------------ |
+| [feature] | [how they do it] | [how they do it] | [our plan]   |
+| [feature] | [how they do it] | [how they do it] | [our plan]   |
 
 ## Sources
 

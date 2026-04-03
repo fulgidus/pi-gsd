@@ -1,6 +1,6 @@
 <questioning_guide>
 
-Project initialization is dream extraction, not requirements gathering. You're helping the user discover and articulate what they want to build. This isn't a contract negotiation — it's collaborative thinking.
+Project initialization is dream extraction, not requirements gathering. You're helping the user discover and articulate what they want to build. This isn't a contract negotiation - it's collaborative thinking.
 
 <philosophy>
 
@@ -36,9 +36,9 @@ A vague PROJECT.md forces every downstream phase to guess. The cost compounds.
 
 **Make the abstract concrete.** "Walk me through using this." "What does that actually look like?"
 
-**Clarify ambiguity.** "When you say Z, do you mean A or B?" "You mentioned X — tell me more."
+**Clarify ambiguity.** "When you say Z, do you mean A or B?" "You mentioned X - tell me more."
 
-**Know when to stop.** When you understand what they want, why they want it, who it's for, and what done looks like — offer to proceed.
+**Know when to stop.** When you understand what they want, why they want it, who it's for, and what done looks like - offer to proceed.
 
 </how_to_question>
 
@@ -46,21 +46,21 @@ A vague PROJECT.md forces every downstream phase to guess. The cost compounds.
 
 Use these as inspiration, not a checklist. Pick what's relevant to the thread.
 
-**Motivation — why this exists:**
+**Motivation - why this exists:**
 - "What prompted this?"
 - "What are you doing today that this replaces?"
 - "What would you do if this existed?"
 
-**Concreteness — what it actually is:**
+**Concreteness - what it actually is:**
 - "Walk me through using this"
-- "You said X — what does that actually look like?"
+- "You said X - what does that actually look like?"
 - "Give me an example"
 
-**Clarification — what they mean:**
+**Clarification - what they mean:**
 - "When you say Z, do you mean A or B?"
-- "You mentioned X — tell me more about that"
+- "You mentioned X - tell me more about that"
 
-**Success — how you'll know it's working:**
+**Success - how you'll know it's working:**
 - "How will you know this is working?"
 - "What does done look like?"
 
@@ -79,23 +79,23 @@ Use question to help users think by presenting concrete options to react to.
 - Generic categories ("Technical", "Business", "Other")
 - Leading options that presume an answer
 - Too many options (2-4 is ideal)
-- Headers longer than 12 characters (hard limit — validation will reject them)
+- Headers longer than 12 characters (hard limit - validation will reject them)
 
-**Example — vague answer:**
+**Example - vague answer:**
 User says "it should be fast"
 
 - header: "Fast"
 - question: "Fast how?"
 - options: ["Sub-second response", "Handles large datasets", "Quick to build", "Let me explain"]
 
-**Example — following a thread:**
+**Example - following a thread:**
 User mentions "frustrated with current tools"
 
 - header: "Frustration"
 - question: "What specifically frustrates you?"
 - options: ["Too many clicks", "Missing features", "Unreliable", "Let me explain"]
 
-**Tip for users — modifying an option:**
+**Tip for users - modifying an option:**
 Users who want a slightly modified version of an option can select "Other" and reference the option by number: `#1 but for finger joints only` or `#2 with pagination disabled`. This avoids retyping the full option text.
 
 </using_askuserquestion>
@@ -106,14 +106,14 @@ Users who want a slightly modified version of an option can select "Other" and r
 
 If a user selects "Other" and their response signals they want to describe something in their own words (e.g., "let me describe it", "I'll explain", "something else", or any open-ended reply that isn't choosing/modifying an existing option), you MUST:
 
-1. **Ask your follow-up as plain text** — NOT via question
+1. **Ask your follow-up as plain text** - NOT via question
 2. **Wait for them to type at the normal prompt**
 3. **Resume question** only after processing their freeform response
 
 The same applies if YOU include a freeform-indicating option (like "Let me explain" or "Describe in detail") and the user selects it.
 
 **Wrong:** User says "let me describe it" → question("What feature?", ["Feature A", "Feature B", "Describe in detail"])
-**Right:** User says "let me describe it" → "Go ahead — what are you thinking?"
+**Right:** User says "let me describe it" → "Go ahead - what are you thinking?"
 
 </freeform_rule>
 
@@ -137,10 +137,10 @@ When you could write a clear PROJECT.md, offer to proceed:
 - header: "Ready?"
 - question: "I think I understand what you're after. Ready to create PROJECT.md?"
 - options:
-  - "Create PROJECT.md" — Let's move forward
-  - "Keep exploring" — I want to share more / ask me more
+  - "Create PROJECT.md" - Let's move forward
+  - "Keep exploring" - I want to share more / ask me more
 
-If "Keep exploring" — ask what they want to add or identify gaps and probe naturally.
+If "Keep exploring" - ask what they want to add or identify gaps and probe naturally.
 
 Loop until "Create PROJECT.md" selected.
 
@@ -148,14 +148,14 @@ Loop until "Create PROJECT.md" selected.
 
 <anti_patterns>
 
-- **Checklist walking** — Going through domains regardless of what they said
-- **Canned questions** — "What's your core value?" "What's out of scope?" regardless of context
-- **Corporate speak** — "What are your success criteria?" "Who are your stakeholders?"
-- **Interrogation** — Firing questions without building on answers
-- **Rushing** — Minimizing questions to get to "the work"
-- **Shallow acceptance** — Taking vague answers without probing
-- **Premature constraints** — Asking about tech stack before understanding the idea
-- **User skills** — NEVER ask about user's technical experience. the agent builds.
+- **Checklist walking** - Going through domains regardless of what they said
+- **Canned questions** - "What's your core value?" "What's out of scope?" regardless of context
+- **Corporate speak** - "What are your success criteria?" "Who are your stakeholders?"
+- **Interrogation** - Firing questions without building on answers
+- **Rushing** - Minimizing questions to get to "the work"
+- **Shallow acceptance** - Taking vague answers without probing
+- **Premature constraints** - Asking about tech stack before understanding the idea
+- **User skills** - NEVER ask about user's technical experience. the agent builds.
 
 </anti_patterns>
 

@@ -2,7 +2,7 @@
 
 *A living document updated after each milestone. Lessons feed forward into future planning.*
 
-## Milestone: v{version} — {name}
+## Milestone: v{version} - {name}
 
 **Shipped:** {date}
 **Phases:** {count} | **Plans:** {count} | **Sessions:** {count}
@@ -38,15 +38,15 @@
 
 ### Process Evolution
 
-| Milestone | Sessions | Phases | Key Change |
-|-----------|----------|--------|------------|
-| v{X} | {N} | {M} | {What changed in process} |
+| Milestone | Sessions | Phases | Key Change                |
+| --------- | -------- | ------ | ------------------------- |
+| v{X}      | {N}      | {M}    | {What changed in process} |
 
 ### Cumulative Quality
 
 | Milestone | Tests | Coverage | Zero-Dep Additions |
-|-----------|-------|----------|-------------------|
-| v{X} | {N} | {Y}% | {count} |
+| --------- | ----- | -------- | ------------------ |
+| v{X}      | {N}   | {Y}%     | {count}            |
 
 ### Top Lessons (Verified Across Milestones)
 

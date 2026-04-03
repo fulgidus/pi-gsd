@@ -9,10 +9,10 @@ Read all files referenced by the invoking prompt's execution_context before star
 </required_reading>
 
 <available_agent_types>
-Valid GSD subagent types (use exact names — do not fall back to 'general-purpose'):
-- gsd-phase-researcher — Researches technical approaches for a phase
-- gsd-planner — Creates detailed plans from phase scope
-- gsd-plan-checker — Reviews plan quality before execution
+Valid GSD subagent types (use exact names - do not fall back to 'general-purpose'):
+- gsd-phase-researcher - Researches technical approaches for a phase
+- gsd-planner - Creates detailed plans from phase scope
+- gsd-plan-checker - Reviews plan quality before execution
 </available_agent_types>
 
 <process>
@@ -33,7 +33,7 @@ Parse JSON for: `researcher_model`, `planner_model`, `checker_model`, `research_
 
 **File paths (for <files_to_read> blocks):** `state_path`, `roadmap_path`, `requirements_path`, `context_path`, `research_path`, `verification_path`, `uat_path`, `reviews_path`. These are null if files don't exist.
 
-**If `planning_exists` is false:** Error — run `/gsd:new-project` first.
+**If `planning_exists` is false:** Error - run `/gsd:new-project` first.
 
 ## 2. Parse and Normalize Arguments
 
@@ -56,7 +56,7 @@ mkdir -p ".planning/phases/${padded_phase}-${phase_slug}"
 
 **Skip if:** No `--reviews` flag.
 
-**If `--reviews` AND `--gaps`:** Error — cannot combine `--reviews` with `--gaps`. These are conflicting modes.
+**If `--reviews` AND `--gaps`:** Error - cannot combine `--reviews` with `--gaps`. These are conflicting modes.
 
 **If `--reviews` AND `has_reviews` is false (no REVIEWS.md in phase dir):**
 
@@ -107,7 +107,7 @@ Generating CONTEXT.md from requirements...
    - Extract all requirements, user stories, acceptance criteria, and constraints from the PRD
    - Map each to a locked decision (everything in the PRD is treated as a locked decision)
    - Identify any areas the PRD doesn't cover and mark as "Claude's Discretion"
-   - **Extract canonical refs** from ROADMAP.md for this phase, plus any specs/ADRs referenced in the PRD — expand to full file paths (MANDATORY)
+   - **Extract canonical refs** from ROADMAP.md for this phase, plus any specs/ADRs referenced in the PRD - expand to full file paths (MANDATORY)
    - Create CONTEXT.md in the phase directory
 
 4. Write CONTEXT.md:
@@ -121,7 +121,7 @@ Generating CONTEXT.md from requirements...
 <domain>
 ## Phase Boundary
 
-[Extracted from PRD — what this phase delivers]
+[Extracted from PRD - what this phase delivers]
 
 </domain>
 
@@ -133,7 +133,7 @@ Generating CONTEXT.md from requirements...
 - [Requirement as locked decision]
 
 ### Claude's Discretion
-[Areas not covered by PRD — implementation details, technical choices]
+[Areas not covered by PRD - implementation details, technical choices]
 
 </decisions>
 
@@ -146,9 +146,9 @@ Generating CONTEXT.md from requirements...
 Use full relative paths. Group by topic area.]
 
 ### [Topic area]
-- `path/to/spec-or-adr.md` — [What it decides/defines]
+- `path/to/spec-or-adr.md` - [What it decides/defines]
 
-[If no external specs: "No external specs — requirements fully captured in decisions above"]
+[If no external specs: "No external specs - requirements fully captured in decisions above"]
 
 </canonical_refs>
 
@@ -163,7 +163,7 @@ Use full relative paths. Group by topic area.]
 ## Deferred Ideas
 
 [Items in PRD explicitly marked as future/v2/out-of-scope]
-[If none: "None — PRD covers phase scope"]
+[If none: "None - PRD covers phase scope"]
 
 </deferred>
 
@@ -199,30 +199,30 @@ DISCUSS_MODE=$(node ".claude/get-shit-done/bin/gsd-tools.cjs" config-get workflo
 
 If `TEXT_MODE` is true, present as a plain-text numbered list:
 ```
-No CONTEXT.md found for Phase {X}. Plans will use research and requirements only — your design preferences won't be included.
+No CONTEXT.md found for Phase {X}. Plans will use research and requirements only - your design preferences won't be included.
 
-1. Continue without context — Plan using research + requirements only
+1. Continue without context - Plan using research + requirements only
 [If DISCUSS_MODE is "assumptions":]
-2. Gather context (assumptions mode) — Analyze codebase and surface assumptions before planning
+2. Gather context (assumptions mode) - Analyze codebase and surface assumptions before planning
 [If DISCUSS_MODE is "discuss" or unset:]
-2. Run discuss-phase first — Capture design decisions before planning
+2. Run discuss-phase first - Capture design decisions before planning
 
 Enter number:
 ```
 
 Otherwise use AskUserQuestion:
 - header: "No context"
-- question: "No CONTEXT.md found for Phase {X}. Plans will use research and requirements only — your design preferences won't be included. Continue or capture context first?"
+- question: "No CONTEXT.md found for Phase {X}. Plans will use research and requirements only - your design preferences won't be included. Continue or capture context first?"
 - options:
-  - "Continue without context" — Plan using research + requirements only
+  - "Continue without context" - Plan using research + requirements only
   If `DISCUSS_MODE` is `"assumptions"`:
-  - "Gather context (assumptions mode)" — Analyze codebase and surface assumptions before planning
+  - "Gather context (assumptions mode)" - Analyze codebase and surface assumptions before planning
   If `DISCUSS_MODE` is `"discuss"` (or unset):
-  - "Run discuss-phase first" — Capture design decisions before planning
+  - "Run discuss-phase first" - Capture design decisions before planning
 
 If "Continue without context": Proceed to step 5.
 If "Run discuss-phase first":
-  **IMPORTANT:** Do NOT invoke discuss-phase as a nested Skill/Task call — AskUserQuestion
+  **IMPORTANT:** Do NOT invoke discuss-phase as a nested Skill/Task call - AskUserQuestion
   does not work correctly in nested subcontexts (#1009). Instead, display the command
   and exit so the user runs it as a top-level command:
   ```
@@ -247,8 +247,8 @@ If `TEXT_MODE` is true, present as a plain-text numbered list:
 ```
 Research before planning Phase {X}: {phase_name}?
 
-1. Research first (Recommended) — Investigate domain, patterns, and dependencies before planning. Best for new features, unfamiliar integrations, or architectural changes.
-2. Skip research — Plan directly from context and requirements. Best for bug fixes, simple refactors, or well-understood tasks.
+1. Research first (Recommended) - Investigate domain, patterns, and dependencies before planning. Best for new features, unfamiliar integrations, or architectural changes.
+2. Skip research - Plan directly from context and requirements. Best for bug fixes, simple refactors, or well-understood tasks.
 
 Enter number:
 ```
@@ -307,8 +307,8 @@ ${AGENT_SKILLS_RESEARCHER}
 **Phase description:** {phase_description}
 **Phase requirement IDs (MUST address):** {phase_req_ids}
 
-**Project instructions:** Read ./CLAUDE.md if exists — follow project-specific guidelines
-**Project skills:** Check .claude/skills/ or .agents/skills/ directory (if either exists) — read SKILL.md files, research should account for project skill patterns
+**Project instructions:** Read ./CLAUDE.md if exists - follow project-specific guidelines
+**Project skills:** Check .claude/skills/ or .agents/skills/ directory (if either exists) - read SKILL.md files, research should account for project skill patterns
 </additional_context>
 
 <output>
@@ -334,7 +334,7 @@ Task(
 
 Skip if `nyquist_validation_enabled` is false OR `research_enabled` is false.
 
-If `research_enabled` is false and `nyquist_validation_enabled` is true: warn "Nyquist validation enabled but research disabled — VALIDATION.md cannot be created without RESEARCH.md. Plans will lack validation requirements (Dimension 8)." Continue to step 6.
+If `research_enabled` is false and `nyquist_validation_enabled` is true: warn "Nyquist validation enabled but research disabled - VALIDATION.md cannot be created without RESEARCH.md. Plans will lack validation requirements (Dimension 8)." Continue to step 6.
 
 **But Nyquist is not applicable for this run** when all of the following are true:
 - `research_enabled` is false
@@ -355,10 +355,10 @@ grep -l "## Validation Architecture" "${PHASE_DIR}"/*-RESEARCH.md 2>/dev/null ||
 ```bash
 test -f "${PHASE_DIR}/${PADDED_PHASE}-VALIDATION.md" && echo "VALIDATION_CREATED=true" || echo "VALIDATION_CREATED=false"
 ```
-5. If `VALIDATION_CREATED=false`: STOP — do not proceed to Step 6
+5. If `VALIDATION_CREATED=false`: STOP - do not proceed to Step 6
 6. If `commit_docs`: `commit "docs(phase-${PHASE}): add validation strategy"`
 
-**If not found:** Warn and continue — plans may fail Dimension 8.
+**If not found:** Warn and continue - plans may fail Dimension 8.
 
 ## 5.6. UI Design Contract Gate
 
@@ -394,7 +394,7 @@ If `TEXT_MODE` is true, present as a plain-text numbered list:
 ```
 Phase {N} has frontend indicators but no UI-SPEC.md. Generate a design contract before planning?
 
-1. Generate UI-SPEC first — Run /gsd:ui-phase {N} then re-run /gsd:plan-phase {N}
+1. Generate UI-SPEC first - Run /gsd:ui-phase {N} then re-run /gsd:plan-phase {N}
 2. Continue without UI-SPEC
 3. Not a frontend phase
 
@@ -417,7 +417,7 @@ Otherwise use AskUserQuestion:
 ls "${PHASE_DIR}"/*-PLAN.md 2>/dev/null || true
 ```
 
-**If exists AND `--reviews` flag:** Skip prompt — go straight to replanning (the purpose of `--reviews` is to replan with review feedback).
+**If exists AND `--reviews` flag:** Skip prompt - go straight to replanning (the purpose of `--reviews` is to replan with review feedback).
 
 **If exists AND no `--reviews` flag:** Offer: 1) Add more plans, 2) View existing, 3) Replan from scratch.
 
@@ -452,7 +452,7 @@ In that no-research path, Nyquist artifacts are **not required** for this run.
 VALIDATION_EXISTS=$(ls "${PHASE_DIR}"/*-VALIDATION.md 2>/dev/null | head -1)
 ```
 
-If missing and Nyquist is still enabled/applicable — ask user:
+If missing and Nyquist is still enabled/applicable - ask user:
 1. Re-run: `/gsd:plan-phase {PHASE} --research ${GSD_WS}`
 2. Disable Nyquist with the exact command:
    `node ".claude/get-shit-done/bin/gsd-tools.cjs" config-set workflow.nyquist_validation false`
@@ -487,15 +487,15 @@ Planner prompt:
 - {verification_path} (Verification Gaps - if --gaps)
 - {uat_path} (UAT Gaps - if --gaps)
 - {reviews_path} (Cross-AI Review Feedback - if --reviews)
-- {UI_SPEC_PATH} (UI Design Contract — visual/interaction specs, if exists)
+- {UI_SPEC_PATH} (UI Design Contract - visual/interaction specs, if exists)
 </files_to_read>
 
 ${AGENT_SKILLS_PLANNER}
 
 **Phase requirement IDs (every ID MUST appear in a plan's `requirements` field):** {phase_req_ids}
 
-**Project instructions:** Read ./CLAUDE.md if exists — follow project-specific guidelines
-**Project skills:** Check .claude/skills/ or .agents/skills/ directory (if either exists) — read SKILL.md files, plans should account for project skill rules
+**Project instructions:** Read ./CLAUDE.md if exists - follow project-specific guidelines
+**Project skills:** Check .claude/skills/ or .agents/skills/ directory (if either exists) - read SKILL.md files, plans should account for project skill rules
 </planning_context>
 
 <downstream_consumer>
@@ -509,14 +509,14 @@ Output consumed by /gsd:execute-phase. Plans need:
 <deep_work_rules>
 ## Anti-Shallow Execution Rules (MANDATORY)
 
-Every task MUST include these fields — they are NOT optional:
+Every task MUST include these fields - they are NOT optional:
 
-1. **`<read_first>`** — Files the executor MUST read before touching anything. Always include:
+1. **`<read_first>`** - Files the executor MUST read before touching anything. Always include:
    - The file being modified (so executor sees current state, not assumptions)
    - Any "source of truth" file referenced in CONTEXT.md (reference implementations, existing patterns, config files, schemas)
    - Any file whose patterns, signatures, types, or conventions must be replicated or respected
 
-2. **`<acceptance_criteria>`** — Verifiable conditions that prove the task was done correctly. Rules:
+2. **`<acceptance_criteria>`** - Verifiable conditions that prove the task was done correctly. Rules:
    - Every criterion must be checkable with grep, file read, test command, or CLI output
    - NEVER use subjective language ("looks correct", "properly configured", "consistent with")
    - ALWAYS include exact strings, patterns, values, or command outputs that must be present
@@ -526,7 +526,7 @@ Every task MUST include these fields — they are NOT optional:
      - Docs: `README.md contains '## Installation'` / `API.md lists all endpoints`
      - Infra: `deploy.yml has rollback step` / `docker-compose.yml has healthcheck for db`
 
-3. **`<action>`** — Must include CONCRETE values, not references. Rules:
+3. **`<action>`** - Must include CONCRETE values, not references. Rules:
    - NEVER say "align X with Y", "match X to Y", "update to be consistent" without specifying the exact target state
    - ALWAYS include the actual values: config keys, function signatures, SQL statements, class names, import paths, env vars, etc.
    - If CONTEXT.md has a comparison table or expected values, copy them into the action verbatim
@@ -586,20 +586,20 @@ Checker prompt:
 - {roadmap_path} (Roadmap)
 - {requirements_path} (Requirements)
 - {context_path} (USER DECISIONS from /gsd:discuss-phase)
-- {research_path} (Technical Research — includes Validation Architecture)
+- {research_path} (Technical Research - includes Validation Architecture)
 </files_to_read>
 
 ${AGENT_SKILLS_CHECKER}
 
 **Phase requirement IDs (MUST ALL be covered):** {phase_req_ids}
 
-**Project instructions:** Read ./CLAUDE.md if exists — verify plans honor project guidelines
-**Project skills:** Check .claude/skills/ or .agents/skills/ directory (if either exists) — verify plans account for project skill rules
+**Project instructions:** Read ./CLAUDE.md if exists - verify plans honor project guidelines
+**Project skills:** Check .claude/skills/ or .agents/skills/ directory (if either exists) - verify plans account for project skill rules
 </verification_context>
 
 <expected_output>
-- ## VERIFICATION PASSED — all checks pass
-- ## ISSUES FOUND — structured issue list
+- ## VERIFICATION PASSED - all checks pass
+- ## ISSUES FOUND - structured issue list
 </expected_output>
 ```
 
@@ -702,17 +702,17 @@ If gaps found:
 
 {M} of {N} phase requirements are not assigned to any plan:
 
-| REQ-ID | Description | Plans |
-|--------|-------------|-------|
-| {id} | {from REQUIREMENTS.md} | None |
+| REQ-ID | Description            | Plans |
+| ------ | ---------------------- | ----- |
+| {id}   | {from REQUIREMENTS.md} | None  |
 
 {K} CONTEXT.md features not found in plan objectives:
-- {feature_name} — described in CONTEXT.md but no plan covers it
+- {feature_name} - described in CONTEXT.md but no plan covers it
 
 Options:
 1. Re-plan to include missing requirements (recommended)
 2. Move uncovered requirements to next phase
-3. Proceed anyway — accept coverage gaps
+3. Proceed anyway - accept coverage gaps
 ```
 
 If `TEXT_MODE` is true, present as a plain-text numbered list (options already shown in the block above). Otherwise use AskUserQuestion to present the options.
@@ -726,7 +726,7 @@ Route to `<offer_next>` OR `auto_advance` depending on flags/config.
 Check for auto-advance trigger:
 
 1. Parse `--auto` flag from $ARGUMENTS
-2. **Sync chain flag with intent** — if user invoked manually (no `--auto`), clear the ephemeral chain flag from any previous interrupted `--auto` chain. This does NOT touch `workflow.auto_advance` (the user's persistent settings preference):
+2. **Sync chain flag with intent** - if user invoked manually (no `--auto`), clear the ephemeral chain flag from any previous interrupted `--auto` chain. This does NOT touch `workflow.auto_advance` (the user's persistent settings preference):
    ```bash
    if [[ ! "$ARGUMENTS" =~ --auto ]]; then
      node ".claude/get-shit-done/bin/gsd-tools.cjs" config-set workflow._auto_chain_active false 2>/dev/null
@@ -754,7 +754,7 @@ Launch execute-phase using the Skill tool to avoid nested Task sessions (which c
 Skill(skill="gsd:execute-phase", args="${PHASE} --auto --no-transition ${GSD_WS}")
 ```
 
-The `--no-transition` flag tells execute-phase to return status after verification instead of chaining further. This keeps the auto-advance chain flat — each phase runs at the same nesting level rather than spawning deeper Task agents.
+The `--no-transition` flag tells execute-phase to return status after verification instead of chaining further. This keeps the auto-advance chain flat - each phase runs at the same nesting level rather than spawning deeper Task agents.
 
 **Handle execute-phase return:**
 - **PHASE COMPLETE** → Display final summary:
@@ -787,12 +787,12 @@ Output this markdown directly (not as a code block):
  GSD ► PHASE {X} PLANNED ✓
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-**Phase {X}: {Name}** — {N} plan(s) in {M} wave(s)
+**Phase {X}: {Name}** - {N} plan(s) in {M} wave(s)
 
-| Wave | Plans | What it builds |
-|------|-------|----------------|
-| 1    | 01, 02 | [objectives] |
-| 2    | 03     | [objective]  |
+| Wave | Plans  | What it builds |
+| ---- | ------ | -------------- |
+| 1    | 01, 02 | [objectives]   |
+| 2    | 03     | [objective]    |
 
 Research: {Completed | Used existing | Skipped}
 Verification: {Passed | Passed with override | Skipped}
@@ -801,7 +801,7 @@ Verification: {Passed | Passed with override | Skipped}
 
 ## ▶ Next Up
 
-**Execute Phase {X}** — run all {N} plans
+**Execute Phase {X}** - run all {N} plans
 
 /gsd:execute-phase {X} ${GSD_WS}
 
@@ -810,17 +810,17 @@ Verification: {Passed | Passed with override | Skipped}
 ───────────────────────────────────────────────────────────────
 
 **Also available:**
-- cat .planning/phases/{phase-dir}/*-PLAN.md — review plans
-- /gsd:plan-phase {X} --research — re-research first
-- /gsd:review --phase {X} --all — peer review plans with external AIs
-- /gsd:plan-phase {X} --reviews — replan incorporating review feedback
+- cat .planning/phases/{phase-dir}/*-PLAN.md - review plans
+- /gsd:plan-phase {X} --research - re-research first
+- /gsd:review --phase {X} --all - peer review plans with external AIs
+- /gsd:plan-phase {X} --reviews - replan incorporating review feedback
 
 ───────────────────────────────────────────────────────────────
 </offer_next>
 
 <windows_troubleshooting>
 **Windows users:** If plan-phase freezes during agent spawning (common on Windows due to
-stdio deadlocks with MCP servers — see Claude Code issue anthropics/claude-code#28126):
+stdio deadlocks with MCP servers - see Claude Code issue anthropics/claude-code#28126):
 
 1. **Force-kill:** Close the terminal (Ctrl+C may not work)
 2. **Clean up orphaned processes:**

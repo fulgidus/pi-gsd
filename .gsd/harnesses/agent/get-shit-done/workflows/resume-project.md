@@ -63,7 +63,7 @@ cat .planning/PROJECT.md
 Look for incomplete work that needs attention:
 
 ```bash
-# Check for structured handoff (preferred — machine-readable)
+# Check for structured handoff (preferred - machine-readable)
 cat .planning/HANDOFF.json 2>/dev/null || true
 
 # Check for continue-here files (mid-plan resumption)
@@ -84,13 +84,13 @@ fi
 
 **If HANDOFF.json exists:**
 
-- This is the primary resumption source — structured data from `/gsd-pause-work`
+- This is the primary resumption source - structured data from `/gsd-pause-work`
 - Parse `status`, `phase`, `plan`, `task`, `total_tasks`, `next_action`
-- Check `blockers` and `human_actions_pending` — surface these immediately
-- Check `completed_tasks` for `in_progress` items — these need attention first
-- Validate `uncommitted_files` against `git status` — flag divergence
+- Check `blockers` and `human_actions_pending` - surface these immediately
+- Check `completed_tasks` for `in_progress` items - these need attention first
+- Validate `uncommitted_files` against `git status` - flag divergence
 - Use `context_notes` to restore mental model
-- Flag: "Found structured handoff — resuming from task {task}/{total_tasks}"
+- Flag: "Found structured handoff - resuming from task {task}/{total_tasks}"
 - **After successful resumption, delete HANDOFF.json** (it's a one-shot artifact)
 
 **If .continue-here file exists (fallback):**
@@ -140,7 +140,7 @@ Present complete project status to user:
     Resume with: Task tool (resume parameter with agent ID)
 
 [If pending todos exist:]
-📋 [N] pending todos — /gsd-check-todos to review
+📋 [N] pending todos - /gsd-check-todos to review
 
 [If blockers exist:]
 ⚠️  Carried concerns:
@@ -161,7 +161,7 @@ Based on project state, determine the most logical next action:
 → Option: Start fresh (abandon agent work)
 
 **If HANDOFF.json exists:**
-→ Primary: Resume from structured handoff (highest priority — specific task/blocker context)
+→ Primary: Resume from structured handoff (highest priority - specific task/blocker context)
 → Option: Discard handoff and reassess from files
 
 **If .continue-here file exists:**
@@ -233,7 +233,7 @@ Based on user selection, route to appropriate workflow:
 
   ## ▶ Next Up
 
-  **{phase}-{plan}: [Plan Name]** — [objective from PLAN.md]
+  **{phase}-{plan}: [Plan Name]** - [objective from PLAN.md]
 
   `/gsd-execute-phase {phase} ${GSD_WS}`
 
@@ -247,7 +247,7 @@ Based on user selection, route to appropriate workflow:
 
   ## ▶ Next Up
 
-  **Phase [N]: [Name]** — [Goal from ROADMAP.md]
+  **Phase [N]: [Name]** - [Goal from ROADMAP.md]
 
   `/gsd-plan-phase [phase-number] ${GSD_WS}`
 
@@ -256,12 +256,12 @@ Based on user selection, route to appropriate workflow:
   ---
 
   **Also available:**
-  - `/gsd-discuss-phase [N] ${GSD_WS}` — gather context first
-  - `/gsd-research-phase [N] ${GSD_WS}` — investigate unknowns
+  - `/gsd-discuss-phase [N] ${GSD_WS}` - gather context first
+  - `/gsd-research-phase [N] ${GSD_WS}` - investigate unknowns
 
   ---
   ```
-- **Advance to next phase** → ./transition.md (internal workflow, invoked inline — NOT a user command)
+- **Advance to next phase** → ./transition.md (internal workflow, invoked inline - NOT a user command)
 - **Check todos** → Read .planning/todos/pending/, present summary
 - **Review alignment** → Read PROJECT.md, compare to current state
 - **Something else** → Ask what they need

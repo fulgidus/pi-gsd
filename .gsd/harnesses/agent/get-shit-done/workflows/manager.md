@@ -34,7 +34,7 @@ Display startup banner:
  GSD ► MANAGER
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
- {milestone_version} — {milestone_name}
+ {milestone_version} - {milestone_name}
  {phase_count} phases · {completed_count} complete
 
  ✓ Discuss → inline    ◆ Plan/Execute → background
@@ -74,9 +74,9 @@ Build dashboard from JSON. Symbols: `✓` done, `◆` active, `○` pending, `·
 
 If any `is_active` phases, show: `◆ Background: {action} Phase {N}, ...` above grid.
 
-Use `display_name` (not `name`) for the Phase column — it's pre-truncated to 20 chars with `…` if clipped. Pad all phase names to the same width for alignment.
+Use `display_name` (not `name`) for the Phase column - it's pre-truncated to 20 chars with `…` if clipped. Pad all phase names to the same width for alignment.
 
-Use `deps_display` from init JSON for the Deps column — shows which phases this phase depends on (e.g. `1,3`) or `—` for none.
+Use `deps_display` from init JSON for the Deps column - shows which phases this phase depends on (e.g. `1,3`) or `-` for none.
 
 Example output:
 
@@ -86,14 +86,14 @@ Example output:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  ████████████░░░░░░░░ 60%  (3/5 phases)
  ◆ Background: Planning Phase 4
- | # | Phase                | Deps | D | P | E | Status              |
- |---|----------------------|------|---|---|---|---------------------|
- | 1 | Foundation           | —    | ✓ | ✓ | ✓ | ✓ Complete          |
- | 2 | API Layer            | 1    | ✓ | ✓ | ◆ | ◆ Executing (active)|
- | 3 | Auth System          | 1    | ✓ | ✓ | ○ | ○ Ready to execute  |
- | 4 | Dashboard UI & Set…  | 1,2  | ✓ | ◆ | · | ◆ Planning (active) |
- | 5 | Notifications        | —    | ○ | · | · | ○ Ready to discuss  |
- | 6 | Polish & Final Mail… | 1-5  | · | · | · | · Up next           |
+ | #   | Phase                | Deps | D   | P   | E   | Status               |
+ | --- | -------------------- | ---- | --- | --- | --- | -------------------- |
+ | 1   | Foundation           | -    | ✓   | ✓   | ✓   | ✓ Complete           |
+ | 2   | API Layer            | 1    | ✓   | ✓   | ◆   | ◆ Executing (active) |
+ | 3   | Auth System          | 1    | ✓   | ✓   | ○   | ○ Ready to execute   |
+ | 4   | Dashboard UI & Set…  | 1,2  | ✓   | ◆   | ·   | ◆ Planning (active)  |
+ | 5   | Notifications        | -    | ○   | ·   | ·   | ○ Ready to discuss   |
+ | 6   | Polish & Final Mail… | 1-5  | ·   | ·   | ·   | · Up next            |
 ```
 
 **Recommendations section:**
@@ -106,8 +106,8 @@ If `all_complete` is true:
 ╚══════════════════════════════════════════════════════════════╝
 
 All {phase_count} phases done. Ready for final steps:
-  → /gsd-verify-work — run acceptance testing
-  → /gsd-complete-milestone — archive and wrap up
+  → /gsd-verify-work - run acceptance testing
+  → /gsd-complete-milestone - archive and wrap up
 ```
 
 Ask user via AskUserQuestion:
@@ -121,18 +121,18 @@ Handle responses:
 
 **If NOT all_complete**, build compound options from `recommended_actions`:
 
-**Compound option logic:** Group background actions (plan/execute) together, and pair them with the single inline action (discuss) when one exists. The goal is to present the fewest options possible — one option can dispatch multiple background agents plus one inline action.
+**Compound option logic:** Group background actions (plan/execute) together, and pair them with the single inline action (discuss) when one exists. The goal is to present the fewest options possible - one option can dispatch multiple background agents plus one inline action.
 
 **Building options:**
 
-1. Collect all background actions (execute and plan recommendations) — there can be multiple of each.
-2. Collect the inline action (discuss recommendation, if any — there will be at most one since discuss is sequential).
+1. Collect all background actions (execute and plan recommendations) - there can be multiple of each.
+2. Collect the inline action (discuss recommendation, if any - there will be at most one since discuss is sequential).
 3. Build compound options:
 
    **If there are ANY recommended actions (background, inline, or both):**
    Create ONE primary "Continue" option that dispatches ALL of them together:
-   - Label: `"Continue"` — always this exact word
-   - Below the label, list every action that will happen. Enumerate ALL recommended actions — do not cap or truncate:
+   - Label: `"Continue"` - always this exact word
+   - Below the label, list every action that will happen. Enumerate ALL recommended actions - do not cap or truncate:
      ```
      Continue:
        → Execute Phase 32 (background)
@@ -142,7 +142,7 @@ Handle responses:
    - This dispatches all background agents first, then runs the inline discuss (if any).
    - If there is no inline discuss, the dashboard refreshes after spawning background agents.
 
-   **Important:** The Continue option must include EVERY action from `recommended_actions` — not just 2. If there are 3 actions, list 3. If there are 5, list 5.
+   **Important:** The Continue option must include EVERY action from `recommended_actions` - not just 2. If there are 3 actions, list 3. If there are 5, list 5.
 
 4. Always add:
    - `"Refresh dashboard"`
@@ -167,7 +167,7 @@ Present via AskUserQuestion:
 - **question:** "What would you like to do?"
 - **options:** (compound options as built above + refresh + exit, AskUserQuestion auto-adds "Other")
 
-**On "Other" (free text):** Parse intent — if it mentions a phase number and action, dispatch accordingly. If unclear, display available actions and loop to action_menu.
+**On "Other" (free text):** Parse intent - if it mentions a phase number and action, dispatch accordingly. If unclear, display available actions and loop to action_menu.
 
 Proceed to handle_action step with the selected action.
 
@@ -189,7 +189,7 @@ Go to exit step.
 
 When the user selects a compound option:
 
-1. **Spawn all background agents first** (plan/execute) — dispatch them in parallel using the Plan Phase N / Execute Phase N handlers below.
+1. **Spawn all background agents first** (plan/execute) - dispatch them in parallel using the Plan Phase N / Execute Phase N handlers below.
 2. **Then run the inline discuss:**
 
 ```
@@ -200,7 +200,7 @@ After discuss completes, loop back to dashboard step (background agents continue
 
 ### Discuss Phase N
 
-Discussion is interactive — needs user input. Run inline:
+Discussion is interactive - needs user input. Run inline:
 
 ```
 Skill(skill="gsd-discuss-phase", args="{PHASE_NUM}")
@@ -219,7 +219,7 @@ Task(
   prompt="You are running the GSD plan-phase workflow for phase {N} of the project.
 
 Working directory: {cwd}
-Phase: {N} — {phase_name}
+Phase: {N} - {phase_name}
 Goal: {goal}
 
 Steps:
@@ -231,7 +231,7 @@ Steps:
 6. If plan-checker is enabled, spawn a gsd-plan-checker subagent to verify.
 7. Commit plan files when complete.
 
-Important: You are running in the background. Do NOT use AskUserQuestion — make autonomous decisions based on project context. If you hit a blocker, write it to STATE.md as a blocker and stop. Do NOT silently work around permission or file access errors — let them fail so the manager can surface them with resolution hints."
+Important: You are running in the background. Do NOT use AskUserQuestion - make autonomous decisions based on project context. If you hit a blocker, write it to STATE.md as a blocker and stop. Do NOT silently work around permission or file access errors - let them fail so the manager can surface them with resolution hints."
 )
 ```
 
@@ -254,7 +254,7 @@ Task(
   prompt="You are running the GSD execute-phase workflow for phase {N} of the project.
 
 Working directory: {cwd}
-Phase: {N} — {phase_name}
+Phase: {N} - {phase_name}
 Goal: {goal}
 
 Steps:
@@ -266,7 +266,7 @@ Steps:
 6. Update ROADMAP.md and STATE.md with progress.
 7. Commit all changes.
 
-Important: You are running in the background. Do NOT use AskUserQuestion — make autonomous decisions. Use --no-verify on git commits. If you hit a permission error, file lock, or any access issue, do NOT work around it — let it fail and write the error to STATE.md as a blocker so the manager can surface it with resolution guidance."
+Important: You are running in the background. Do NOT use AskUserQuestion - make autonomous decisions. Use --no-verify on git commits. If you hit a permission error, file lock, or any access issue, do NOT work around it - let it fail and write the error to STATE.md as a blocker so the manager can surface it with resolution guidance."
 )
 ```
 
@@ -303,7 +303,7 @@ Classify the error:
 **Permission / tool access error** (e.g. tool not allowed, permission denied, sandbox restriction):
 - Parse the error to identify which tool or command was blocked.
 - Display the error clearly, then offer to fix it:
-  - **question:** "Phase {N} failed — permission denied for `{tool_or_command}`. Want me to add it to settings.local.json so it's allowed?"
+  - **question:** "Phase {N} failed - permission denied for `{tool_or_command}`. Want me to add it to settings.local.json so it's allowed?"
   - **options:** "Add permission and retry" / "Run this phase inline instead" / "Skip and continue"
   - "Add permission and retry": Use `Skill(skill="update-config")` to add the permission to `settings.local.json`, then re-spawn the background agent. Loop to dashboard.
   - "Run this phase inline instead": Dispatch the same action (plan/execute) inline via `Skill()` instead of a background Task. Loop to dashboard after.
@@ -331,7 +331,7 @@ Display final status with progress bar:
  GSD ► SESSION END
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
- {milestone_version} — {milestone_name}
+ {milestone_version} - {milestone_name}
  {PROGRESS_BAR} {progress_pct}%  ({completed_count}/{phase_count} phases)
 
  Resume anytime: /gsd-manager
@@ -349,9 +349,9 @@ Display final status with progress bar:
 - [ ] Progress bar shows accurate completion percentage
 - [ ] Dependency resolution: blocked phases show which deps are missing
 - [ ] Recommendations prioritize: execute > plan > discuss
-- [ ] Discuss phases run inline via Skill() — interactive questions work
-- [ ] Plan phases spawn background Task agents — return to dashboard immediately
-- [ ] Execute phases spawn background Task agents — return to dashboard immediately
+- [ ] Discuss phases run inline via Skill() - interactive questions work
+- [ ] Plan phases spawn background Task agents - return to dashboard immediately
+- [ ] Execute phases spawn background Task agents - return to dashboard immediately
 - [ ] Dashboard refreshes pick up changes from background agents via disk state
 - [ ] Background agent completion triggers notification and dashboard refresh
 - [ ] Background agent errors present retry/skip options

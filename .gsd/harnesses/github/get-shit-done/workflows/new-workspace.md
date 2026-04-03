@@ -10,7 +10,7 @@ Read all files referenced by the invoking prompt's execution_context before star
 
 ## 1. Setup
 
-**MANDATORY FIRST STEP — Execute init command:**
+**MANDATORY FIRST STEP - Execute init command:**
 
 ```bash
 INIT=$(node ".github/get-shit-done/bin/gsd-tools.cjs" init new-workspace)
@@ -61,7 +61,7 @@ Use AskUserQuestion:
 - header: "Current Repo"
 - question: "No child repos found. Create a workspace with the current repo?"
 - options:
-  - "Yes — create workspace with current repo" → use current repo
+  - "Yes - create workspace with current repo" → use current repo
   - "Cancel" → exit
 
 **If `child_repo_count` is 0 and `is_git_repo` is false:**
@@ -96,8 +96,8 @@ Use AskUserQuestion:
 - header: "Strategy"
 - question: "How should repos be copied into the workspace?"
 - options:
-  - "Worktree (recommended) — lightweight, shares .git objects with source repo" → `worktree`
-  - "Clone — fully independent copy, no connection to source repo" → `clone`
+  - "Worktree (recommended) - lightweight, shares .git objects with source repo" → `worktree`
+  - "Clone - fully independent copy, no connection to source repo" → `clone`
 
 **If `--auto`:** Default to `worktree`.
 
@@ -105,7 +105,7 @@ Use AskUserQuestion:
 
 Before creating anything, validate:
 
-1. **Target path** — must not exist or must be empty:
+1. **Target path** - must not exist or must be empty:
 ```bash
 if [ -d "$TARGET_PATH" ] && [ "$(ls -A "$TARGET_PATH" 2>/dev/null)" ]; then
   echo "Error: Target path already exists and is not empty: $TARGET_PATH"
@@ -114,7 +114,7 @@ if [ -d "$TARGET_PATH" ] && [ "$(ls -A "$TARGET_PATH" 2>/dev/null)" ]; then
 fi
 ```
 
-2. **Source repos exist and are git repos** — for each repo path:
+2. **Source repos exist and are git repos** - for each repo path:
 ```bash
 if [ ! -d "$REPO_PATH/.git" ]; then
   echo "Error: Not a git repo: $REPO_PATH"
@@ -122,7 +122,7 @@ if [ ! -d "$REPO_PATH/.git" ]; then
 fi
 ```
 
-3. **Worktree availability** — if strategy is `worktree` and `worktree_available` is false:
+3. **Worktree availability** - if strategy is `worktree` and `worktree_available` is false:
 ```
 Error: git is not available. Install git or use --strategy clone.
 ```
@@ -172,8 +172,8 @@ Strategy: $STRATEGY
 
 ## Member Repos
 
-| Repo | Source | Branch | Strategy |
-|------|--------|--------|----------|
+| Repo       | Source       | Branch  | Strategy  |
+| ---------- | ------------ | ------- | --------- |
 | $REPO_NAME | $SOURCE_PATH | $BRANCH | $STRATEGY |
 ...for each repo...
 
@@ -223,8 +223,8 @@ Use AskUserQuestion:
 - header: "Initialize GSD"
 - question: "Would you like to initialize a GSD project in the new workspace?"
 - options:
-  - "Yes — run /gsd-new-project" → tell user to `cd $TARGET_PATH` first, then run `/gsd-new-project`
-  - "No — I'll set it up later" → done
+  - "Yes - run /gsd-new-project" → tell user to `cd $TARGET_PATH` first, then run `/gsd-new-project`
+  - "No - I'll set it up later" → done
 
 </process>
 

@@ -7,7 +7,7 @@ wave_0_complete: false
 created: {date}
 ---
 
-# Phase {N} — Validation Strategy
+# Phase {N} - Validation Strategy
 
 > Per-phase validation contract for feedback sampling during execution.
 
@@ -15,13 +15,13 @@ created: {date}
 
 ## Test Infrastructure
 
-| Property | Value |
-|----------|-------|
-| **Framework** | {pytest 7.x / jest 29.x / vitest / go test / other} |
-| **Config file** | {path or "none — Wave 0 installs"} |
-| **Quick run command** | `{quick command}` |
-| **Full suite command** | `{full command}` |
-| **Estimated runtime** | ~{N} seconds |
+| Property               | Value                                               |
+| ---------------------- | --------------------------------------------------- |
+| **Framework**          | {pytest 7.x / jest 29.x / vitest / go test / other} |
+| **Config file**        | {path or "none - Wave 0 installs"}                  |
+| **Quick run command**  | `{quick command}`                                   |
+| **Full suite command** | `{full command}`                                    |
+| **Estimated runtime**  | ~{N} seconds                                        |
 
 ---
 
@@ -36,9 +36,9 @@ created: {date}
 
 ## Per-Task Verification Map
 
-| Task ID | Plan | Wave | Requirement | Test Type | Automated Command | File Exists | Status |
-|---------|------|------|-------------|-----------|-------------------|-------------|--------|
-| {N}-01-01 | 01 | 1 | REQ-{XX} | unit | `{command}` | ✅ / ❌ W0 | ⬜ pending |
+| Task ID   | Plan | Wave | Requirement | Test Type | Automated Command | File Exists | Status    |
+| --------- | ---- | ---- | ----------- | --------- | ----------------- | ----------- | --------- |
+| {N}-01-01 | 01   | 1    | REQ-{XX}    | unit      | `{command}`       | ✅ / ❌ W0    | ⬜ pending |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -46,9 +46,9 @@ created: {date}
 
 ## Wave 0 Requirements
 
-- [ ] `{tests/test_file.py}` — stubs for REQ-{XX}
-- [ ] `{tests/conftest.py}` — shared fixtures
-- [ ] `{framework install}` — if no framework detected
+- [ ] `{tests/test_file.py}` - stubs for REQ-{XX}
+- [ ] `{tests/conftest.py}` - shared fixtures
+- [ ] `{framework install}` - if no framework detected
 
 *If none: "Existing infrastructure covers all phase requirements."*
 
@@ -56,9 +56,9 @@ created: {date}
 
 ## Manual-Only Verifications
 
-| Behavior | Requirement | Why Manual | Test Instructions |
-|----------|-------------|------------|-------------------|
-| {behavior} | REQ-{XX} | {reason} | {steps} |
+| Behavior   | Requirement | Why Manual | Test Instructions |
+| ---------- | ----------- | ---------- | ----------------- |
+| {behavior} | REQ-{XX}    | {reason}   | {steps}           |
 
 *If none: "All phase behaviors have automated verification."*
 

@@ -3,7 +3,7 @@ TDD is about design quality, not coverage metrics. The red-green-refactor cycle 
 
 **Principle:** If you can describe the behavior as `expect(fn(input)).toBe(output)` before writing `fn`, TDD improves the result.
 
-**Key insight:** TDD work is fundamentally heavier than standard tasks—it requires 2-3 execution cycles (RED → GREEN → REFACTOR), each with file reads, test runs, and potential debugging. TDD features get dedicated plans to ensure full context is available throughout the cycle.
+**Key insight:** TDD work is fundamentally heavier than standard tasks-it requires 2-3 execution cycles (RED → GREEN → REFACTOR), each with file reads, test runs, and potential debugging. TDD features get dedicated plans to ensure full context is available throughout the cycle.
 </overview>
 
 <when_to_use_tdd>
@@ -85,7 +85,7 @@ After completion, create SUMMARY.md with:
 </output>
 ```
 
-**One feature per TDD plan.** If features are trivial enough to batch, they're trivial enough to skip TDD—use a standard plan and add tests after.
+**One feature per TDD plan.** If features are trivial enough to batch, they're trivial enough to skip TDD-use a standard plan and add tests after.
 </tdd_plan_structure>
 
 <execution_flow>
@@ -154,13 +154,13 @@ if [ -f Cargo.toml ]; then echo "rust"; fi
 ```
 
 **2. Install minimal framework:**
-| Project | Framework | Install |
-|---------|-----------|---------|
-| Node.js | Jest | `npm install -D jest @types/jest ts-jest` |
-| Node.js (Vite) | Vitest | `npm install -D vitest` |
-| Python | pytest | `pip install pytest` |
-| Go | testing | Built-in |
-| Rust | cargo test | Built-in |
+| Project        | Framework  | Install                                   |
+| -------------- | ---------- | ----------------------------------------- |
+| Node.js        | Jest       | `npm install -D jest @types/jest ts-jest` |
+| Node.js (Vite) | Vitest     | `npm install -D vitest`                   |
+| Python         | pytest     | `pip install pytest`                      |
+| Go             | testing    | Built-in                                  |
+| Rust           | cargo test | Built-in                                  |
 
 **3. Create config if needed:**
 - Jest: `jest.config.js` with ts-jest preset

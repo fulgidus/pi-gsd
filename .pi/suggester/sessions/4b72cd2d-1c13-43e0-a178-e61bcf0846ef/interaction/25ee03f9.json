@@ -1,0 +1,14 @@
+{
+  "stateVersion": 9,
+  "lastSuggestion": {
+    "text": "What's left to finish c2 and c4?",
+    "shownAt": "2026-04-03T13:54:33.121Z",
+    "turnId": "25ee03f9",
+    "sourceLeafId": "25ee03f9",
+    "variantName": "default",
+    "strategy": "compact",
+    "requestedStrategy": "compact"
+  },
+  "steeringHistory": [],
+  "turnsSinceLastStalenessCheck": 3
+}

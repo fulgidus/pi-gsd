@@ -16,14 +16,14 @@ Configuration options for `.planning/` directory behavior.
 }
 ```
 
-| Option | Default | Description |
-|--------|---------|-------------|
-| `commit_docs` | `true` | Whether to commit planning artifacts to git |
-| `search_gitignored` | `false` | Add `--no-ignore` to broad rg searches |
-| `git.branching_strategy` | `"none"` | Git branching approach: `"none"`, `"phase"`, or `"milestone"` |
-| `git.phase_branch_template` | `"gsd/phase-{phase}-{slug}"` | Branch template for phase strategy |
-| `git.milestone_branch_template` | `"gsd/{milestone}-{slug}"` | Branch template for milestone strategy |
-| `git.quick_branch_template` | `null` | Optional branch template for quick-task runs |
+| Option                          | Default                      | Description                                                   |
+| ------------------------------- | ---------------------------- | ------------------------------------------------------------- |
+| `commit_docs`                   | `true`                       | Whether to commit planning artifacts to git                   |
+| `search_gitignored`             | `false`                      | Add `--no-ignore` to broad rg searches                        |
+| `git.branching_strategy`        | `"none"`                     | Git branching approach: `"none"`, `"phase"`, or `"milestone"` |
+| `git.phase_branch_template`     | `"gsd/phase-{phase}-{slug}"` | Branch template for phase strategy                            |
+| `git.milestone_branch_template` | `"gsd/{milestone}-{slug}"`   | Branch template for milestone strategy                        |
+| `git.quick_branch_template`     | `null`                       | Optional branch template for quick-task runs                  |
 </config_schema>
 
 <commit_docs_behavior>
@@ -63,7 +63,7 @@ if [[ "$INIT" == @file:* ]]; then INIT=$(cat "${INIT#@file:}"); fi
 node ".claude/get-shit-done/bin/gsd-tools.cjs" commit "docs: update state" --files .planning/STATE.md
 ```
 
-The CLI checks `commit_docs` config and gitignore status internally — no manual conditionals needed.
+The CLI checks `commit_docs` config and gitignore status internally - no manual conditionals needed.
 
 </commit_docs_behavior>
 
@@ -113,10 +113,10 @@ To use uncommitted mode:
 
 **Branching Strategies:**
 
-| Strategy | When branch created | Branch scope | Merge point |
-|----------|---------------------|--------------|-------------|
-| `none` | Never | N/A | N/A |
-| `phase` | At `execute-phase` start | Single phase | User merges after phase |
+| Strategy    | When branch created                   | Branch scope     | Merge point             |
+| ----------- | ------------------------------------- | ---------------- | ----------------------- |
+| `none`      | Never                                 | N/A              | N/A                     |
+| `phase`     | At `execute-phase` start              | Single phase     | User merges after phase |
 | `milestone` | At first `execute-phase` of milestone | Entire milestone | At `complete-milestone` |
 
 **When `git.branching_strategy: "none"` (default):**
@@ -138,11 +138,11 @@ To use uncommitted mode:
 
 **Template variables:**
 
-| Variable | Available in | Description |
-|----------|--------------|-------------|
-| `{phase}` | phase_branch_template | Zero-padded phase number (e.g., "03") |
-| `{slug}` | Both | Lowercase, hyphenated name |
-| `{milestone}` | milestone_branch_template | Milestone version (e.g., "v1.0") |
+| Variable      | Available in              | Description                           |
+| ------------- | ------------------------- | ------------------------------------- |
+| `{phase}`     | phase_branch_template     | Zero-padded phase number (e.g., "03") |
+| `{slug}`      | Both                      | Lowercase, hyphenated name            |
+| `{milestone}` | milestone_branch_template | Milestone version (e.g., "v1.0")      |
 
 **Checking the config:**
 
@@ -180,22 +180,22 @@ fi
 
 **Merge options at complete-milestone:**
 
-| Option | Git command | Result |
-|--------|-------------|--------|
-| Squash merge (recommended) | `git merge --squash` | Single clean commit per branch |
-| Merge with history | `git merge --no-ff` | Preserves all individual commits |
-| Delete without merging | `git branch -D` | Discard branch work |
-| Keep branches | (none) | Manual handling later |
+| Option                     | Git command          | Result                           |
+| -------------------------- | -------------------- | -------------------------------- |
+| Squash merge (recommended) | `git merge --squash` | Single clean commit per branch   |
+| Merge with history         | `git merge --no-ff`  | Preserves all individual commits |
+| Delete without merging     | `git branch -D`      | Discard branch work              |
+| Keep branches              | (none)               | Manual handling later            |
 
-Squash merge is recommended — keeps main branch history clean while preserving the full development history in the branch (until deleted).
+Squash merge is recommended - keeps main branch history clean while preserving the full development history in the branch (until deleted).
 
 **Use cases:**
 
-| Strategy | Best for |
-|----------|----------|
-| `none` | Solo development, simple projects |
-| `phase` | Code review per phase, granular rollback, team collaboration |
-| `milestone` | Release branches, staging environments, PR per version |
+| Strategy    | Best for                                                     |
+| ----------- | ------------------------------------------------------------ |
+| `none`      | Solo development, simple projects                            |
+| `phase`     | Code review per phase, granular rollback, team collaboration |
+| `milestone` | Release branches, staging environments, PR per version       |
 
 </branching_strategy_behavior>
 

@@ -35,7 +35,7 @@ Re-run init with the provided name.
 **If `has_dirty_repos` is true:**
 
 ```
-Cannot remove workspace "$WORKSPACE_NAME" — the following repos have uncommitted changes:
+Cannot remove workspace "$WORKSPACE_NAME" - the following repos have uncommitted changes:
 
   - repo1
   - repo2
@@ -69,7 +69,7 @@ git worktree remove "$WORKSPACE_PATH/$REPO_NAME" 2>&1 || true
 
 If `git worktree remove` fails, warn but continue:
 ```
-Warning: Could not remove worktree for $REPO_NAME — source repo may have been moved or deleted.
+Warning: Could not remove worktree for $REPO_NAME - source repo may have been moved or deleted.
 ```
 
 ## 5. Delete Workspace Directory

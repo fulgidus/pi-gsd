@@ -9,7 +9,7 @@ Standard format for presenting next steps after completing a command or workflow
 
 ## ▶ Next Up
 
-**{identifier}: {name}** — {one-line description}
+**{identifier}: {name}** - {one-line description}
 
 `{command to copy-paste}`
 
@@ -18,20 +18,20 @@ Standard format for presenting next steps after completing a command or workflow
 ---
 
 **Also available:**
-- `{alternative option 1}` — description
-- `{alternative option 2}` — description
+- `{alternative option 1}` - description
+- `{alternative option 2}` - description
 
 ---
 ```
 
 ## Format Rules
 
-1. **Always show what it is** — name + description, never just a command path
-2. **Pull context from source** — ROADMAP.md for phases, PLAN.md `<objective>` for plans
-3. **Command in inline code** — backticks, easy to copy-paste, renders as clickable link
-4. **`/clear` explanation** — always include, keeps it concise but explains why
-5. **"Also available" not "Other options"** — sounds more app-like
-6. **Visual separators** — `---` above and below to make it stand out
+1. **Always show what it is** - name + description, never just a command path
+2. **Pull context from source** - ROADMAP.md for phases, PLAN.md `<objective>` for plans
+3. **Command in inline code** - backticks, easy to copy-paste, renders as clickable link
+4. **`/clear` explanation** - always include, keeps it concise but explains why
+5. **"Also available" not "Other options"** - sounds more app-like
+6. **Visual separators** - `---` above and below to make it stand out
 
 ## Variants
 
@@ -42,7 +42,7 @@ Standard format for presenting next steps after completing a command or workflow
 
 ## ▶ Next Up
 
-**02-03: Refresh Token Rotation** — Add /api/auth/refresh with sliding expiry
+**02-03: Refresh Token Rotation** - Add /api/auth/refresh with sliding expiry
 
 `/gsd-execute-phase 2`
 
@@ -52,7 +52,7 @@ Standard format for presenting next steps after completing a command or workflow
 
 **Also available:**
 - Review plan before executing
-- `/gsd-list-phase-assumptions 2` — check assumptions
+- `/gsd-list-phase-assumptions 2` - check assumptions
 
 ---
 ```
@@ -66,7 +66,7 @@ Add note that this is the last plan and what comes after:
 
 ## ▶ Next Up
 
-**02-03: Refresh Token Rotation** — Add /api/auth/refresh with sliding expiry
+**02-03: Refresh Token Rotation** - Add /api/auth/refresh with sliding expiry
 <sub>Final plan in Phase 2</sub>
 
 `/gsd-execute-phase 2`
@@ -77,7 +77,7 @@ Add note that this is the last plan and what comes after:
 
 **After this completes:**
 - Phase 2 → Phase 3 transition
-- Next: **Phase 3: Core Features** — User dashboard and settings
+- Next: **Phase 3: Core Features** - User dashboard and settings
 
 ---
 ```
@@ -89,7 +89,7 @@ Add note that this is the last plan and what comes after:
 
 ## ▶ Next Up
 
-**Phase 2: Authentication** — JWT login flow with refresh tokens
+**Phase 2: Authentication** - JWT login flow with refresh tokens
 
 `/gsd-plan-phase 2`
 
@@ -98,8 +98,8 @@ Add note that this is the last plan and what comes after:
 ---
 
 **Also available:**
-- `/gsd-discuss-phase 2` — gather context first
-- `/gsd-research-phase 2` — investigate unknowns
+- `/gsd-discuss-phase 2` - gather context first
+- `/gsd-research-phase 2` - investigate unknowns
 - Review roadmap
 
 ---
@@ -118,7 +118,7 @@ Show completion status before next action:
 
 ## ▶ Next Up
 
-**Phase 3: Core Features** — User dashboard, settings, and data export
+**Phase 3: Core Features** - User dashboard, settings, and data export
 
 `/gsd-plan-phase 3`
 
@@ -127,8 +127,8 @@ Show completion status before next action:
 ---
 
 **Also available:**
-- `/gsd-discuss-phase 3` — gather context first
-- `/gsd-research-phase 3` — investigate unknowns
+- `/gsd-discuss-phase 3` - gather context first
+- `/gsd-research-phase 3` - investigate unknowns
 - Review what Phase 2 built
 
 ---
@@ -143,7 +143,7 @@ When there's no clear primary action:
 
 ## ▶ Next Up
 
-**Phase 3: Core Features** — User dashboard, settings, and data export
+**Phase 3: Core Features** - User dashboard, settings, and data export
 
 **To plan directly:** `/gsd-plan-phase 3`
 
@@ -167,7 +167,7 @@ All 4 phases shipped
 
 ## ▶ Next Up
 
-**Start v1.1** — questioning → research → requirements → roadmap
+**Start v1.1** - questioning → research → requirements → roadmap
 
 `/gsd-new-milestone`
 
@@ -185,7 +185,7 @@ All 4 phases shipped
 **Goal**: JWT login flow with refresh tokens
 ```
 
-Extract: `**Phase 2: Authentication** — JWT login flow with refresh tokens`
+Extract: `**Phase 2: Authentication** - JWT login flow with refresh tokens`
 
 ### For plans (from ROADMAP.md):
 
@@ -204,7 +204,7 @@ Purpose: Extend session lifetime without compromising security.
 </objective>
 ```
 
-Extract: `**02-03: Refresh Token Rotation** — Add /api/auth/refresh with sliding expiry`
+Extract: `**02-03: Refresh Token Rotation** - Add /api/auth/refresh with sliding expiry`
 
 ## Anti-Patterns
 

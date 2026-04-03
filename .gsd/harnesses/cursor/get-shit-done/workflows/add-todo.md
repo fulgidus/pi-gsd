@@ -45,17 +45,17 @@ Formulate:
 <step name="infer_area">
 Infer area from file paths:
 
-| Path pattern | Area |
-|--------------|------|
-| `src/api/*`, `api/*` | `api` |
-| `src/components/*`, `src/ui/*` | `ui` |
-| `src/auth/*`, `auth/*` | `auth` |
-| `src/db/*`, `database/*` | `database` |
-| `tests/*`, `__tests__/*` | `testing` |
-| `docs/*` | `docs` |
-| `.planning/*` | `planning` |
-| `scripts/*`, `bin/*` | `tooling` |
-| No files or unclear | `general` |
+| Path pattern                   | Area       |
+| ------------------------------ | ---------- |
+| `src/api/*`, `api/*`           | `api`      |
+| `src/components/*`, `src/ui/*` | `ui`       |
+| `src/auth/*`, `auth/*`         | `auth`     |
+| `src/db/*`, `database/*`       | `database` |
+| `tests/*`, `__tests__/*`       | `testing`  |
+| `docs/*`                       | `docs`     |
+| `.planning/*`                  | `planning` |
+| `scripts/*`, `bin/*`           | `tooling`  |
+| No files or unclear            | `general`  |
 
 Use existing area from step 2 if similar match exists.
 </step>
@@ -74,9 +74,9 @@ If overlapping, use conversational prompting:
 - header: "Duplicate?"
 - question: "Similar todo exists: [title]. What would you like to do?"
 - options:
-  - "Skip" — keep existing todo
-  - "Replace" — update existing with new context
-  - "Add anyway" — create as separate todo
+  - "Skip" - keep existing todo
+  - "Replace" - update existing with new context
+  - "Add anyway" - create as separate todo
 </step>
 
 <step name="create_file">

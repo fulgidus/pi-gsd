@@ -7,8 +7,8 @@ Output: .planning/codebase/ folder with 7 structured documents about the codebas
 </purpose>
 
 <available_agent_types>
-Valid GSD subagent types (use exact names — do not fall back to 'general-purpose'):
-- gsd-codebase-mapper — Maps project structure and dependencies
+Valid GSD subagent types (use exact names - do not fall back to 'general-purpose'):
+- gsd-codebase-mapper - Maps project structure and dependencies
 </available_agent_types>
 
 <philosophy>
@@ -93,7 +93,7 @@ Before spawning agents, detect whether the current runtime supports the `Task` t
 
 **How to detect:** Check if you have access to a `Task` tool (may be capitalized as `Task` or lowercase as `task` depending on runtime). If you do NOT have a `Task`/`task` tool (or only have tools like `browser_subagent` which is for web browsing, NOT code analysis):
 
-→ **Skip `spawn_agents` and `collect_confirmations`** — go directly to `sequential_mapping` instead.
+→ **Skip `spawn_agents` and `collect_confirmations`** - go directly to `sequential_mapping` instead.
 
 **CRITICAL:** Never use `browser_subagent` or `Explore` as a substitute for `Task`. The `browser_subagent` tool is exclusively for web page interaction and will fail for codebase analysis. If `Task` is unavailable, perform the mapping sequentially in-context.
 </step>
@@ -234,22 +234,22 @@ Perform all 4 mapping passes sequentially:
 
 **Pass 1: Tech Focus**
 - Explore package.json/Cargo.toml/go.mod/requirements.txt, config files, dependency trees
-- Write `.planning/codebase/STACK.md` — Languages, runtime, frameworks, dependencies, configuration
-- Write `.planning/codebase/INTEGRATIONS.md` — External APIs, databases, auth providers, webhooks
+- Write `.planning/codebase/STACK.md` - Languages, runtime, frameworks, dependencies, configuration
+- Write `.planning/codebase/INTEGRATIONS.md` - External APIs, databases, auth providers, webhooks
 
 **Pass 2: Architecture Focus**
 - Explore directory structure, entry points, module boundaries, data flow
-- Write `.planning/codebase/ARCHITECTURE.md` — Pattern, layers, data flow, abstractions, entry points
-- Write `.planning/codebase/STRUCTURE.md` — Directory layout, key locations, naming conventions
+- Write `.planning/codebase/ARCHITECTURE.md` - Pattern, layers, data flow, abstractions, entry points
+- Write `.planning/codebase/STRUCTURE.md` - Directory layout, key locations, naming conventions
 
 **Pass 3: Quality Focus**
 - Explore code style, error handling patterns, test files, CI config
-- Write `.planning/codebase/CONVENTIONS.md` — Code style, naming, patterns, error handling
-- Write `.planning/codebase/TESTING.md` — Framework, structure, mocking, coverage
+- Write `.planning/codebase/CONVENTIONS.md` - Code style, naming, patterns, error handling
+- Write `.planning/codebase/TESTING.md` - Framework, structure, mocking, coverage
 
 **Pass 4: Concerns Focus**
 - Explore TODOs, known issues, fragile areas, security patterns
-- Write `.planning/codebase/CONCERNS.md` — Tech debt, bugs, security, performance, fragile areas
+- Write `.planning/codebase/CONCERNS.md` - Tech debt, bugs, security, performance, fragile areas
 
 Use the same document templates as the `gsd-codebase-mapper` agent. Include actual file paths formatted with backticks.
 
@@ -345,7 +345,7 @@ Created .planning/codebase/:
 
 ## ▶ Next Up
 
-**Initialize project** — use codebase context for planning
+**Initialize project** - use codebase context for planning
 
 `/gsd:new-project`
 

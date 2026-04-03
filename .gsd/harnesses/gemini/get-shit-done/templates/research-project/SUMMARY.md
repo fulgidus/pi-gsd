@@ -1,6 +1,6 @@
 # Research Summary Template
 
-Template for `.planning/research/SUMMARY.md` — executive summary of project research with roadmap implications.
+Template for `.planning/research/SUMMARY.md` - executive summary of project research with roadmap implications.
 
 <template>
 
@@ -24,44 +24,44 @@ Template for `.planning/research/SUMMARY.md` — executive summary of project re
 
 ### Recommended Stack
 
-[Summary from STACK.md — 1-2 paragraphs]
+[Summary from STACK.md - 1-2 paragraphs]
 
 **Core technologies:**
-- [Technology]: [purpose] — [why recommended]
-- [Technology]: [purpose] — [why recommended]
-- [Technology]: [purpose] — [why recommended]
+- [Technology]: [purpose] - [why recommended]
+- [Technology]: [purpose] - [why recommended]
+- [Technology]: [purpose] - [why recommended]
 
 ### Expected Features
 
 [Summary from FEATURES.md]
 
 **Must have (table stakes):**
-- [Feature] — users expect this
-- [Feature] — users expect this
+- [Feature] - users expect this
+- [Feature] - users expect this
 
 **Should have (competitive):**
-- [Feature] — differentiator
-- [Feature] — differentiator
+- [Feature] - differentiator
+- [Feature] - differentiator
 
 **Defer (v2+):**
-- [Feature] — not essential for launch
+- [Feature] - not essential for launch
 
 ### Architecture Approach
 
-[Summary from ARCHITECTURE.md — 1 paragraph]
+[Summary from ARCHITECTURE.md - 1 paragraph]
 
 **Major components:**
-1. [Component] — [responsibility]
-2. [Component] — [responsibility]
-3. [Component] — [responsibility]
+1. [Component] - [responsibility]
+2. [Component] - [responsibility]
+3. [Component] - [responsibility]
 
 ### Critical Pitfalls
 
 [Top 3-5 from PITFALLS.md]
 
-1. **[Pitfall]** — [how to avoid]
-2. **[Pitfall]** — [how to avoid]
-3. **[Pitfall]** — [how to avoid]
+1. **[Pitfall]** - [how to avoid]
+2. **[Pitfall]** - [how to avoid]
+3. **[Pitfall]** - [how to avoid]
 
 ## Implications for Roadmap
 
@@ -94,20 +94,20 @@ Based on research, suggested phase structure:
 ### Research Flags
 
 Phases likely needing deeper research during planning:
-- **Phase [X]:** [reason — e.g., "complex integration, needs API research"]
-- **Phase [Y]:** [reason — e.g., "niche domain, sparse documentation"]
+- **Phase [X]:** [reason - e.g., "complex integration, needs API research"]
+- **Phase [Y]:** [reason - e.g., "niche domain, sparse documentation"]
 
 Phases with standard patterns (skip research-phase):
-- **Phase [X]:** [reason — e.g., "well-documented, established patterns"]
+- **Phase [X]:** [reason - e.g., "well-documented, established patterns"]
 
 ## Confidence Assessment
 
-| Area | Confidence | Notes |
-|------|------------|-------|
-| Stack | [HIGH/MEDIUM/LOW] | [reason] |
-| Features | [HIGH/MEDIUM/LOW] | [reason] |
+| Area         | Confidence        | Notes    |
+| ------------ | ----------------- | -------- |
+| Stack        | [HIGH/MEDIUM/LOW] | [reason] |
+| Features     | [HIGH/MEDIUM/LOW] | [reason] |
 | Architecture | [HIGH/MEDIUM/LOW] | [reason] |
-| Pitfalls | [HIGH/MEDIUM/LOW] | [reason] |
+| Pitfalls     | [HIGH/MEDIUM/LOW] | [reason] |
 
 **Overall confidence:** [HIGH/MEDIUM/LOW]
 
@@ -121,14 +121,14 @@ Phases with standard patterns (skip research-phase):
 ## Sources
 
 ### Primary (HIGH confidence)
-- [Context7 library ID] — [topics]
-- [Official docs URL] — [what was checked]
+- [Context7 library ID] - [topics]
+- [Official docs URL] - [what was checked]
 
 ### Secondary (MEDIUM confidence)
-- [Source] — [finding]
+- [Source] - [finding]
 
 ### Tertiary (LOW confidence)
-- [Source] — [finding, needs validation]
+- [Source] - [finding, needs validation]
 
 ---
 *Research completed: [date]*

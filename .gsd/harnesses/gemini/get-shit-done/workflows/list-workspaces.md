@@ -37,10 +37,10 @@ Display a table:
 ```
 GSD Workspaces (~/gsd-workspaces/)
 
-| Name | Repos | Strategy | GSD Project |
-|------|-------|----------|-------------|
-| feature-a | 3 | worktree | Yes |
-| feature-b | 2 | clone | No |
+| Name      | Repos | Strategy | GSD Project |
+| --------- | ----- | -------- | ----------- |
+| feature-a | 3     | worktree | Yes         |
+| feature-b | 2     | clone    | No          |
 
 Manage:
   cd ~/gsd-workspaces/<name>     # Enter a workspace
@@ -48,9 +48,9 @@ Manage:
 ```
 
 For each workspace, show:
-- **Name** — directory name
-- **Repos** — count from init data
-- **Strategy** — from WORKSPACE.md
-- **GSD Project** — whether `.planning/PROJECT.md` exists (Yes/No)
+- **Name** - directory name
+- **Repos** - count from init data
+- **Strategy** - from WORKSPACE.md
+- **GSD Project** - whether `.planning/PROJECT.md` exists (Yes/No)
 
 </process>

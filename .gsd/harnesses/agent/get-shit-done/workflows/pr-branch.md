@@ -1,6 +1,6 @@
 <purpose>
 Create a clean branch for pull requests by filtering out .planning/ commits.
-The PR branch contains only code changes — reviewers don't see GSD artifacts
+The PR branch contains only code changes - reviewers don't see GSD artifacts
 (PLAN.md, SUMMARY.md, STATE.md, CONTEXT.md, etc.).
 
 Uses git cherry-pick with path filtering to rebuild a clean history.
@@ -23,7 +23,7 @@ Check preconditions:
 ```bash
 AHEAD=$(git rev-list --count "$TARGET".."$CURRENT_BRANCH" 2>/dev/null)
 if [ "$AHEAD" = "0" ]; then
-  echo "No commits ahead of $TARGET — nothing to filter."
+  echo "No commits ahead of $TARGET - nothing to filter."
   exit 0
 fi
 ```
@@ -65,7 +65,7 @@ Display analysis:
 ```
 Commits to include: {N} (code changes)
 Commits to exclude: {N} (planning-only)
-Mixed commits: {N} (code + planning — included)
+Mixed commits: {N} (code + planning - included)
 ```
 </step>
 

@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 // gsd-hook-version: 1.30.0
-// SHARED CANONICAL FILE — hardlinked into all harness hooks/ directories.
+// SHARED CANONICAL FILE - hardlinked into all harness hooks/ directories.
 // Harness config dir is auto-detected from __dirname at runtime.
 // Do NOT hardcode harness-specific paths here. See HOOKS_ARCHITECTURE.md.
-// GSD Workflow Guard — PreToolUse hook
+// GSD Workflow Guard - PreToolUse hook
 // Detects when Claude attempts file edits outside a GSD workflow context
 // (no active /gsd: command or Task subagent) and injects an advisory warning.
 //
-// This is a SOFT guard — it advises, not blocks. The edit still proceeds.
+// This is a SOFT guard - it advises, not blocks. The edit still proceeds.
 // The warning nudges Claude to use /gsd:quick or /gsd:fast instead of
 // making direct edits that bypass state tracking.
 //
@@ -73,7 +73,7 @@ process.stdin.on('end', () => {
         process.exit(0);
       }
     } else {
-      process.exit(0); // No GSD project — don't guard
+      process.exit(0); // No GSD project - don't guard
     }
 
     // If we get here: GSD project, guard enabled, file edit outside .planning/,
@@ -91,7 +91,7 @@ process.stdin.on('end', () => {
 
     process.stdout.write(JSON.stringify(output));
   } catch (e) {
-    // Silent fail — never block tool execution
+    // Silent fail - never block tool execution
     process.exit(0);
   }
 });

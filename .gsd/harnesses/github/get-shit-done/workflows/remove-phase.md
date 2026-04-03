@@ -126,7 +126,7 @@ Changes:
 ## What's Next
 
 Would you like to:
-- `/gsd-progress` — see updated roadmap status
+- `/gsd-progress` - see updated roadmap status
 - Continue with current phase
 - Review roadmap
 
@@ -140,8 +140,8 @@ Would you like to:
 
 - Don't remove completed phases (have SUMMARY.md files) without --force
 - Don't remove current or past phases
-- Don't manually renumber — use `gsd-tools phase remove` which handles all renumbering
-- Don't add "removed phase" notes to STATE.md — git commit is the record
+- Don't manually renumber - use `gsd-tools phase remove` which handles all renumbering
+- Don't add "removed phase" notes to STATE.md - git commit is the record
 - Don't modify completed phase directories
 </anti_patterns>
 

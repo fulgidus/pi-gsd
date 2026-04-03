@@ -1,16 +1,16 @@
 <internal_workflow>
 
-**This is an INTERNAL workflow — NOT a user-facing command.**
+**This is an INTERNAL workflow - NOT a user-facing command.**
 
 There is no `/gsd-transition` command. This workflow is invoked automatically by
 `execute-phase` during auto-advance, or inline by the orchestrator after phase
 verification. Users should never be told to run `/gsd-transition`.
 
 **Valid user commands for phase progression:**
-- `/gsd-discuss-phase {N}` — discuss a phase before planning
-- `/gsd-plan-phase {N}` — plan a phase
-- `/gsd-execute-phase {N}` — execute a phase
-- `/gsd-progress` — see roadmap progress
+- `/gsd-discuss-phase {N}` - discuss a phase before planning
+- `/gsd-plan-phase {N}` - plan a phase
+- `/gsd-execute-phase {N}` - execute a phase
+- `/gsd-progress` - see roadmap progress
 
 </internal_workflow>
 
@@ -96,7 +96,7 @@ Outstanding verification items in this phase:
 These will carry forward as debt. Review: `/gsd-audit-uat`
 ```
 
-This does NOT block transition — it ensures the user sees the debt before confirming.
+This does NOT block transition - it ensures the user sees the debt before confirming.
 
 **If all plans complete:**
 
@@ -104,7 +104,7 @@ This does NOT block transition — it ensures the user sees the debt before conf
 
 ```
 ⚡ Auto-approved: Transition Phase [X] → Phase [X+1]
-Phase [X] complete — all [Y] plans finished.
+Phase [X] complete - all [Y] plans finished.
 
 Proceeding to mark done and advance...
 ```
@@ -115,7 +115,7 @@ Proceed directly to cleanup_handoff step.
 
 <if mode="interactive" OR="custom with gates.confirm_transition true">
 
-Ask: "Phase [X] complete — all [Y] plans finished. Ready to mark done and move to Phase [X+1]?"
+Ask: "Phase [X] complete - all [Y] plans finished. Ready to mark done and move to Phase [X+1]?"
 
 Wait for confirmation before proceeding.
 
@@ -124,7 +124,7 @@ Wait for confirmation before proceeding.
 **If plans incomplete:**
 
 **SAFETY RAIL: always_confirm_destructive applies here.**
-Skipping incomplete plans is destructive — ALWAYS prompt regardless of mode.
+Skipping incomplete plans is destructive - ALWAYS prompt regardless of mode.
 
 Present:
 
@@ -154,7 +154,7 @@ Check for lingering handoffs:
 ls .planning/phases/XX-current/.continue-here*.md 2>/dev/null || true
 ```
 
-If found, delete them — phase is complete, handoffs are stale.
+If found, delete them - phase is complete, handoffs are stale.
 
 </step>
 
@@ -198,11 +198,11 @@ cat .planning/phases/XX-current/*-SUMMARY.md
 
 1. **Requirements validated?**
    - Any Active requirements shipped in this phase?
-   - Move to Validated with phase reference: `- ✓ [Requirement] — Phase X`
+   - Move to Validated with phase reference: `- ✓ [Requirement] - Phase X`
 
 2. **Requirements invalidated?**
    - Any Active requirements discovered to be unnecessary or wrong?
-   - Move to Out of Scope with reason: `- [Requirement] — [why invalidated]`
+   - Move to Out of Scope with reason: `- [Requirement] - [why invalidated]`
 
 3. **Requirements emerged?**
    - Any new requirements discovered during building?
@@ -238,7 +238,7 @@ Before:
 
 ### Out of Scope
 
-- OAuth2 — complexity not needed for v1
+- OAuth2 - complexity not needed for v1
 ```
 
 After (Phase 2 shipped JWT auth, discovered rate limiting needed):
@@ -246,7 +246,7 @@ After (Phase 2 shipped JWT auth, discovered rate limiting needed):
 ```markdown
 ### Validated
 
-- ✓ JWT authentication — Phase 2
+- ✓ JWT authentication - Phase 2
 
 ### Active
 
@@ -256,7 +256,7 @@ After (Phase 2 shipped JWT auth, discovered rate limiting needed):
 
 ### Out of Scope
 
-- OAuth2 — complexity not needed for v1
+- OAuth2 - complexity not needed for v1
 ```
 
 **Step complete when:**
@@ -441,7 +441,7 @@ ls .planning/phases/*[X+1]*/*-CONTEXT.md 2>/dev/null || true
 ```
 Phase [X] marked complete.
 
-Next: Phase [X+1] — [Name]
+Next: Phase [X+1] - [Name]
 
 ⚡ Auto-continuing: Plan Phase [X+1] in detail
 ```
@@ -453,7 +453,7 @@ Exit skill and invoke SlashCommand("/gsd-plan-phase [X+1] --auto ${GSD_WS}")
 ```
 Phase [X] marked complete.
 
-Next: Phase [X+1] — [Name]
+Next: Phase [X+1] - [Name]
 
 ⚡ Auto-continuing: Discuss Phase [X+1] first
 ```
@@ -473,17 +473,17 @@ Exit skill and invoke SlashCommand("/gsd-discuss-phase [X+1] --auto ${GSD_WS}")
 
 ## ▶ Next Up
 
-**Phase [X+1]: [Name]** — [Goal from ROADMAP.md]
+**Phase [X+1]: [Name]** - [Goal from ROADMAP.md]
 
-`/gsd-discuss-phase [X+1] ${GSD_WS}` — gather context and clarify approach
+`/gsd-discuss-phase [X+1] ${GSD_WS}` - gather context and clarify approach
 
 <sub>`/clear` first → fresh context window</sub>
 
 ---
 
 **Also available:**
-- `/gsd-plan-phase [X+1] ${GSD_WS}` — skip discussion, plan directly
-- `/gsd-research-phase [X+1] ${GSD_WS}` — investigate unknowns
+- `/gsd-plan-phase [X+1] ${GSD_WS}` - skip discussion, plan directly
+- `/gsd-research-phase [X+1] ${GSD_WS}` - investigate unknowns
 
 ---
 ```
@@ -497,7 +497,7 @@ Exit skill and invoke SlashCommand("/gsd-discuss-phase [X+1] --auto ${GSD_WS}")
 
 ## ▶ Next Up
 
-**Phase [X+1]: [Name]** — [Goal from ROADMAP.md]
+**Phase [X+1]: [Name]** - [Goal from ROADMAP.md]
 <sub>✓ Context gathered, ready to plan</sub>
 
 `/gsd-plan-phase [X+1] ${GSD_WS}`
@@ -507,8 +507,8 @@ Exit skill and invoke SlashCommand("/gsd-discuss-phase [X+1] --auto ${GSD_WS}")
 ---
 
 **Also available:**
-- `/gsd-discuss-phase [X+1] ${GSD_WS}` — revisit context
-- `/gsd-research-phase [X+1] ${GSD_WS}` — investigate unknowns
+- `/gsd-discuss-phase [X+1] ${GSD_WS}` - revisit context
+- `/gsd-research-phase [X+1] ${GSD_WS}` - investigate unknowns
 
 ---
 ```
@@ -521,9 +521,9 @@ Exit skill and invoke SlashCommand("/gsd-discuss-phase [X+1] --auto ${GSD_WS}")
 
 This route is reached when `is_last_phase: true` AND the collision check found
 other active workstreams. Do NOT suggest completing the milestone or advancing
-to the next milestone — other workstreams are still working.
+to the next milestone - other workstreams are still working.
 
-**Clear auto-advance chain flag** — workstream boundary is the natural stopping point:
+**Clear auto-advance chain flag** - workstream boundary is the natural stopping point:
 
 ```bash
 node ".agent/get-shit-done/bin/gsd-tools.cjs" config-set workflow._auto_chain_active false
@@ -543,10 +543,10 @@ Present (all modes):
 
 This workstream's phases are complete. Other workstreams are still active:
 
-| Workstream | Status | Phase | Progress |
-|------------|--------|-------|----------|
+| Workstream | Status   | Phase           | Progress                         |
+| ---------- | -------- | --------------- | -------------------------------- |
 | {name}     | {status} | {current_phase} | {completed_phases}/{phase_count} |
-| ...        | ...    | ...   | ...      |
+| ...        | ...      | ...             | ...                              |
 
 ---
 
@@ -577,7 +577,7 @@ Do NOT auto-invoke any further slash commands.
 **This route is only reached when:**
 - `is_last_phase: true` AND no other active workstreams exist (or flat mode)
 
-**Clear auto-advance chain flag** — milestone boundary is the natural stopping point:
+**Clear auto-advance chain flag** - milestone boundary is the natural stopping point:
 
 ```bash
 node ".agent/get-shit-done/bin/gsd-tools.cjs" config-set workflow._auto_chain_active false
@@ -588,7 +588,7 @@ node ".agent/get-shit-done/bin/gsd-tools.cjs" config-set workflow._auto_chain_ac
 ```
 Phase {X} marked complete.
 
-🎉 Milestone {version} is 100% complete — all {N} phases finished!
+🎉 Milestone {version} is 100% complete - all {N} phases finished!
 
 ⚡ Auto-continuing: Complete milestone and archive
 ```
@@ -602,13 +602,13 @@ Exit skill and invoke SlashCommand("/gsd-complete-milestone {version} ${GSD_WS}"
 ```
 ## ✓ Phase {X}: {Phase Name} Complete
 
-🎉 Milestone {version} is 100% complete — all {N} phases finished!
+🎉 Milestone {version} is 100% complete - all {N} phases finished!
 
 ---
 
 ## ▶ Next Up
 
-**Complete Milestone {version}** — archive and prepare for next
+**Complete Milestone {version}** - archive and prepare for next
 
 `/gsd-complete-milestone {version} ${GSD_WS}`
 
@@ -629,7 +629,7 @@ Exit skill and invoke SlashCommand("/gsd-complete-milestone {version} ${GSD_WS}"
 </process>
 
 <implicit_tracking>
-Progress tracking is IMPLICIT: planning phase N implies phases 1-(N-1) complete. No separate progress step—forward motion IS progress.
+Progress tracking is IMPLICIT: planning phase N implies phases 1-(N-1) complete. No separate progress step-forward motion IS progress.
 </implicit_tracking>
 
 <partial_completion>
@@ -647,7 +647,7 @@ Options:
 3. Stay and finish current phase
 ```
 
-Respect user judgment — they know if work matters.
+Respect user judgment - they know if work matters.
 
 **If marking complete with incomplete plans:**
 

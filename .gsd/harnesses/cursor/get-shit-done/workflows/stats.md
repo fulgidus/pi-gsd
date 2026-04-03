@@ -23,7 +23,7 @@ Extract fields from JSON: `milestone_version`, `milestone_name`, `phases`, `phas
 Present to the user with this format:
 
 ```
-# 📊 Project Statistics — {milestone_version} {milestone_name}
+# 📊 Project Statistics - {milestone_version} {milestone_name}
 
 ## Progress
 [████████░░] X/Y phases (Z%)
@@ -33,7 +33,7 @@ X/Y plans complete (Z%)
 
 ## Phases
 | Phase | Name | Plans | Completed | Status |
-|-------|------|-------|-----------|--------|
+| ----- | ---- | ----- | --------- | ------ |
 | ...   | ...  | ...   | ...       | ...    |
 
 ## Requirements

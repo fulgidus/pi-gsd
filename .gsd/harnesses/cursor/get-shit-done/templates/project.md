@@ -1,6 +1,6 @@
 # PROJECT.md Template
 
-Template for `.planning/PROJECT.md` — the living project context document.
+Template for `.planning/PROJECT.md` - the living project context document.
 
 <template>
 
@@ -9,7 +9,7 @@ Template for `.planning/PROJECT.md` — the living project context document.
 
 ## What This Is
 
-[Current accurate description — 2-3 sentences. What does this product do and who is it for?
+[Current accurate description - 2-3 sentences. What does this product do and who is it for?
 Use the user's language and framing. Update whenever reality drifts from this description.]
 
 ## Core Value
@@ -23,7 +23,7 @@ One sentence that drives prioritization when tradeoffs arise.]
 
 <!-- Shipped and confirmed valuable. -->
 
-(None yet — ship to validate)
+(None yet - ship to validate)
 
 ### Active
 
@@ -37,8 +37,8 @@ One sentence that drives prioritization when tradeoffs arise.]
 
 <!-- Explicit boundaries. Includes reasoning to prevent re-adding. -->
 
-- [Exclusion 1] — [why]
-- [Exclusion 2] — [why]
+- [Exclusion 1] - [why]
+- [Exclusion 2] - [why]
 
 ## Context
 
@@ -50,8 +50,8 @@ One sentence that drives prioritization when tradeoffs arise.]
 
 ## Constraints
 
-- **[Type]**: [What] — [Why]
-- **[Type]**: [What] — [Why]
+- **[Type]**: [What] - [Why]
+- **[Type]**: [What] - [Why]
 
 Common types: Tech stack, Timeline, Budget, Dependencies, Compatibility, Performance, Security
 
@@ -59,9 +59,9 @@ Common types: Tech stack, Timeline, Budget, Dependencies, Compatibility, Perform
 
 <!-- Decisions that constrain future work. Add throughout project lifecycle. -->
 
-| Decision | Rationale | Outcome |
-|----------|-----------|---------|
-| [Choice] | [Why] | [✓ Good / ⚠️ Revisit / — Pending] |
+| Decision | Rationale | Outcome                          |
+| -------- | --------- | -------------------------------- |
+| [Choice] | [Why]     | [✓ Good / ⚠️ Revisit / - Pending] |
 
 ---
 *Last updated: [date] after [trigger]*
@@ -83,17 +83,17 @@ Common types: Tech stack, Timeline, Budget, Dependencies, Compatibility, Perform
 - Drives prioritization when tradeoffs arise
 - Rarely changes; if it does, it's a significant pivot
 
-**Requirements — Validated:**
+**Requirements - Validated:**
 - Requirements that shipped and proved valuable
-- Format: `- ✓ [Requirement] — [version/phase]`
-- These are locked — changing them requires explicit discussion
+- Format: `- ✓ [Requirement] - [version/phase]`
+- These are locked - changing them requires explicit discussion
 
-**Requirements — Active:**
+**Requirements - Active:**
 - Current scope being built toward
 - These are hypotheses until shipped and validated
 - Move to Validated when shipped, Out of Scope if invalidated
 
-**Requirements — Out of Scope:**
+**Requirements - Out of Scope:**
 - Explicit boundaries on what we're not building
 - Always include reasoning (prevents re-adding later)
 - Includes: considered and rejected, deferred to future, explicitly excluded
@@ -107,15 +107,15 @@ Common types: Tech stack, Timeline, Budget, Dependencies, Compatibility, Perform
 **Constraints:**
 - Hard limits on implementation choices
 - Tech stack, timeline, budget, compatibility, dependencies
-- Include the "why" — constraints without rationale get questioned
+- Include the "why" - constraints without rationale get questioned
 
 **Key Decisions:**
 - Significant choices that affect future work
 - Add decisions as they're made throughout the project
 - Track outcome when known:
-  - ✓ Good — decision proved correct
-  - ⚠️ Revisit — decision may need reconsideration
-  - — Pending — too early to evaluate
+  - ✓ Good - decision proved correct
+  - ⚠️ Revisit - decision may need reconsideration
+  - - Pending - too early to evaluate
 
 **Last Updated:**
 - Always note when and why the document was updated
@@ -139,8 +139,8 @@ and implemented by workflows/transition.md and workflows/complete-milestone.md.
 
 **After each milestone:**
 1. Full review of all sections
-2. Core Value check — still the right priority?
-3. Audit Out of Scope — reasons still valid?
+2. Core Value check - still the right priority?
+3. Audit Out of Scope - reasons still valid?
 4. Update Context with current state (users, feedback, metrics)
 
 </evolution>

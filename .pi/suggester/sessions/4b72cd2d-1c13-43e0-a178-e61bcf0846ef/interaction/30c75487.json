@@ -1,0 +1,14 @@
+{
+  "stateVersion": 9,
+  "lastSuggestion": {
+    "text": "ok let me know when they're done",
+    "shownAt": "2026-04-03T13:40:06.779Z",
+    "turnId": "30c75487",
+    "sourceLeafId": "30c75487",
+    "variantName": "default",
+    "strategy": "compact",
+    "requestedStrategy": "compact"
+  },
+  "steeringHistory": [],
+  "turnsSinceLastStalenessCheck": 2
+}

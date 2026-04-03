@@ -1,0 +1,14 @@
+{
+  "stateVersion": 9,
+  "lastSuggestion": {
+    "text": "What's the overall architecture described in HOOKS_ARCHITECTURE.md?",
+    "shownAt": "2026-04-03T09:52:55.383Z",
+    "turnId": "0be2fc8e",
+    "sourceLeafId": "0be2fc8e",
+    "variantName": "default",
+    "strategy": "compact",
+    "requestedStrategy": "compact"
+  },
+  "steeringHistory": [],
+  "turnsSinceLastStalenessCheck": 1
+}

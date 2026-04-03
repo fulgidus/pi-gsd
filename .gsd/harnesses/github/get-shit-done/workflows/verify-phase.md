@@ -7,7 +7,7 @@ Executed by a verification subagent spawned from execute-phase.md.
 <core_principle>
 **Task completion ≠ Goal achievement**
 
-A task "create chat component" can be marked complete when the component is a placeholder. The task was done — but the goal "working chat interface" was not achieved.
+A task "create chat component" can be marked complete when the component is a placeholder. The task was done - but the goal "working chat interface" was not achieved.
 
 Goal-backward verification:
 1. What must be TRUE for the goal to be achieved?
@@ -74,7 +74,7 @@ Parse the `success_criteria` array from the JSON output. If non-empty:
 3. Derive **key links** (critical wiring where stubs hide)
 4. Document the must-haves before proceeding
 
-Success Criteria from ROADMAP.md are the contract — they override PLAN-level must_haves when both exist.
+Success Criteria from ROADMAP.md are the contract - they override PLAN-level must_haves when both exist.
 
 **Option C: Derive from phase goal (fallback)**
 
@@ -113,29 +113,29 @@ Parse JSON result: `{ all_passed, passed, total, artifacts: [{path, exists, issu
 - `issues` not empty → STUB (check issues for "Only N lines" or "Missing pattern")
 - `passed=true` → VERIFIED (Levels 1-2 pass)
 
-**Level 3 — Wired (manual check for artifacts that pass Levels 1-2):**
+**Level 3 - Wired (manual check for artifacts that pass Levels 1-2):**
 ```bash
 grep -r "import.*$artifact_name" src/ --include="*.ts" --include="*.tsx"  # IMPORTED
 grep -r "$artifact_name" src/ --include="*.ts" --include="*.tsx" | grep -v "import"  # USED
 ```
 WIRED = imported AND used. ORPHANED = exists but not imported/used.
 
-| Exists | Substantive | Wired | Status |
-|--------|-------------|-------|--------|
-| ✓ | ✓ | ✓ | ✓ VERIFIED |
-| ✓ | ✓ | ✗ | ⚠️ ORPHANED |
-| ✓ | ✗ | - | ✗ STUB |
-| ✗ | - | - | ✗ MISSING |
+| Exists | Substantive | Wired | Status     |
+| ------ | ----------- | ----- | ---------- |
+| ✓      | ✓           | ✓     | ✓ VERIFIED |
+| ✓      | ✓           | ✗     | ⚠️ ORPHANED |
+| ✓      | ✗           | -     | ✗ STUB     |
+| ✗      | -           | -     | ✗ MISSING  |
 
 **Export-level spot check (WARNING severity):**
 
 For artifacts that pass Level 3, spot-check individual exports:
-- Extract key exported symbols (functions, constants, classes — skip types/interfaces)
+- Extract key exported symbols (functions, constants, classes - skip types/interfaces)
 - For each, grep for usage outside the defining file
 - Flag exports with zero external call sites as "exported but unused"
 
 This catches dead stores like `setPlan()` that exist in a wired file but are
-never actually called. Report as WARNING — may indicate incomplete cross-plan
+never actually called. Report as WARNING - may indicate incomplete cross-plan
 wiring or leftover code from plan revisions.
 </step>
 
@@ -158,12 +158,12 @@ Parse JSON result: `{ all_verified, verified, total, links: [{from, to, via, ver
 
 **Fallback patterns (if key_links not in must_haves):**
 
-| Pattern | Check | Status |
-|---------|-------|--------|
-| Component → API | fetch/axios call to API path, response used (await/.then/setState) | WIRED / PARTIAL (call but unused response) / NOT_WIRED |
-| API → Database | Prisma/DB query on model, result returned via res.json() | WIRED / PARTIAL (query but not returned) / NOT_WIRED |
-| Form → Handler | onSubmit with real implementation (fetch/axios/mutate/dispatch), not console.log/empty | WIRED / STUB (log-only/empty) / NOT_WIRED |
-| State → Render | useState variable appears in JSX (`{stateVar}` or `{stateVar.property}`) | WIRED / NOT_WIRED |
+| Pattern         | Check                                                                                  | Status                                                 |
+| --------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| Component → API | fetch/axios call to API path, response used (await/.then/setState)                     | WIRED / PARTIAL (call but unused response) / NOT_WIRED |
+| API → Database  | Prisma/DB query on model, result returned via res.json()                               | WIRED / PARTIAL (query but not returned) / NOT_WIRED   |
+| Form → Handler  | onSubmit with real implementation (fetch/axios/mutate/dispatch), not console.log/empty | WIRED / STUB (log-only/empty) / NOT_WIRED              |
+| State → Render  | useState variable appears in JSX (`{stateVar}` or `{stateVar.property}`)               | WIRED / NOT_WIRED                                      |
 
 Record status and evidence for each key link.
 </step>
@@ -180,12 +180,12 @@ For each requirement: parse description → identify supporting truths/artifacts
 <step name="scan_antipatterns">
 Extract files modified in this phase from SUMMARY.md, scan each:
 
-| Pattern | Search | Severity |
-|---------|--------|----------|
-| TODO/FIXME/XXX/HACK | `grep -n -E "TODO\|FIXME\|XXX\|HACK"` | ⚠️ Warning |
-| Placeholder content | `grep -n -iE "placeholder\|coming soon\|will be here"` | 🛑 Blocker |
-| Empty returns | `grep -n -E "return null\|return \{\}\|return \[\]\|=> \{\}"` | ⚠️ Warning |
-| Log-only functions | Functions containing only console.log | ⚠️ Warning |
+| Pattern             | Search                                                        | Severity  |
+| ------------------- | ------------------------------------------------------------- | --------- |
+| TODO/FIXME/XXX/HACK | `grep -n -E "TODO\|FIXME\|XXX\|HACK"`                         | ⚠️ Warning |
+| Placeholder content | `grep -n -iE "placeholder\|coming soon\|will be here"`        | 🛑 Blocker |
+| Empty returns       | `grep -n -E "return null\|return \{\}\|return \[\]\|=> \{\}"` | ⚠️ Warning |
+| Log-only functions  | Functions containing only console.log                         | ⚠️ Warning |
 
 Categorize: 🛑 Blocker (prevents goal) | ⚠️ Warning (incomplete) | ℹ️ Info (notable).
 </step>

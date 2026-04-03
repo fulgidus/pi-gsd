@@ -4,7 +4,7 @@ Commit planning artifacts using the gsd-tools CLI, which automatically checks `c
 
 ## Commit via CLI
 
-Always use `gsd-tools.cjs commit` for `.planning/` files — it handles `commit_docs` and gitignore checks automatically:
+Always use `gsd-tools.cjs commit` for `.planning/` files - it handles `commit_docs` and gitignore checks automatically:
 
 ```bash
 node ".gemini/get-shit-done/bin/gsd-tools.cjs" commit "docs({scope}): {description}" --files .planning/STATE.md .planning/ROADMAP.md
@@ -22,14 +22,14 @@ node ".gemini/get-shit-done/bin/gsd-tools.cjs" commit "" --files .planning/codeb
 
 ## Commit Message Patterns
 
-| Command | Scope | Example |
-|---------|-------|---------|
-| plan-phase | phase | `docs(phase-03): create authentication plans` |
-| execute-phase | phase | `docs(phase-03): complete authentication phase` |
-| new-milestone | milestone | `docs: start milestone v1.1` |
-| remove-phase | chore | `chore: remove phase 17 (dashboard)` |
-| insert-phase | phase | `docs: insert phase 16.1 (critical fix)` |
-| add-phase | phase | `docs: add phase 07 (settings page)` |
+| Command       | Scope     | Example                                         |
+| ------------- | --------- | ----------------------------------------------- |
+| plan-phase    | phase     | `docs(phase-03): create authentication plans`   |
+| execute-phase | phase     | `docs(phase-03): complete authentication phase` |
+| new-milestone | milestone | `docs: start milestone v1.1`                    |
+| remove-phase  | chore     | `chore: remove phase 17 (dashboard)`            |
+| insert-phase  | phase     | `docs: insert phase 16.1 (critical fix)`        |
+| add-phase     | phase     | `docs: add phase 07 (settings page)`            |
 
 ## When to Skip
 

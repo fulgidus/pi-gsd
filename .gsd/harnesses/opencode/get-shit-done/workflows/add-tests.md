@@ -47,9 +47,9 @@ Ensure the phase exists in .planning/phases/
 Exit.
 
 Read the phase artifacts (in order of priority):
-1. `${phase_dir}/*-SUMMARY.md` — what was implemented, files changed
-2. `${phase_dir}/CONTEXT.md` — acceptance criteria, decisions
-3. `${phase_dir}/*-VERIFICATION.md` — user-verified scenarios (if UAT was done)
+1. `${phase_dir}/*-SUMMARY.md` - what was implemented, files changed
+2. `${phase_dir}/CONTEXT.md` - acceptance criteria, decisions
+3. `${phase_dir}/*-VERIFICATION.md` - user-verified scenarios (if UAT was done)
 
 If no SUMMARY.md exists:
 ```
@@ -61,7 +61,7 @@ Exit.
 Present banner:
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- GSD ► ADD TESTS — Phase ${phase_number}: ${phase_name}
+ GSD ► ADD TESTS - Phase ${phase_number}: ${phase_name}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 </step>
@@ -71,13 +71,13 @@ Extract the list of files modified by the phase from SUMMARY.md ("Files Changed"
 
 For each file, classify into one of three categories:
 
-| Category | Criteria | Test Type |
-|----------|----------|-----------|
-| **TDD** | Pure functions where `expect(fn(input)).toBe(output)` is writable | Unit tests |
-| **E2E** | UI behavior verifiable by browser automation | Playwright/E2E tests |
-| **Skip** | Not meaningfully testable or already covered | None |
+| Category | Criteria                                                          | Test Type            |
+| -------- | ----------------------------------------------------------------- | -------------------- |
+| **TDD**  | Pure functions where `expect(fn(input)).toBe(output)` is writable | Unit tests           |
+| **E2E**  | UI behavior verifiable by browser automation                      | Playwright/E2E tests |
+| **Skip** | Not meaningfully testable or already covered                      | None                 |
 
-**TDD classification — apply when:**
+**TDD classification - apply when:**
 - Business logic: calculations, pricing, tax rules, validation
 - Data transformations: mapping, filtering, aggregation, formatting
 - Parsers: CSV, JSON, XML, custom format parsing
@@ -85,7 +85,7 @@ For each file, classify into one of three categories:
 - State machines: status transitions, workflow steps
 - Utilities: string manipulation, date handling, number formatting
 
-**E2E classification — apply when:**
+**E2E classification - apply when:**
 - Keyboard shortcuts: key bindings, modifier keys, chord sequences
 - Navigation: page transitions, routing, breadcrumbs, back/forward
 - Form interactions: submit, validation errors, field focus, autocomplete
@@ -94,7 +94,7 @@ For each file, classify into one of three categories:
 - Modal dialogs: open, close, confirm, cancel
 - Data grids: sorting, filtering, inline editing, column resize
 
-**Skip classification — apply when:**
+**Skip classification - apply when:**
 - UI layout/styling: CSS classes, visual appearance, responsive breakpoints
 - Configuration: config files, environment variables, feature flags
 - Glue code: dependency injection setup, middleware registration, routing tables
@@ -114,13 +114,13 @@ question(
   question: |
     ## Files classified for testing
 
-    ### TDD (Unit Tests) — {N} files
+    ### TDD (Unit Tests) - {N} files
     {list of files with brief reason}
 
-    ### E2E (Browser Tests) — {M} files
+    ### E2E (Browser Tests) - {M} files
     {list of files with brief reason}
 
-    ### Skip — {K} files
+    ### Skip - {K} files
     {list of files with brief reason}
 
     {if $EXTRA_INSTRUCTIONS: "Additional instructions: ${EXTRA_INSTRUCTIONS}"}
@@ -171,7 +171,7 @@ For each approved file, create a detailed test plan.
 **For TDD files**, plan tests following RED-GREEN-REFACTOR:
 1. Identify testable functions/methods in the file
 2. For each function: list input scenarios, expected outputs, edge cases
-3. Note: since code already exists, tests may pass immediately — that's OK, but verify they test the RIGHT behavior
+3. Note: since code already exists, tests may pass immediately - that's OK, but verify they test the RIGHT behavior
 
 **For E2E files**, plan tests following RED-GREEN gates:
 1. Identify user scenarios from CONTEXT.md/VERIFICATION.md
@@ -215,9 +215,9 @@ For each approved TDD test:
 
 2. **Write test** with clear arrange/act/assert structure:
    ```
-   // Arrange — set up inputs and expected outputs
-   // Act — call the function under test
-   // Assert — verify the output matches expectations
+   // Arrange - set up inputs and expected outputs
+   // Act - call the function under test
+   // Assert - verify the output matches expectations
    ```
 
 3. **Run the test**:
@@ -226,7 +226,7 @@ For each approved TDD test:
    ```
 
 4. **Evaluate result:**
-   - **Test passes**: Good — the implementation satisfies the test. Verify the test checks meaningful behavior (not just that it compiles).
+   - **Test passes**: Good - the implementation satisfies the test. Verify the test checks meaningful behavior (not just that it compiles).
    - **Test fails with assertion error**: This may be a genuine bug discovered by the test. Flag it:
      ```
      ⚠️ Potential bug found: {test name}
@@ -234,7 +234,7 @@ For each approved TDD test:
      Actual: {actual}
      File: {implementation file}
      ```
-     Do NOT fix the implementation — this is a test-generation command, not a fix command. Record the finding.
+     Do NOT fix the implementation - this is a test-generation command, not a fix command. Record the finding.
    - **Test fails with error (import, syntax, etc.)**: This is a test error. Fix the test and re-run.
 </step>
 
@@ -281,7 +281,7 @@ Create a test coverage report and present to user:
 ## Results
 
 | Category | Generated | Passing | Failing | Blocked |
-|----------|-----------|---------|---------|---------|
+| -------- | --------- | ------- | ------- | ------- |
 | Unit     | {N}       | {n1}    | {n2}    | {n3}    |
 | E2E      | {M}       | {m1}    | {m2}    | {m3}    |
 
@@ -326,8 +326,8 @@ Present next steps:
 ---
 
 **Also available:**
-- `/gsd-add-tests {next_phase}` — test another phase
-- `/gsd-verify-work {phase_number}` — run UAT verification
+- `/gsd-add-tests {next_phase}` - test another phase
+- `/gsd-verify-work {phase_number}` - run UAT verification
 
 ---
 ```
@@ -343,7 +343,7 @@ Present next steps:
 - [ ] Test plan presented to user and approved
 - [ ] TDD tests generated with arrange/act/assert structure
 - [ ] E2E tests generated targeting user scenarios
-- [ ] All tests executed — no untested tests marked as passing
+- [ ] All tests executed - no untested tests marked as passing
 - [ ] Bugs discovered by tests flagged (not fixed)
 - [ ] Test files committed with proper message
 - [ ] Coverage gaps documented

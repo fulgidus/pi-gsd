@@ -1,6 +1,6 @@
 # Stack Research Template
 
-Template for `.planning/research/STACK.md` — recommended technologies for the project domain.
+Template for `.planning/research/STACK.md` - recommended technologies for the project domain.
 
 <template>
 
@@ -15,24 +15,24 @@ Template for `.planning/research/STACK.md` — recommended technologies for the 
 
 ### Core Technologies
 
-| Technology | Version | Purpose | Why Recommended |
-|------------|---------|---------|-----------------|
-| [name] | [version] | [what it does] | [why experts use it for this domain] |
-| [name] | [version] | [what it does] | [why experts use it for this domain] |
-| [name] | [version] | [what it does] | [why experts use it for this domain] |
+| Technology | Version   | Purpose        | Why Recommended                      |
+| ---------- | --------- | -------------- | ------------------------------------ |
+| [name]     | [version] | [what it does] | [why experts use it for this domain] |
+| [name]     | [version] | [what it does] | [why experts use it for this domain] |
+| [name]     | [version] | [what it does] | [why experts use it for this domain] |
 
 ### Supporting Libraries
 
-| Library | Version | Purpose | When to Use |
-|---------|---------|---------|-------------|
-| [name] | [version] | [what it does] | [specific use case] |
-| [name] | [version] | [what it does] | [specific use case] |
-| [name] | [version] | [what it does] | [specific use case] |
+| Library | Version   | Purpose        | When to Use         |
+| ------- | --------- | -------------- | ------------------- |
+| [name]  | [version] | [what it does] | [specific use case] |
+| [name]  | [version] | [what it does] | [specific use case] |
+| [name]  | [version] | [what it does] | [specific use case] |
 
 ### Development Tools
 
-| Tool | Purpose | Notes |
-|------|---------|-------|
+| Tool   | Purpose        | Notes                |
+| ------ | -------------- | -------------------- |
 | [name] | [what it does] | [configuration tips] |
 | [name] | [what it does] | [configuration tips] |
 
@@ -51,15 +51,15 @@ npm install -D [packages]
 
 ## Alternatives Considered
 
-| Recommended | Alternative | When to Use Alternative |
-|-------------|-------------|-------------------------|
+| Recommended  | Alternative    | When to Use Alternative                  |
+| ------------ | -------------- | ---------------------------------------- |
 | [our choice] | [other option] | [conditions where alternative is better] |
 | [our choice] | [other option] | [conditions where alternative is better] |
 
 ## What NOT to Use
 
-| Avoid | Why | Use Instead |
-|-------|-----|-------------|
+| Avoid        | Why                | Use Instead               |
+| ------------ | ------------------ | ------------------------- |
 | [technology] | [specific problem] | [recommended alternative] |
 | [technology] | [specific problem] | [recommended alternative] |
 
@@ -75,15 +75,15 @@ npm install -D [packages]
 
 ## Version Compatibility
 
-| Package A | Compatible With | Notes |
-|-----------|-----------------|-------|
+| Package A         | Compatible With   | Notes                 |
+| ----------------- | ----------------- | --------------------- |
 | [package@version] | [package@version] | [compatibility notes] |
 
 ## Sources
 
-- [Context7 library ID] — [topics fetched]
-- [Official docs URL] — [what was verified]
-- [Other source] — [confidence level]
+- [Context7 library ID] - [topics fetched]
+- [Official docs URL] - [what was verified]
+- [Other source] - [confidence level]
 
 ---
 *Stack research for: [domain]*

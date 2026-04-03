@@ -3,7 +3,7 @@
 // Check for GSD updates in background, write result to cache
 // Called by SessionStart hook - runs once per session
 //
-// SHARED CANONICAL FILE — hardlinked into all harness hooks/ directories.
+// SHARED CANONICAL FILE - hardlinked into all harness hooks/ directories.
 // Harness is auto-detected from __dirname (e.g. .claude/hooks -> .claude).
 // Do NOT add harness-specific fallbacks here; detection is fully dynamic.
 
@@ -23,19 +23,19 @@ const harnessDir = path.basename(path.dirname(path.dirname(__filename)));
 // Detect runtime config directory (supports Claude, OpenCode, Gemini, Agent, etc.)
 // Respects CLAUDE_CONFIG_DIR for custom config directory setups
 function detectConfigDir(baseDir) {
-  // Check env override first (supports multi-account setups)
-  const envDir = process.env.CLAUDE_CONFIG_DIR;
-  if (envDir && fs.existsSync(path.join(envDir, 'get-shit-done', 'VERSION'))) {
-    return envDir;
-  }
-  // Check harness-derived dir first (most specific), then common alternates
-  const searchDirs = [harnessDir, '.config/opencode', '.opencode', '.gemini', '.claude', '.agent'];
-  for (const dir of searchDirs) {
-    if (fs.existsSync(path.join(baseDir, dir, 'get-shit-done', 'VERSION'))) {
-      return path.join(baseDir, dir);
+    // Check env override first (supports multi-account setups)
+    const envDir = process.env.CLAUDE_CONFIG_DIR;
+    if (envDir && fs.existsSync(path.join(envDir, 'get-shit-done', 'VERSION'))) {
+        return envDir;
     }
-  }
-  return envDir || path.join(baseDir, harnessDir);
+    // Check harness-derived dir first (most specific), then common alternates
+    const searchDirs = [harnessDir, '.config/opencode', '.opencode', '.gemini', '.claude', '.agent'];
+    for (const dir of searchDirs) {
+        if (fs.existsSync(path.join(baseDir, dir, 'get-shit-done', 'VERSION'))) {
+            return path.join(baseDir, dir);
+        }
+    }
+    return envDir || path.join(baseDir, harnessDir);
 }
 
 const globalConfigDir = detectConfigDir(homeDir);
@@ -49,7 +49,7 @@ const globalVersionFile = path.join(globalConfigDir, 'get-shit-done', 'VERSION')
 
 // Ensure cache directory exists
 if (!fs.existsSync(cacheDir)) {
-  fs.mkdirSync(cacheDir, { recursive: true });
+    fs.mkdirSync(cacheDir, { recursive: true });
 }
 
 // Run check in background (spawn background process, windowsHide prevents console flash)
@@ -75,7 +75,7 @@ const child = spawn(process.execPath, ['-e', `
     }
   } catch (e) {}
 
-  // Check for stale hooks — compare hook version headers against installed VERSION
+  // Check for stale hooks - compare hook version headers against installed VERSION
   // Hooks live inside get-shit-done/hooks/, not configDir/hooks/
   let staleHooks = [];
   if (configDir) {
@@ -93,7 +93,7 @@ const child = spawn(process.execPath, ['-e', `
                 staleHooks.push({ file: hookFile, hookVersion, installedVersion: installed });
               }
             } else {
-              // No version header at all — definitely stale (pre-version-tracking)
+              // No version header at all - definitely stale (pre-version-tracking)
               staleHooks.push({ file: hookFile, hookVersion: 'unknown', installedVersion: installed });
             }
           } catch (e) {}
@@ -117,9 +117,9 @@ const child = spawn(process.execPath, ['-e', `
 
   fs.writeFileSync(cacheFile, JSON.stringify(result));
 `], {
-  stdio: 'ignore',
-  windowsHide: true,
-  detached: true  // Required on Windows for proper process detachment
+    stdio: 'ignore',
+    windowsHide: true,
+    detached: true  // Required on Windows for proper process detachment
 });
 
 child.unref();

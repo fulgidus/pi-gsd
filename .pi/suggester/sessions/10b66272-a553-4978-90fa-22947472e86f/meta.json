@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "sessionId": "10b66272-a553-4978-90fa-22947472e86f",
+  "sessionFile": "/home/fulgidus/.pi/agent/sessions/--home-fulgidus-Documents-pi-gsd--/2026-04-03T08-47-15-046Z_10b66272-a553-4978-90fa-22947472e86f.jsonl",
+  "cwd": "/home/fulgidus/Documents/pi-gsd",
+  "ignoreLegacyPiSessionEntries": true,
+  "legacyMigration": {
+    "performedAt": "2026-04-03T08:47:29.166Z",
+    "importedLegacyEntries": false,
+    "legacyStateEntryCount": 0,
+    "legacyUsageEntryCount": 0,
+    "note": "Legacy suggester-state/suggester-usage pi session entries were imported once into extension-owned storage and are ignored afterwards."
+  }
+}

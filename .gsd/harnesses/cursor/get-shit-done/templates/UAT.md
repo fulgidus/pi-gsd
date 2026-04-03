@@ -1,6 +1,6 @@
 # UAT Template
 
-Template for `.planning/phases/XX-name/{phase_num}-UAT.md` — persistent UAT session tracking.
+Template for `.planning/phases/XX-name/{phase_num}-UAT.md` - persistent UAT session tracking.
 
 ---
 
@@ -166,7 +166,7 @@ blocked: [N]
 
 **Partial completion:**
 - status → "partial" (if pending, blocked, or unresolved skipped tests remain)
-- Current Test → "[testing paused — {N} items outstanding]"
+- Current Test → "[testing paused - {N} items outstanding]"
 - Commit file
 - Present summary with outstanding items highlighted
 
@@ -186,12 +186,12 @@ blocked: [N]
 
 Severity is INFERRED from user's natural language, never asked.
 
-| User describes | Infer |
-|----------------|-------|
-| Crash, error, exception, fails completely, unusable | blocker |
-| Doesn't work, nothing happens, wrong behavior, missing | major |
-| Works but..., slow, weird, minor, small issue | minor |
-| Color, font, spacing, alignment, visual, looks off | cosmetic |
+| User describes                                         | Infer    |
+| ------------------------------------------------------ | -------- |
+| Crash, error, exception, fails completely, unusable    | blocker  |
+| Doesn't work, nothing happens, wrong behavior, missing | major    |
+| Works but..., slow, weird, minor, small issue          | minor    |
+| Color, font, spacing, alignment, visual, looks off     | cosmetic |
 
 Default: **major** (safe default, user can clarify if wrong)
 

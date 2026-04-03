@@ -1,5 +1,5 @@
 <purpose>
-Extract implementation decisions that downstream agents need — using codebase-first analysis
+Extract implementation decisions that downstream agents need - using codebase-first analysis
 and assumption surfacing instead of interview-style questioning.
 
 You are a thinking partner, not an interviewer. Analyze the codebase deeply, surface what you
@@ -7,25 +7,25 @@ believe based on evidence, and ask the user only to correct what's wrong.
 </purpose>
 
 <available_agent_types>
-Valid GSD subagent types (use exact names — do not fall back to 'general-purpose'):
-- gsd-assumptions-analyzer — Analyzes codebase to surface implementation assumptions
+Valid GSD subagent types (use exact names - do not fall back to 'general-purpose'):
+- gsd-assumptions-analyzer - Analyzes codebase to surface implementation assumptions
 </available_agent_types>
 
 <downstream_awareness>
 **CONTEXT.md feeds into:**
 
-1. **gsd-phase-researcher** — Reads CONTEXT.md to know WHAT to research
-2. **gsd-planner** — Reads CONTEXT.md to know WHAT decisions are locked
+1. **gsd-phase-researcher** - Reads CONTEXT.md to know WHAT to research
+2. **gsd-planner** - Reads CONTEXT.md to know WHAT decisions are locked
 
 **Your job:** Capture decisions clearly enough that downstream agents can act on them
-without asking the user again. Output is identical to discuss mode — same CONTEXT.md format.
+without asking the user again. Output is identical to discuss mode - same CONTEXT.md format.
 </downstream_awareness>
 
 <philosophy>
 **Assumptions mode philosophy:**
 
 The user is a visionary, not a codebase archaeologist. They need enough context to evaluate
-whether your assumptions match their intent — not to answer questions you could figure out
+whether your assumptions match their intent - not to answer questions you could figure out
 by reading the code.
 
 - Read the codebase FIRST, form opinions SECOND, ask ONLY about what's genuinely unclear
@@ -41,14 +41,14 @@ The phase boundary comes from ROADMAP.md and is FIXED. Discussion clarifies HOW 
 what's scoped, never WHETHER to add new capabilities.
 
 When user suggests scope creep:
-"[Feature X] would be a new capability — that's its own phase.
+"[Feature X] would be a new capability - that's its own phase.
 Want me to note it for the roadmap backlog? For now, let's focus on [phase domain]."
 
 Capture the idea in "Deferred Ideas". Don't lose it, don't act on it.
 </scope_guardrail>
 
 <answer_validation>
-**IMPORTANT: Answer validation** — After every conversational prompting call, check if the response
+**IMPORTANT: Answer validation** - After every conversational prompting call, check if the response
 is empty or whitespace-only. If so:
 1. Retry the question once with the same parameters
 2. If still empty, present the options as a plain-text numbered list
@@ -83,7 +83,7 @@ Exit workflow.
 
 **If `phase_found` is true:** Continue to check_existing.
 
-**Auto mode** — If `--auto` is present in ARGUMENTS:
+**Auto mode** - If `--auto` is present in ARGUMENTS:
 - In `check_existing`: auto-select "Update it" (if context exists) or continue without prompting
 - In `present_assumptions`: skip confirmation gate, proceed directly to write CONTEXT.md
 - In `correct_assumptions`: auto-select recommended option for each correction
@@ -100,15 +100,15 @@ ls ${phase_dir}/*-CONTEXT.md 2>/dev/null || true
 
 **If exists:**
 
-**If `--auto`:** Auto-select "Update it". Log: `[auto] Context exists — updating with assumption-based analysis.`
+**If `--auto`:** Auto-select "Update it". Log: `[auto] Context exists - updating with assumption-based analysis.`
 
 **Otherwise:** Use conversational prompting:
 - header: "Context"
 - question: "Phase [X] already has context. What do you want to do?"
 - options:
-  - "Update it" — Re-analyze codebase and refresh assumptions
-  - "View it" — Show me what's there
-  - "Skip" — Use existing context as-is
+  - "Update it" - Re-analyze codebase and refresh assumptions
+  - "View it" - Show me what's there
+  - "Skip" - Use existing context as-is
 
 If "Update": Load existing, continue to load_prior_context
 If "View": Display CONTEXT.md, then offer update/skip
@@ -118,7 +118,7 @@ If "Skip": Exit workflow
 
 Check `has_plans` and `plan_count` from init. **If `has_plans` is true:**
 
-**If `--auto`:** Auto-select "Continue and replan after". Log: `[auto] Plans exist — continuing with assumption analysis, will replan after.`
+**If `--auto`:** Auto-select "Continue and replan after". Log: `[auto] Plans exist - continuing with assumption analysis, will replan after.`
 
 **Otherwise:** Use conversational prompting:
 - header: "Plans exist"
@@ -146,9 +146,9 @@ cat .planning/STATE.md 2>/dev/null || true
 ```
 
 Extract from these:
-- **PROJECT.md** — Vision, principles, non-negotiables, user preferences
-- **REQUIREMENTS.md** — Acceptance criteria, constraints
-- **STATE.md** — Current progress, any flags
+- **PROJECT.md** - Vision, principles, non-negotiables, user preferences
+- **REQUIREMENTS.md** - Acceptance criteria, constraints
+- **STATE.md** - Current progress, any flags
 
 **Step 2: Read all prior CONTEXT.md files**
 ```bash
@@ -156,15 +156,15 @@ Extract from these:
 ```
 
 For each CONTEXT.md where phase number < current phase:
-- Read the `<decisions>` section — these are locked preferences
-- Read `<specifics>` — particular references or "I want it like X" moments
+- Read the `<decisions>` section - these are locked preferences
+- Read `<specifics>` - particular references or "I want it like X" moments
 - Note patterns (e.g., "user consistently prefers minimal UI")
 
 **Step 3: Build internal `<prior_decisions>` context**
 
 Structure the extracted information for use in assumption generation.
 
-**If no prior context exists:** Continue without — expected for early phases.
+**If no prior context exists:** Continue without - expected for early phases.
 </step>
 
 <step name="cross_reference_todos">
@@ -259,7 +259,7 @@ Return EXACTLY this structure:
 
 ### [Area Name] (e.g., "Technical Approach")
 - **Assumption:** [Decision statement]
-  - **Why this way:** [Evidence from codebase — cite file paths]
+  - **Why this way:** [Evidence from codebase - cite file paths]
   - **If wrong:** [Concrete consequence of this being wrong]
   - **Confidence:** Confident | Likely | Unclear
 
@@ -269,7 +269,7 @@ Return EXACTLY this structure:
 - minimal_decisive: 2-3 areas, decisive single recommendation per item)
 
 ## Needs External Research
-[Topics where codebase alone is insufficient — library version compatibility,
+[Topics where codebase alone is insufficient - library version compatibility,
 ecosystem best practices, etc. Leave empty if codebase provides enough evidence.]
 
 ${AGENT_SKILLS_ANALYZER}
@@ -277,8 +277,8 @@ ${AGENT_SKILLS_ANALYZER}
 ```
 
 Parse the subagent's response. Extract:
-- `assumptions[]` — each with area, statement, evidence, consequence, confidence
-- `needs_research[]` — topics requiring external research (may be empty)
+- `assumptions[]` - each with area, statement, evidence, consequence, confidence
+- `needs_research[]` - topics requiring external research (may be empty)
 
 **Initialize canonical refs accumulator:**
 - Source 1: Copy `Canonical refs:` from ROADMAP.md for this phase, expand to full paths
@@ -322,7 +322,7 @@ Display all assumptions grouped by area with confidence badges.
 **Format for display:**
 
 ```
-## Phase {PHASE}: {phase_name} — Assumptions
+## Phase {PHASE}: {phase_name} - Assumptions
 
 Based on codebase analysis, here's what I'd go with:
 
@@ -341,7 +341,7 @@ Based on codebase analysis, here's what I'd go with:
 
 **If `--auto`:**
 - If all assumptions are Confident or Likely: log assumptions, skip to write_context.
-  Log: `[auto] All assumptions Confident/Likely — proceeding to context capture.`
+  Log: `[auto] All assumptions Confident/Likely - proceeding to context capture.`
 - If any assumptions are Unclear: log a warning, auto-select recommended alternative for
   each Unclear item. Log: `[auto] {N} Unclear assumptions auto-resolved with recommended defaults.`
   Proceed to write_context.
@@ -350,8 +350,8 @@ Based on codebase analysis, here's what I'd go with:
 - header: "Assumptions"
 - question: "These all look right?"
 - options:
-  - "Yes, proceed" — Write CONTEXT.md with these assumptions as decisions
-  - "Let me correct some" — Select which assumptions to change
+  - "Yes, proceed" - Write CONTEXT.md with these assumptions as decisions
+  - "Let me correct some" - Select which assumptions to change
 
 **If "Yes, proceed":** Skip to write_context.
 **If "Let me correct some":** Continue to correct_assumptions.
@@ -406,14 +406,14 @@ Map assumptions to CONTEXT.md sections:
 <domain>
 ## Phase Boundary
 
-{Domain boundary from ROADMAP.md — clear statement of scope anchor}
+{Domain boundary from ROADMAP.md - clear statement of scope anchor}
 </domain>
 
 <decisions>
 ## Implementation Decisions
 
 ### {Area Name 1}
-- **D-01:** {Decision — from assumption or correction}
+- **D-01:** {Decision - from assumption or correction}
 - **D-02:** {Decision}
 
 ### {Area Name 2}
@@ -431,9 +431,9 @@ Map assumptions to CONTEXT.md sections:
 
 **Downstream agents MUST read these before planning or implementing.**
 
-{Accumulated canonical refs from analyze step — full relative paths}
+{Accumulated canonical refs from analyze step - full relative paths}
 
-[If no external specs: "No external specs — requirements fully captured in decisions above"]
+[If no external specs: "No external specs - requirements fully captured in decisions above"]
 </canonical_refs>
 
 <code_context>
@@ -454,7 +454,7 @@ Map assumptions to CONTEXT.md sections:
 
 {Any particular references from corrections or user input}
 
-[If none: "No specific requirements — open to standard approaches"]
+[If none: "No specific requirements - open to standard approaches"]
 </specifics>
 
 <deferred>
@@ -463,9 +463,9 @@ Map assumptions to CONTEXT.md sections:
 {Ideas mentioned during corrections that are out of scope}
 
 ### Reviewed Todos (not folded)
-{Todos reviewed but not folded — with reason}
+{Todos reviewed but not folded - with reason}
 
-[If none: "None — analysis stayed within phase scope"]
+[If none: "None - analysis stayed within phase scope"]
 </deferred>
 ```
 
@@ -481,7 +481,7 @@ Write audit trail of assumptions and corrections.
 # Phase {PHASE}: {phase_name} - Discussion Log (Assumptions Mode)
 
 > **Audit trail only.** Do not use as input to planning, research, or execution agents.
-> Decisions captured in CONTEXT.md — this log preserves the analysis.
+> Decisions captured in CONTEXT.md - this log preserves the analysis.
 
 **Date:** {ISO date}
 **Phase:** {padded_phase}-{phase_name}
@@ -491,8 +491,8 @@ Write audit trail of assumptions and corrections.
 ## Assumptions Presented
 
 ### {Area Name}
-| Assumption | Confidence | Evidence |
-|------------|-----------|----------|
+| Assumption  | Confidence                 | Evidence     |
+| ----------- | -------------------------- | ------------ |
 | {Statement} | {Confident/Likely/Unclear} | {file paths} |
 
 {Repeat for each area}
@@ -506,7 +506,7 @@ Write audit trail of assumptions and corrections.
 - **User correction:** {what the user chose instead}
 - **Reason:** {user's rationale, if provided}
 
-{If no corrections: "No corrections — all assumptions confirmed."}
+{If no corrections: "No corrections - all assumptions confirmed."}
 
 ## Auto-Resolved
 
@@ -571,13 +571,13 @@ Created: .planning/phases/${PADDED_PHASE}-${SLUG}/${PADDED_PHASE}-CONTEXT.md
 
 [If deferred ideas exist:]
 ## Noted for Later
-- {Deferred idea} — future phase
+- {Deferred idea} - future phase
 
 ---
 
 ## ▶ Next Up
 
-**Phase ${PHASE}: {phase_name}** — {Goal from ROADMAP.md}
+**Phase ${PHASE}: {phase_name}** - {Goal from ROADMAP.md}
 
 `/gsd-plan-phase ${PHASE}`
 
@@ -586,8 +586,8 @@ Created: .planning/phases/${PADDED_PHASE}-${SLUG}/${PADDED_PHASE}-CONTEXT.md
 ---
 
 **Also available:**
-- `/gsd-plan-phase ${PHASE} --skip-research` — plan without research
-- `/gsd-ui-phase ${PHASE}` — generate UI design contract (if frontend work)
+- `/gsd-plan-phase ${PHASE} --skip-research` - plan without research
+- `/gsd-ui-phase ${PHASE}` - generate UI design contract (if frontend work)
 - Review/edit CONTEXT.md before continuing
 
 ---

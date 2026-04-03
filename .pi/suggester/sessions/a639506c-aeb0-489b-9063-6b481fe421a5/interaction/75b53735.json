@@ -1,0 +1,14 @@
+{
+  "stateVersion": 9,
+  "lastSuggestion": {
+    "text": "Let's sync the CJS binaries using `.claude/` as canonical. Run the validator with `--verbose` to show the exact diffs first.",
+    "shownAt": "2026-04-03T09:31:47.784Z",
+    "turnId": "75b53735",
+    "sourceLeafId": "75b53735",
+    "variantName": "default",
+    "strategy": "compact",
+    "requestedStrategy": "compact"
+  },
+  "steeringHistory": [],
+  "turnsSinceLastStalenessCheck": 1
+}

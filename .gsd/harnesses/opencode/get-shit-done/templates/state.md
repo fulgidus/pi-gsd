@@ -1,6 +1,6 @@
 # State Template
 
-Template for `.planning/STATE.md` — the project's living memory.
+Template for `.planning/STATE.md` - the project's living memory.
 
 ---
 
@@ -21,7 +21,7 @@ See: .planning/PROJECT.md (updated [date])
 Phase: [X] of [Y] ([Phase name])
 Plan: [A] of [B] in current phase
 Status: [Ready to plan / Planning / Ready to execute / In progress / Phase complete]
-Last activity: [YYYY-MM-DD] — [What happened]
+Last activity: [YYYY-MM-DD] - [What happened]
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -35,8 +35,8 @@ Progress: [░░░░░░░░░░] 0%
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| - | - | - | - |
+| ----- | ----- | ----- | -------- |
+| -     | -     | -     | -        |
 
 **Recent Trend:**
 - Last 5 plans: [durations]
@@ -56,7 +56,7 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-[From .planning/todos/pending/ — ideas captured during sessions]
+[From .planning/todos/pending/ - ideas captured during sessions]
 
 None yet.
 
@@ -124,11 +124,11 @@ the agent reads PROJECT.md directly for requirements, constraints, and decisions
 
 ### Current Position
 Where we are right now:
-- Phase X of Y — which phase
-- Plan A of B — which plan within phase
-- Status — current state
-- Last activity — what happened most recently
-- Progress bar — visual indicator of overall completion
+- Phase X of Y - which phase
+- Plan A of B - which plan within phase
+- Status - current state
+- Last activity - what happened most recently
+- Progress bar - visual indicator of overall completion
 
 Progress calculation: (completed plans) / (total plans across all phases) × 100%
 
@@ -148,7 +148,7 @@ Updated after each plan completion.
 **Pending Todos:** Ideas captured via /gsd-add-todo
 - Count of pending todos
 - Reference to .planning/todos/pending/
-- Brief list if few, count if many (e.g., "5 pending todos — see /gsd-check-todos")
+- Brief list if few, count if many (e.g., "5 pending todos - see /gsd-check-todos")
 
 **Blockers/Concerns:** From "Next Phase Readiness" sections
 - Issues that affect future work
@@ -171,6 +171,6 @@ It's a DIGEST, not an archive. If accumulated context grows too large:
 - Keep only 3-5 recent decisions in summary (full log in PROJECT.md)
 - Keep only active blockers, remove resolved ones
 
-The goal is "read once, know where we are" — if it's too long, that fails.
+The goal is "read once, know where we are" - if it's too long, that fails.
 
 </size_constraint>

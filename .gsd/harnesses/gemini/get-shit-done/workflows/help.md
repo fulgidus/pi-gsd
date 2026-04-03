@@ -39,12 +39,12 @@ One command takes you from idea to ready-for-planning:
 - Roadmap creation with phase breakdown and success criteria
 
 Creates all `.planning/` artifacts:
-- `PROJECT.md` — vision and requirements
-- `config.json` — workflow mode (interactive/yolo)
-- `research/` — domain research (if selected)
-- `REQUIREMENTS.md` — scoped requirements with REQ-IDs
-- `ROADMAP.md` — phases mapped to requirements
-- `STATE.md` — project memory
+- `PROJECT.md` - vision and requirements
+- `config.json` - workflow mode (interactive/yolo)
+- `research/` - domain research (if selected)
+- `REQUIREMENTS.md` - scoped requirements with REQ-IDs
+- `ROADMAP.md` - phases mapped to requirements
+- `STATE.md` - project memory
 
 Usage: `/gsd:new-project`
 
@@ -124,7 +124,7 @@ Usage: `/gsd:execute-phase 5 --wave 2`
 Route freeform text to the right GSD command automatically.
 
 - Analyzes natural language input to find the best matching GSD command
-- Acts as a dispatcher — never does the work itself
+- Acts as a dispatcher - never does the work itself
 - Resolves ambiguity by asking you to pick between top matches
 - Use when you know what you want but don't know which `/gsd:*` command to run
 
@@ -143,9 +143,9 @@ Quick mode uses the same system with a shorter path:
 - Updates STATE.md tracking (not ROADMAP.md)
 
 Flags enable additional quality steps:
-- `--discuss` — Lightweight discussion to surface gray areas before planning
-- `--research` — Focused research agent investigates approaches before planning
-- `--full` — Adds plan-checking (max 2 iterations) and post-execution verification
+- `--discuss` - Lightweight discussion to surface gray areas before planning
+- `--research` - Focused research agent investigates approaches before planning
+- `--full` - Adds plan-checking (max 2 iterations) and post-execution verification
 
 Flags are composable: `--discuss --research --full` gives the complete quality pipeline for a single task.
 
@@ -156,13 +156,13 @@ Result: Creates `.planning/quick/NNN-slug/PLAN.md`, `.planning/quick/NNN-slug/SU
 ---
 
 **`/gsd:fast [description]`**
-Execute a trivial task inline — no subagents, no planning files, no overhead.
+Execute a trivial task inline - no subagents, no planning files, no overhead.
 
 For tasks too small to justify planning: typo fixes, config changes, forgotten commits, simple additions. Runs in the current context, makes the change, commits, and logs to STATE.md.
 
 - No PLAN.md or SUMMARY.md created
 - No subagent spawned (runs inline)
-- ≤ 3 file edits — redirects to `/gsd:quick` if task is non-trivial
+- ≤ 3 file edits - redirects to `/gsd:quick` if task is non-trivial
 - Atomic commit with conventional message
 
 Usage: `/gsd:fast "fix the typo in README"`
@@ -268,7 +268,7 @@ Systematic debugging with persistent state across context resets.
 - Gathers symptoms through adaptive questioning
 - Creates `.planning/debug/[slug].md` to track investigation
 - Investigates using scientific method (evidence → hypothesis → test)
-- Survives `/clear` — run `/gsd:debug` with no args to resume
+- Survives `/clear` - run `/gsd:debug` with no args to resume
 - Archives resolved issues to `.planning/debug/resolved/`
 
 Usage: `/gsd:debug "login button doesn't work"`
@@ -277,7 +277,7 @@ Usage: `/gsd:debug` (resume active session)
 ### Quick Notes
 
 **`/gsd:note <text>`**
-Zero-friction idea capture — one command, instant save, no questions.
+Zero-friction idea capture - one command, instant save, no questions.
 
 - Saves timestamped note to `.planning/notes/` (or `.gemini/notes/` globally)
 - Three subcommands: append (default), list, promote
@@ -344,7 +344,7 @@ Usage: `/gsd:ship 4` or `/gsd:ship 4 --draft`
 ---
 
 **`/gsd:review --phase N [--gemini] [--claude] [--codex] [--all]`**
-Cross-AI peer review — invoke external AI CLIs to independently review phase plans.
+Cross-AI peer review - invoke external AI CLIs to independently review phase plans.
 
 - Detects available CLIs (gemini, claude, codex)
 - Each CLI reviews plans independently with the same structured prompt
@@ -371,7 +371,7 @@ Capture a forward-looking idea with trigger conditions for automatic surfacing.
 
 - Seeds preserve WHY, WHEN to surface, and breadcrumbs to related code
 - Auto-surfaces during `/gsd:new-milestone` when trigger conditions match
-- Better than deferred items — triggers are checked, not forgotten
+- Better than deferred items - triggers are checked, not forgotten
 
 Usage: `/gsd:plant-seed "add real-time notifications when we build the events system"`
 
@@ -422,10 +422,10 @@ Usage: `/gsd:settings`
 **`/gsd:set-profile <profile>`**
 Quick switch model profile for GSD agents.
 
-- `quality` — Opus everywhere except verification
-- `balanced` — Opus for planning, Sonnet for execution (default)
-- `budget` — Sonnet for writing, Haiku for research/verification
-- `inherit` — Use current session model for all agents (OpenCode `/model`)
+- `quality` - Opus everywhere except verification
+- `balanced` - Opus for planning, Sonnet for execution (default)
+- `budget` - Sonnet for writing, Haiku for research/verification
+- `inherit` - Use current session model for all agents (OpenCode `/model`)
 
 Usage: `/gsd:set-profile budget`
 

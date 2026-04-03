@@ -46,14 +46,14 @@ Verify the work is ready to ship:
    ```bash
    CURRENT_BRANCH=$(git branch --show-current)
    ```
-   If on `main`/`master`: warn — should be on a feature branch.
+   If on `main`/`master`: warn - should be on a feature branch.
    If branching_strategy is `none`: offer to create a branch now.
 
 4. **Remote configured?**
    ```bash
    git remote -v | head -2
    ```
-   Detect `origin` remote. If no remote: error — can't create PR.
+   Detect `origin` remote. If no remote: error - can't create PR.
 
 5. **`gh` CLI available?**
    ```bash
@@ -96,7 +96,7 @@ Read ROADMAP.md for phase goal. Read VERIFICATION.md for verification status.
 **Goal:** {goal from ROADMAP.md}
 **Status:** Verified ✓
 
-{One paragraph synthesized from SUMMARY.md files — what was built}
+{One paragraph synthesized from SUMMARY.md files - what was built}
 ```
 
 **3. Changes section:**
@@ -157,7 +157,7 @@ AskUserQuestion:
   question: "PR created. Run a code review before merge?"
   options:
     - label: "Skip review"
-      description: "PR is ready — merge when CI passes"
+      description: "PR is ready - merge when CI passes"
     - label: "Self-review"
       description: "I'll review the diff in the PR myself"
     - label: "Request review"
@@ -178,12 +178,12 @@ Update STATE.md to reflect the shipping action:
 
 ```bash
 node ".agent/get-shit-done/bin/gsd-tools.cjs" state update "Last Activity" "$(date +%Y-%m-%d)"
-node ".agent/get-shit-done/bin/gsd-tools.cjs" state update "Status" "Phase ${PHASE_NUMBER} shipped — PR #${PR_NUMBER}"
+node ".agent/get-shit-done/bin/gsd-tools.cjs" state update "Status" "Phase ${PHASE_NUMBER} shipped - PR #${PR_NUMBER}"
 ```
 
 If `commit_docs` is true:
 ```bash
-node ".agent/get-shit-done/bin/gsd-tools.cjs" commit "docs(${padded_phase}): ship phase ${PHASE_NUMBER} — PR #${PR_NUMBER}" --files .planning/STATE.md
+node ".agent/get-shit-done/bin/gsd-tools.cjs" commit "docs(${padded_phase}): ship phase ${PHASE_NUMBER} - PR #${PR_NUMBER}" --files .planning/STATE.md
 ```
 </step>
 
@@ -191,7 +191,7 @@ node ".agent/get-shit-done/bin/gsd-tools.cjs" commit "docs(${padded_phase}): shi
 ```
 ───────────────────────────────────────────────────────────────
 
-## ✓ Phase {X}: {Name} — Shipped
+## ✓ Phase {X}: {Name} - Shipped
 
 PR: #{number} ({url})
 Branch: {branch} → main
@@ -214,9 +214,9 @@ Next steps:
 <offer_next>
 After shipping:
 
-- /gsd-complete-milestone — if all phases in milestone are done
-- /gsd-progress — see overall project state
-- /gsd-execute-phase {next} — continue to next phase
+- /gsd-complete-milestone - if all phases in milestone are done
+- /gsd-progress - see overall project state
+- /gsd-execute-phase {next} - continue to next phase
 </offer_next>
 
 <success_criteria>

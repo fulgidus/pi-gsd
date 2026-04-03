@@ -10,7 +10,7 @@ parallel milestone work by multiple Claude Code instances on the same codebase.
 1. `--ws <name>` flag (explicit, highest priority)
 2. `GSD_WORKSTREAM` environment variable (per-instance)
 3. `.planning/active-workstream` file (shared, last-writer-wins)
-4. `null` — flat mode (no workstreams)
+4. `null` - flat mode (no workstreams)
 
 ## Routing Propagation
 

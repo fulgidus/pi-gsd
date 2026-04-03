@@ -7,8 +7,8 @@ Audit Nyquist validation gaps for a completed phase. Generate missing tests. Upd
 </required_reading>
 
 <available_agent_types>
-Valid GSD subagent types (use exact names — do not fall back to 'general-purpose'):
-- gsd-nyquist-auditor — Validates verification coverage
+Valid GSD subagent types (use exact names - do not fall back to 'general-purpose'):
+- gsd-nyquist-auditor - Validates verification coverage
 </available_agent_types>
 
 <process>
@@ -41,7 +41,7 @@ SUMMARY_FILES=$(ls "${PHASE_DIR}"/*-SUMMARY.md 2>/dev/null)
 
 - **State A** (`VALIDATION_FILE` non-empty): Audit existing
 - **State B** (`VALIDATION_FILE` empty, `SUMMARY_FILES` non-empty): Reconstruct from artifacts
-- **State C** (`SUMMARY_FILES` empty): Exit — "Phase {N} not executed. Run /gsd:execute-phase {N} ${GSD_WS} first."
+- **State C** (`SUMMARY_FILES` empty): Exit - "Phase {N} not executed. Run /gsd:execute-phase {N} ${GSD_WS} first."
 
 ## 2. Discovery
 
@@ -71,11 +71,11 @@ Match each requirement to existing tests by filename, imports, test descriptions
 
 Classify each requirement:
 
-| Status | Criteria |
-|--------|----------|
+| Status  | Criteria                                  |
+| ------- | ----------------------------------------- |
 | COVERED | Test exists, targets behavior, runs green |
-| PARTIAL | Test exists, failing or incomplete |
-| MISSING | No test found |
+| PARTIAL | Test exists, failing or incomplete        |
+| MISSING | No test found                             |
 
 Build: `{ task_id, requirement, gap_type, suggested_test_path, suggested_command }`
 
@@ -85,7 +85,7 @@ No gaps → skip to Step 6, set `nyquist_compliant: true`.
 
 Call AskUserQuestion with gap table and options:
 1. "Fix all gaps" → Step 5
-2. "Skip — mark manual-only" → add to Manual-Only, Step 6
+2. "Skip - mark manual-only" → add to Manual-Only, Step 6
 3. "Cancel" → exit
 
 ## 5. Spawn gsd-nyquist-auditor
@@ -122,11 +122,11 @@ Handle return:
 
 ```markdown
 ## Validation Audit {date}
-| Metric | Count |
-|--------|-------|
-| Gaps found | {N} |
-| Resolved | {M} |
-| Escalated | {K} |
+| Metric     | Count |
+| ---------- | ----- |
+| Gaps found | {N}   |
+| Resolved   | {M}   |
+| Escalated  | {K}   |
 ```
 
 ## 7. Commit

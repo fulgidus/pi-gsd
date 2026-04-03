@@ -20,7 +20,7 @@ When a milestone completes:
 
 1. Extract full milestone details to `.planning/milestones/v[X.Y]-ROADMAP.md`
 2. Archive requirements to `.planning/milestones/v[X.Y]-REQUIREMENTS.md`
-3. Update ROADMAP.md — replace milestone details with one-line summary
+3. Update ROADMAP.md - replace milestone details with one-line summary
 4. Delete REQUIREMENTS.md (fresh one for next milestone)
 5. Perform full PROJECT.md evolution review
 6. Offer to create next milestone inline
@@ -29,7 +29,7 @@ When a milestone completes:
 
 **Context Efficiency:** Archives keep ROADMAP.md constant-size and REQUIREMENTS.md milestone-scoped.
 
-**ROADMAP archive** uses `templates/milestone-archive.md` — includes milestone header (status, phases, date), full phase details, milestone summary (decisions, issues, tech debt).
+**ROADMAP archive** uses `templates/milestone-archive.md` - includes milestone header (status, phases, date), full phase details, milestone summary (decisions, issues, tech debt).
 
 **REQUIREMENTS archive** contains all requirements marked complete with outcomes, traceability table with final status, notes on changed requirements.
 
@@ -81,9 +81,9 @@ Requirements: {N}/{M} v1 requirements checked off
 ```
 
 MUST present 3 options:
-1. **Proceed anyway** — mark milestone complete with known gaps
-2. **Run audit first** — `/gsd:audit-milestone` to assess gap severity
-3. **Abort** — return to development
+1. **Proceed anyway** - mark milestone complete with known gaps
+2. **Run audit first** - `/gsd:audit-milestone` to assess gap severity
+3. **Abort** - return to development
 
 If user selects "Proceed anyway": note incomplete requirements in MILESTONES.md under `### Known Gaps` with REQ-IDs and descriptions.
 
@@ -206,7 +206,7 @@ cat .planning/phases/*-*/*-SUMMARY.md
 
    **Validated section:**
    - All Active requirements shipped this milestone → Move to Validated
-   - Format: `- ✓ [Requirement] — v[X.Y]`
+   - Format: `- ✓ [Requirement] - v[X.Y]`
 
    **Active section:**
    - Remove requirements moved to Validated
@@ -214,7 +214,7 @@ cat .planning/phases/*-*/*-SUMMARY.md
    - Keep unaddressed requirements
 
    **Out of Scope audit:**
-   - Review each item — reasoning still valid?
+   - Review each item - reasoning still valid?
    - Remove irrelevant items
    - Add requirements invalidated during milestone
 
@@ -226,7 +226,7 @@ cat .planning/phases/*-*/*-SUMMARY.md
 5. **Key Decisions audit:**
    - Extract all decisions from milestone phase summaries
    - Add to Key Decisions table with outcomes
-   - Mark ✓ Good, ⚠️ Revisit, or — Pending
+   - Mark ✓ Good, ⚠️ Revisit, or - Pending
 
 6. **Constraints check:**
    - Any constraints changed during development? Update as needed
@@ -255,7 +255,7 @@ Real-time sync that feels instant.
 
 ### Validated
 
-(None yet — ship to validate)
+(None yet - ship to validate)
 
 ### Active
 
@@ -266,8 +266,8 @@ Real-time sync that feels instant.
 
 ### Out of Scope
 
-- Mobile app — web-first approach
-- Video chat — use external tools
+- Mobile app - web-first approach
+- Video chat - use external tools
 ```
 
 After v1.0:
@@ -285,9 +285,9 @@ Real-time sync that feels instant.
 
 ### Validated
 
-- ✓ Canvas drawing tools — v1.0
-- ✓ Real-time sync < 500ms — v1.0 (achieved 200ms avg)
-- ✓ User authentication — v1.0
+- ✓ Canvas drawing tools - v1.0
+- ✓ Real-time sync < 500ms - v1.0 (achieved 200ms avg)
+- ✓ User authentication - v1.0
 
 ### Active
 
@@ -297,9 +297,9 @@ Real-time sync that feels instant.
 
 ### Out of Scope
 
-- Mobile app — web-first approach, PWA works well
-- Video chat — use external tools
-- Offline mode — real-time is core value
+- Mobile app - web-first approach, PWA works well
+- Video chat - use external tools
+- Offline mode - real-time is core value
 
 ## Context
 
@@ -323,26 +323,26 @@ Initial user testing showed demand for shape tools.
 
 <step name="reorganize_roadmap">
 
-Update `.planning/ROADMAP.md` — group completed milestone phases:
+Update `.planning/ROADMAP.md` - group completed milestone phases:
 
 ```markdown
 # Roadmap: [Project Name]
 
 ## Milestones
 
-- ✅ **v1.0 MVP** — Phases 1-4 (shipped YYYY-MM-DD)
-- 🚧 **v1.1 Security** — Phases 5-6 (in progress)
-- 📋 **v2.0 Redesign** — Phases 7-10 (planned)
+- ✅ **v1.0 MVP** - Phases 1-4 (shipped YYYY-MM-DD)
+- 🚧 **v1.1 Security** - Phases 5-6 (in progress)
+- 📋 **v2.0 Redesign** - Phases 7-10 (planned)
 
 ## Phases
 
 <details>
-<summary>✅ v1.0 MVP (Phases 1-4) — SHIPPED YYYY-MM-DD</summary>
+<summary>✅ v1.0 MVP (Phases 1-4) - SHIPPED YYYY-MM-DD</summary>
 
-- [x] Phase 1: Foundation (2/2 plans) — completed YYYY-MM-DD
-- [x] Phase 2: Authentication (2/2 plans) — completed YYYY-MM-DD
-- [x] Phase 3: Core Features (3/3 plans) — completed YYYY-MM-DD
-- [x] Phase 4: Polish (1/1 plan) — completed YYYY-MM-DD
+- [x] Phase 1: Foundation (2/2 plans) - completed YYYY-MM-DD
+- [x] Phase 2: Authentication (2/2 plans) - completed YYYY-MM-DD
+- [x] Phase 3: Core Features (3/3 plans) - completed YYYY-MM-DD
+- [x] Phase 4: Polish (1/1 plan) - completed YYYY-MM-DD
 
 </details>
 
@@ -387,7 +387,7 @@ Verify: `✅ Milestone archived to .planning/milestones/`
 
 **Phase archival (optional):** After archival completes, ask the user:
 
-AskUserQuestion(header="Archive Phases", question="Archive phase directories to milestones/?", options: "Yes — move to milestones/v[X.Y]-phases/" | "Skip — keep phases in place")
+AskUserQuestion(header="Archive Phases", question="Archive phase directories to milestones/?", options: "Yes - move to milestones/v[X.Y]-phases/" | "Skip - keep phases in place")
 
 If "Yes": move phase directories to the milestone archive:
 ```bash
@@ -411,23 +411,23 @@ After archival, the AI still handles:
 
 After `milestone complete` has archived, reorganize ROADMAP.md with milestone groupings, then delete originals:
 
-**Reorganize ROADMAP.md** — group completed milestone phases:
+**Reorganize ROADMAP.md** - group completed milestone phases:
 
 ```markdown
 # Roadmap: [Project Name]
 
 ## Milestones
 
-- ✅ **v1.0 MVP** — Phases 1-4 (shipped YYYY-MM-DD)
-- 🚧 **v1.1 Security** — Phases 5-6 (in progress)
+- ✅ **v1.0 MVP** - Phases 1-4 (shipped YYYY-MM-DD)
+- 🚧 **v1.1 Security** - Phases 5-6 (in progress)
 
 ## Phases
 
 <details>
-<summary>✅ v1.0 MVP (Phases 1-4) — SHIPPED YYYY-MM-DD</summary>
+<summary>✅ v1.0 MVP (Phases 1-4) - SHIPPED YYYY-MM-DD</summary>
 
-- [x] Phase 1: Foundation (2/2 plans) — completed YYYY-MM-DD
-- [x] Phase 2: Authentication (2/2 plans) — completed YYYY-MM-DD
+- [x] Phase 1: Foundation (2/2 plans) - completed YYYY-MM-DD
+- [x] Phase 2: Authentication (2/2 plans) - completed YYYY-MM-DD
 
 </details>
 ```
@@ -465,7 +465,7 @@ ls .planning/RETROSPECTIVE.md 2>/dev/null || true
 **Write the milestone section:**
 
 ```markdown
-## Milestone: v{version} — {name}
+## Milestone: v{version} - {name}
 
 **Shipped:** {date}
 **Phases:** {phase_count} | **Plans:** {plan_count}
@@ -564,9 +564,9 @@ Branching strategy: {phase/milestone}
 Branches: {list}
 
 Options:
-1. **Merge to main** — Merge branch(es) to main
-2. **Delete without merging** — Already merged or not needed
-3. **Keep branches** — Leave for manual handling
+1. **Merge to main** - Merge branch(es) to main
+2. **Delete without merging** - Already merged or not needed
+3. **Keep branches** - Leave for manual handling
 ```
 
 AskUserQuestion with options: Squash merge (Recommended), Merge with history, Delete without merging, Keep branches.
@@ -708,7 +708,7 @@ Tag: v[X.Y]
 
 ## ▶ Next Up
 
-**Start Next Milestone** — questioning → research → requirements → roadmap
+**Start Next Milestone** - questioning → research → requirements → roadmap
 
 `/gsd:new-milestone`
 
@@ -724,9 +724,9 @@ Tag: v[X.Y]
 <milestone_naming>
 
 **Version conventions:**
-- **v1.0** — Initial MVP
-- **v1.1, v1.2** — Minor updates, new features, fixes
-- **v2.0, v3.0** — Major rewrites, breaking changes, new direction
+- **v1.0** - Initial MVP
+- **v1.1, v1.2** - Minor updates, new features, fixes
+- **v2.0, v3.0** - Major rewrites, breaking changes, new direction
 
 **Names:** Short 1-2 words (v1.0 MVP, v1.1 Security, v1.2 Performance, v2.0 Redesign).
 

@@ -122,34 +122,34 @@ Report final status.
 
 <error_codes>
 
-| Code | Severity | Description | Repairable |
-|------|----------|-------------|------------|
-| E001 | error | .planning/ directory not found | No |
-| E002 | error | PROJECT.md not found | No |
-| E003 | error | ROADMAP.md not found | No |
-| E004 | error | STATE.md not found | Yes |
-| E005 | error | config.json parse error | Yes |
-| W001 | warning | PROJECT.md missing required section | No |
-| W002 | warning | STATE.md references invalid phase | No |
-| W003 | warning | config.json not found | Yes |
-| W004 | warning | config.json invalid field value | No |
-| W005 | warning | Phase directory naming mismatch | No |
-| W006 | warning | Phase in ROADMAP but no directory | No |
-| W007 | warning | Phase on disk but not in ROADMAP | No |
-| W008 | warning | config.json: workflow.nyquist_validation absent (defaults to enabled but agents may skip) | Yes |
-| W009 | warning | Phase has Validation Architecture in RESEARCH.md but no VALIDATION.md | No |
-| I001 | info | Plan without SUMMARY (may be in progress) | No |
+| Code | Severity | Description                                                                               | Repairable |
+| ---- | -------- | ----------------------------------------------------------------------------------------- | ---------- |
+| E001 | error    | .planning/ directory not found                                                            | No         |
+| E002 | error    | PROJECT.md not found                                                                      | No         |
+| E003 | error    | ROADMAP.md not found                                                                      | No         |
+| E004 | error    | STATE.md not found                                                                        | Yes        |
+| E005 | error    | config.json parse error                                                                   | Yes        |
+| W001 | warning  | PROJECT.md missing required section                                                       | No         |
+| W002 | warning  | STATE.md references invalid phase                                                         | No         |
+| W003 | warning  | config.json not found                                                                     | Yes        |
+| W004 | warning  | config.json invalid field value                                                           | No         |
+| W005 | warning  | Phase directory naming mismatch                                                           | No         |
+| W006 | warning  | Phase in ROADMAP but no directory                                                         | No         |
+| W007 | warning  | Phase on disk but not in ROADMAP                                                          | No         |
+| W008 | warning  | config.json: workflow.nyquist_validation absent (defaults to enabled but agents may skip) | Yes        |
+| W009 | warning  | Phase has Validation Architecture in RESEARCH.md but no VALIDATION.md                     | No         |
+| I001 | info     | Plan without SUMMARY (may be in progress)                                                 | No         |
 
 </error_codes>
 
 <repair_actions>
 
-| Action | Effect | Risk |
-|--------|--------|------|
-| createConfig | Create config.json with defaults | None |
-| resetConfig | Delete + recreate config.json | Loses custom settings |
-| regenerateState | Create STATE.md from ROADMAP structure when it is missing | Loses session history |
-| addNyquistKey | Add workflow.nyquist_validation: true to config.json | None — matches existing default |
+| Action          | Effect                                                    | Risk                            |
+| --------------- | --------------------------------------------------------- | ------------------------------- |
+| createConfig    | Create config.json with defaults                          | None                            |
+| resetConfig     | Delete + recreate config.json                             | Loses custom settings           |
+| regenerateState | Create STATE.md from ROADMAP structure when it is missing | Loses session history           |
+| addNyquistKey   | Add workflow.nyquist_validation: true to config.json      | None - matches existing default |
 
 **Not repairable (too risky):**
 - PROJECT.md, ROADMAP.md content
@@ -172,7 +172,7 @@ if [ -d "$TASKS_DIR" ]; then
   if [ "$STALE_COUNT" -gt 0 ]; then
     echo "⚠️  Found $STALE_COUNT stale task directories in .github/tasks/"
     echo "   These are leftover from crashed subagent sessions."
-    echo "   Run: rm -rf .github/tasks/*  (safe — only affects dead sessions)"
+    echo "   Run: rm -rf .github/tasks/*  (safe - only affects dead sessions)"
   fi
 fi
 ```

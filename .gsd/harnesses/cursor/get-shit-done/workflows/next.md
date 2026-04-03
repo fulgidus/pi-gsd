@@ -18,14 +18,14 @@ node ".cursor/get-shit-done/bin/gsd-tools.cjs" state json 2>/dev/null || echo "{
 ```
 
 Also read:
-- `.planning/STATE.md` — current phase, progress, plan counts
-- `.planning/ROADMAP.md` — milestone structure and phase list
+- `.planning/STATE.md` - current phase, progress, plan counts
+- `.planning/ROADMAP.md` - milestone structure and phase list
 
 Extract:
-- `current_phase` — which phase is active
-- `plan_of` / `plans_total` — plan execution progress
-- `progress` — overall percentage
-- `status` — active, paused, etc.
+- `current_phase` - which phase is active
+- `plan_of` / `plans_total` - plan execution progress
+- `progress` - overall percentage
+- `status` - active, paused, etc.
 
 If no `.planning/` directory exists:
 ```
@@ -76,7 +76,7 @@ Display the determination:
 ```
 ## GSD Next
 
-**Current:** Phase [N] — [name] | [progress]%
+**Current:** Phase [N] - [name] | [progress]%
 **Status:** [status description]
 
 ▶ **Next step:** `/gsd-[command] [args]`
@@ -84,7 +84,7 @@ Display the determination:
 ```
 
 Then immediately invoke the determined command via SlashCommand.
-Do not ask for confirmation — the whole point of `/gsd-next` is zero-friction advancement.
+Do not ask for confirmation - the whole point of `/gsd-next` is zero-friction advancement.
 </step>
 
 </process>

@@ -1,5 +1,5 @@
 ---
-description: Manage parallel workstreams — list, create, switch, status, progress, complete, and resume
+description: Manage parallel workstreams - list, create, switch, status, progress, complete, and resume
 ---
 
 # /gsd-workstreams
@@ -12,15 +12,15 @@ Manage parallel workstreams for concurrent milestone work.
 
 ### Subcommands
 
-| Command | Description |
-|---------|-------------|
-| `list` | List all workstreams with status |
-| `create <name>` | Create a new workstream |
-| `status <name>` | Detailed status for one workstream |
-| `switch <name>` | Set active workstream |
-| `progress` | Progress summary across all workstreams |
-| `complete <name>` | Archive a completed workstream |
-| `resume <name>` | Resume work in a workstream |
+| Command           | Description                             |
+| ----------------- | --------------------------------------- |
+| `list`            | List all workstreams with status        |
+| `create <name>`   | Create a new workstream                 |
+| `status <name>`   | Detailed status for one workstream      |
+| `switch <name>`   | Set active workstream                   |
+| `progress`        | Progress summary across all workstreams |
+| `complete <name>` | Archive a completed workstream          |
+| `resume <name>`   | Resume work in a workstream             |
 
 ## Step 1: Parse Subcommand
 

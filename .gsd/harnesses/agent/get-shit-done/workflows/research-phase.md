@@ -5,8 +5,8 @@ Standalone research command. For most workflows, use `/gsd-plan-phase` which int
 </purpose>
 
 <available_agent_types>
-Valid GSD subagent types (use exact names — do not fall back to 'general-purpose'):
-- gsd-phase-researcher — Researches technical approaches for a phase
+Valid GSD subagent types (use exact names - do not fall back to 'general-purpose'):
+- gsd-phase-researcher - Researches technical approaches for a phase
 </available_agent_types>
 
 <process>
@@ -75,8 +75,8 @@ Write to: .planning/phases/${PHASE}-{slug}/${PHASE}-RESEARCH.md
 
 ## Step 5: Handle Return
 
-- `## RESEARCH COMPLETE` — Display summary, offer: Plan/Dig deeper/Review/Done
-- `## CHECKPOINT REACHED` — Present to user, spawn continuation
-- `## RESEARCH INCONCLUSIVE` — Show attempts, offer: Add context/Try different mode/Manual
+- `## RESEARCH COMPLETE` - Display summary, offer: Plan/Dig deeper/Review/Done
+- `## CHECKPOINT REACHED` - Present to user, spawn continuation
+- `## RESEARCH INCONCLUSIVE` - Show attempts, offer: Add context/Try different mode/Manual
 
 </process>

@@ -1,6 +1,6 @@
 # Requirements Template
 
-Template for `.planning/REQUIREMENTS.md` — checkable requirements that define "done."
+Template for `.planning/REQUIREMENTS.md` - checkable requirements that define "done."
 
 <template>
 
@@ -45,8 +45,8 @@ Deferred to future release. Tracked but not in current roadmap.
 
 Explicitly excluded. Documented to prevent scope creep.
 
-| Feature | Reason |
-|---------|--------|
+| Feature   | Reason         |
+| --------- | -------------- |
 | [Feature] | [Why excluded] |
 | [Feature] | [Why excluded] |
 
@@ -54,13 +54,13 @@ Explicitly excluded. Documented to prevent scope creep.
 
 Which phases cover which requirements. Updated during roadmap creation.
 
-| Requirement | Phase | Status |
-|-------------|-------|--------|
-| AUTH-01 | Phase 1 | Pending |
-| AUTH-02 | Phase 1 | Pending |
-| AUTH-03 | Phase 1 | Pending |
-| AUTH-04 | Phase 1 | Pending |
-| [REQ-ID] | Phase [N] | Pending |
+| Requirement | Phase     | Status  |
+| ----------- | --------- | ------- |
+| AUTH-01     | Phase 1   | Pending |
+| AUTH-02     | Phase 1   | Pending |
+| AUTH-03     | Phase 1   | Pending |
+| AUTH-04     | Phase 1   | Pending |
+| [REQ-ID]    | Phase [N] | Pending |
 
 **Coverage:**
 - v1 requirements: [X] total
@@ -188,35 +188,35 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ## Out of Scope
 
-| Feature | Reason |
-|---------|--------|
+| Feature        | Reason                                       |
+| -------------- | -------------------------------------------- |
 | Real-time chat | High complexity, not core to community value |
-| Video posts | Storage/bandwidth costs, defer to v2+ |
-| OAuth login | Email/password sufficient for v1 |
-| Mobile app | Web-first, mobile later |
+| Video posts    | Storage/bandwidth costs, defer to v2+        |
+| OAuth login    | Email/password sufficient for v1             |
+| Mobile app     | Web-first, mobile later                      |
 
 ## Traceability
 
-| Requirement | Phase | Status |
-|-------------|-------|--------|
-| AUTH-01 | Phase 1 | Pending |
-| AUTH-02 | Phase 1 | Pending |
-| AUTH-03 | Phase 1 | Pending |
-| AUTH-04 | Phase 1 | Pending |
-| PROF-01 | Phase 2 | Pending |
-| PROF-02 | Phase 2 | Pending |
-| PROF-03 | Phase 2 | Pending |
-| PROF-04 | Phase 2 | Pending |
-| CONT-01 | Phase 3 | Pending |
-| CONT-02 | Phase 3 | Pending |
-| CONT-03 | Phase 3 | Pending |
-| CONT-04 | Phase 3 | Pending |
-| CONT-05 | Phase 3 | Pending |
-| SOCL-01 | Phase 4 | Pending |
-| SOCL-02 | Phase 4 | Pending |
-| SOCL-03 | Phase 4 | Pending |
-| SOCL-04 | Phase 4 | Pending |
-| SOCL-05 | Phase 4 | Pending |
+| Requirement | Phase   | Status  |
+| ----------- | ------- | ------- |
+| AUTH-01     | Phase 1 | Pending |
+| AUTH-02     | Phase 1 | Pending |
+| AUTH-03     | Phase 1 | Pending |
+| AUTH-04     | Phase 1 | Pending |
+| PROF-01     | Phase 2 | Pending |
+| PROF-02     | Phase 2 | Pending |
+| PROF-03     | Phase 2 | Pending |
+| PROF-04     | Phase 2 | Pending |
+| CONT-01     | Phase 3 | Pending |
+| CONT-02     | Phase 3 | Pending |
+| CONT-03     | Phase 3 | Pending |
+| CONT-04     | Phase 3 | Pending |
+| CONT-05     | Phase 3 | Pending |
+| SOCL-01     | Phase 4 | Pending |
+| SOCL-02     | Phase 4 | Pending |
+| SOCL-03     | Phase 4 | Pending |
+| SOCL-04     | Phase 4 | Pending |
+| SOCL-05     | Phase 4 | Pending |
 
 **Coverage:**
 - v1 requirements: 18 total

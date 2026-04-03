@@ -22,37 +22,37 @@
 
 ### 1.1 Harness Overview
 
-| Harness | Version | Timestamp | Declared Files | Files on Disk | CJS Drifts | Workflow Drifts | Fileset | Manifest |
-|---------|---------|-----------|---------------|--------------|-----------|-----------------|---------|----------|
-| `.agent` | v1.30.0 | 2026-04-03T09:57:22Z | 213 | 199 | 0 ✅ | 0 ✅ | ✅ OK | ✅ OK |
-| `.claude` | v1.30.0 | 2026-04-03T08:46:56Z | 213 | 198 | 7 ⚠️ | many ⚠️ | ✅ OK | ❌ 63 TAMPERED |
-| `.codex` | v1.30.0 | 2026-04-03T08:46:56Z | 208 | 210 | 8 ⚠️ | many ⚠️ | ✅ OK | ❌ 68 TAMPERED |
-| `.cursor` | v1.30.0 | 2026-04-03T08:46:56Z | 208 | 191 | 3 ⚠️ | many ⚠️ | ✅ OK | ❌ 62 TAMPERED |
-| `.gemini` | v1.30.0 | 2026-04-03T08:46:56Z | 213 | 198 | 7 ⚠️ | many ⚠️ | ✅ OK | ❌ 63 TAMPERED |
-| `.github` | v1.30.0 | 2026-04-03T08:46:56Z | 208 | 193 | 2 ⚠️ | many ⚠️ | ✅ OK | ❌ 4 TAMPERED |
-| `.opencode` | v1.30.0 | 2026-04-03T09:57:22Z | 213 | 199 | 3 ⚠️ | many ⚠️ | ❌ 57 MISSING | ✅ OK |
-| `.windsurf` | v1.30.0 | 2026-04-03T08:46:56Z | 208 | 191 | 3 ⚠️ | many ⚠️ | ✅ OK | ❌ 62 TAMPERED |
+| Harness     | Version | Timestamp            | Declared Files | Files on Disk | CJS Drifts | Workflow Drifts | Fileset      | Manifest      |
+| ----------- | ------- | -------------------- | -------------- | ------------- | ---------- | --------------- | ------------ | ------------- |
+| `.agent`    | v1.30.0 | 2026-04-03T09:57:22Z | 213            | 199           | 0 ✅        | 0 ✅             | ✅ OK         | ✅ OK          |
+| `.claude`   | v1.30.0 | 2026-04-03T08:46:56Z | 213            | 198           | 7 ⚠️        | many ⚠️          | ✅ OK         | ❌ 63 TAMPERED |
+| `.codex`    | v1.30.0 | 2026-04-03T08:46:56Z | 208            | 210           | 8 ⚠️        | many ⚠️          | ✅ OK         | ❌ 68 TAMPERED |
+| `.cursor`   | v1.30.0 | 2026-04-03T08:46:56Z | 208            | 191           | 3 ⚠️        | many ⚠️          | ✅ OK         | ❌ 62 TAMPERED |
+| `.gemini`   | v1.30.0 | 2026-04-03T08:46:56Z | 213            | 198           | 7 ⚠️        | many ⚠️          | ✅ OK         | ❌ 63 TAMPERED |
+| `.github`   | v1.30.0 | 2026-04-03T08:46:56Z | 208            | 193           | 2 ⚠️        | many ⚠️          | ✅ OK         | ❌ 4 TAMPERED  |
+| `.opencode` | v1.30.0 | 2026-04-03T09:57:22Z | 213            | 199           | 3 ⚠️        | many ⚠️          | ❌ 57 MISSING | ✅ OK          |
+| `.windsurf` | v1.30.0 | 2026-04-03T08:46:56Z | 208            | 191           | 3 ⚠️        | many ⚠️          | ✅ OK         | ❌ 62 TAMPERED |
 
 > **Canonical baseline:** `.agent` harness is the reference for all CJS drift checks.
 
 ### 1.2 Cross-Harness Sync Summary (audit-harness-sync.cjs)
 
-| Category | Count | % of 402 |
-|----------|-------|----------|
-| ✅ Synced across all harnesses | 219 | 54.5% |
-| ❌ Divergent (hash mismatch) | 178 | 44.3% |
-| ⚠️ Partial (missing from some harnesses) | 5 | 1.2% |
+| Category                                | Count | % of 402 |
+| --------------------------------------- | ----- | -------- |
+| ✅ Synced across all harnesses           | 219   | 54.5%    |
+| ❌ Divergent (hash mismatch)             | 178   | 44.3%    |
+| ⚠️ Partial (missing from some harnesses) | 5     | 1.2%     |
 
 ### 1.3 Drift Detector Totals (validate-harness-sync.cjs)
 
-| Check | Passed | Failed |
-|-------|--------|--------|
-| CJS binary identity | 13 | 34 |
-| Workflow semantic | 47 | 349 |
-| File-set completeness | 7 | 1 (opencode) |
-| VERSION consistency | 8 | 0 |
-| Manifest integrity | 2 | 6 |
-| **TOTAL** | **47** | **390** |
+| Check                 | Passed | Failed       |
+| --------------------- | ------ | ------------ |
+| CJS binary identity   | 13     | 34           |
+| Workflow semantic     | 47     | 349          |
+| File-set completeness | 7      | 1 (opencode) |
+| VERSION consistency   | 8      | 0            |
+| Manifest integrity    | 2      | 6            |
+| **TOTAL**             | **47** | **390**      |
 
 ---
 
@@ -62,37 +62,37 @@
 
 These 10 files pass **strict byte-for-byte identity** across all harnesses:
 
-| File | Status |
-|------|--------|
-| `bin/gsd-tools.cjs` | ✅ Identical |
-| `bin/lib/frontmatter.cjs` | ✅ Identical |
-| `bin/lib/init.cjs` | ✅ Identical |
-| `bin/lib/milestone.cjs` | ✅ Identical |
+| File                         | Status      |
+| ---------------------------- | ----------- |
+| `bin/gsd-tools.cjs`          | ✅ Identical |
+| `bin/lib/frontmatter.cjs`    | ✅ Identical |
+| `bin/lib/init.cjs`           | ✅ Identical |
+| `bin/lib/milestone.cjs`      | ✅ Identical |
 | `bin/lib/model-profiles.cjs` | ✅ Identical |
-| `bin/lib/roadmap.cjs` | ✅ Identical |
-| `bin/lib/security.cjs` | ✅ Identical |
-| `bin/lib/state.cjs` | ✅ Identical |
-| `bin/lib/template.cjs` | ✅ Identical |
-| `bin/lib/uat.cjs` | ✅ Identical |
+| `bin/lib/roadmap.cjs`        | ✅ Identical |
+| `bin/lib/security.cjs`       | ✅ Identical |
+| `bin/lib/state.cjs`          | ✅ Identical |
+| `bin/lib/template.cjs`       | ✅ Identical |
+| `bin/lib/uat.cjs`            | ✅ Identical |
 
-> **Note:** `validate-harness-drift.js` (Check 1) confirms these pass strict identity. `audit-harness-sync.cjs` reports `bin/gsd-tools.cjs`, `bin/lib/init.cjs` and `bin/lib/model-profiles.cjs` as divergent — those tools use different canonical baselines. See §5 for reconciliation.
+> **Note:** `validate-harness-drift.js` (Check 1) confirms these pass strict identity. `audit-harness-sync.cjs` reports `bin/gsd-tools.cjs`, `bin/lib/init.cjs` and `bin/lib/model-profiles.cjs` as divergent - those tools use different canonical baselines. See §5 for reconciliation.
 
-### 2.2 Harness-Specific CJS Files (Expected to Differ — Command Prefix & Branding)
+### 2.2 Harness-Specific CJS Files (Expected to Differ - Command Prefix & Branding)
 
 These 8 files are intentionally per-harness and are verified against **their own harness manifest**:
 
-| File | `.agent` | `.claude` / `.gemini` | `.codex` | `.cursor` / `.github` / `.opencode` / `.windsurf` |
-|------|----------|-----------------------|----------|--------------------------------------------------|
-| `commands.cjs` | `2fac72a2…` | ← stale manifest | `3e2e322b…` ← stale | `2fac72a2…` (matches agent) |
-| `config.cjs` | `d9d9274e…` | `81939c75…` | `a183ce8e…` | `d9d9274e…` (matches agent) |
-| `core.cjs` | `89c6716e…` | `a5fe1881…` | `a5fe1881…` | unique per harness |
-| `phase.cjs` | `74a47c12…` | `8a0fef06…` | `b136a749…` | `74a47c12…` (matches agent) |
-| `profile-output.cjs` | `117d1086…` | `b5c74d54…` | `686531c0…` | unique per harness |
-| `profile-pipeline.cjs` | `9e4cfd4b…` | `6c73a8c1…` | `6c73a8c1…` | unique per harness |
-| `verify.cjs` | `1eded11b…` | `1fd33de4…` | `47f284ad…` | `1eded11b…` (matches agent) |
-| `workstream.cjs` | `2646820c…` | `b3f92418…` | `2e33c936…` | `2646820c…` (matches agent) |
+| File                   | `.agent`    | `.claude` / `.gemini` | `.codex`            | `.cursor` / `.github` / `.opencode` / `.windsurf` |
+| ---------------------- | ----------- | --------------------- | ------------------- | ------------------------------------------------- |
+| `commands.cjs`         | `2fac72a2…` | ← stale manifest      | `3e2e322b…` ← stale | `2fac72a2…` (matches agent)                       |
+| `config.cjs`           | `d9d9274e…` | `81939c75…`           | `a183ce8e…`         | `d9d9274e…` (matches agent)                       |
+| `core.cjs`             | `89c6716e…` | `a5fe1881…`           | `a5fe1881…`         | unique per harness                                |
+| `phase.cjs`            | `74a47c12…` | `8a0fef06…`           | `b136a749…`         | `74a47c12…` (matches agent)                       |
+| `profile-output.cjs`   | `117d1086…` | `b5c74d54…`           | `686531c0…`         | unique per harness                                |
+| `profile-pipeline.cjs` | `9e4cfd4b…` | `6c73a8c1…`           | `6c73a8c1…`         | unique per harness                                |
+| `verify.cjs`           | `1eded11b…` | `1fd33de4…`           | `47f284ad…`         | `1eded11b…` (matches agent)                       |
+| `workstream.cjs`       | `2646820c…` | `b3f92418…`           | `2e33c936…`         | `2646820c…` (matches agent)                       |
 
-#### 2.2.1 `core.cjs` — 416-line JSDoc block stripped in distribution harnesses
+#### 2.2.1 `core.cjs` - 416-line JSDoc block stripped in distribution harnesses
 
 `.agent/get-shit-done/bin/lib/core.cjs` is **1646 lines**; all other harnesses are **1230 lines**.  
 The extra 416 lines in `.agent` are a JSDoc type-definition block (lines 12–156) stripped for distribution:
@@ -126,14 +126,14 @@ The extra 416 lines in `.agent` are a JSDoc type-definition block (lines 12–15
 
 Additionally `.cursor`, `.github`, `.windsurf` each have **their own unique** `core.cjs` hash, indicating cursor-specific and github-specific minor patches on top of the stripped base.
 
-#### 2.2.2 `config.cjs` — Command prefix in JSDoc comments
+#### 2.2.2 `config.cjs` - Command prefix in JSDoc comments
 
 ```diff
 --- .agent/bin/lib/config.cjs
 +++ .claude/bin/lib/config.cjs
  63c63
--  *   3. userChoices — settings the user explicitly selected during /gsd-new-project
-+  *   3. userChoices — settings the user explicitly selected during /gsd:new-project
+-  *   3. userChoices - settings the user explicitly selected during /gsd-new-project
++  *   3. userChoices - settings the user explicitly selected during /gsd:new-project
  170c170
 -  * configured during /gsd-new-project). All remaining keys are filled from
 +  * configured during /gsd:new-project). All remaining keys are filled from
@@ -141,7 +141,7 @@ Additionally `.cursor`, `.github`, `.windsurf` each have **their own unique** `c
 
 **Pattern:** `.agent` uses `/gsd-command` syntax; `.claude`/`.gemini` use `/gsd:command`; `.codex` uses `$gsd-command`.
 
-#### 2.2.3 `verify.cjs` — Command prefix in error messages
+#### 2.2.3 `verify.cjs` - Command prefix in error messages
 
 ```diff
 --- .agent/bin/lib/verify.cjs
@@ -163,9 +163,9 @@ Additionally `.cursor`, `.github`, `.windsurf` each have **their own unique** `c
 +  stateContent += `- STATE.md regenerated by /gsd:health --repair\n`;
 ```
 
-**10 substitutions total** — every hardcoded command reference in error messages and repair logs.
+**10 substitutions total** - every hardcoded command reference in error messages and repair logs.
 
-#### 2.2.4 `phase.cjs` — Command prefix in generated ROADMAP.md content
+#### 2.2.4 `phase.cjs` - Command prefix in generated ROADMAP.md content
 
 ```diff
 --- .agent/bin/lib/phase.cjs
@@ -178,19 +178,19 @@ Additionally `.cursor`, `.github`, `.windsurf` each have **their own unique** `c
 +  `...(run /gsd:plan-phase ${decimalPhase} to break down)\n`
 ```
 
-This means **generated ROADMAP.md files** will contain different command prefixes depending on which harness created them — important for portability across harnesses.
+This means **generated ROADMAP.md files** will contain different command prefixes depending on which harness created them - important for portability across harnesses.
 
-#### 2.2.5 `workstream.cjs` — Command prefix in error strings
+#### 2.2.5 `workstream.cjs` - Command prefix in error strings
 
 ```diff
 --- .agent/bin/lib/workstream.cjs
 +++ .claude/bin/lib/workstream.cjs
  81c81
--  error('.planning/ directory not found — run /gsd-new-project first');
-+  error('.planning/ directory not found — run /gsd:new-project first');
+-  error('.planning/ directory not found - run /gsd-new-project first');
++  error('.planning/ directory not found - run /gsd:new-project first');
 ```
 
-#### 2.2.6 `profile-output.cjs` — Agent name substitution in profiling questions
+#### 2.2.6 `profile-output.cjs` - Agent name substitution in profiling questions
 
 All 952 lines present in all harnesses. Differences are agent-name branding substitutions:
 
@@ -213,7 +213,7 @@ All 952 lines present in all harnesses. Differences are agent-name branding subs
 
 **Pattern:** `.agent` uses generic "the agent"; `.claude`/`.gemini` use "Claude"; `.cursor` uses "Cursor"; `.github` uses "GitHub Copilot"; `.opencode` uses "OpenCode"; `.windsurf` uses "Windsurf".
 
-#### 2.2.7 `profile-pipeline.cjs` — Session history path per harness
+#### 2.2.7 `profile-pipeline.cjs` - Session history path per harness
 
 ```diff
 --- .agent/bin/lib/profile-pipeline.cjs
@@ -230,7 +230,7 @@ All 952 lines present in all harnesses. Differences are agent-name branding subs
 
 Each harness points `profile-pipeline.cjs` to its native session history directory.
 
-#### 2.2.8 `commands.cjs` — Command prefix in generated file content
+#### 2.2.8 `commands.cjs` - Command prefix in generated file content
 
 ```diff
 --- .agent/bin/lib/commands.cjs
@@ -244,18 +244,18 @@ Each harness points `profile-pipeline.cjs` to its native session history directo
 
 ### 2.3 Manifest Staleness Summary (Check 2 from validate-harness-drift.js)
 
-The per-harness CJS manifest hashes are stale in several harnesses — the files were updated but manifests were not regenerated:
+The per-harness CJS manifest hashes are stale in several harnesses - the files were updated but manifests were not regenerated:
 
-| Harness | Stale manifest entries |
-|---------|----------------------|
-| `.agent` | 0 (all current) |
-| `.claude` | 1 (`commands.cjs` — manifest still has old hash `95a7ff9e…`) |
-| `.codex` | 6 (`commands.cjs`, `config.cjs`, `phase.cjs`, `profile-output.cjs`, `verify.cjs`, `workstream.cjs`) |
-| `.cursor` | 0 (all current) |
-| `.gemini` | 1 (`commands.cjs`) |
-| `.github` | 0 (all current) |
-| `.opencode` | 0 (all current) |
-| `.windsurf` | 0 (all current) |
+| Harness     | Stale manifest entries                                                                              |
+| ----------- | --------------------------------------------------------------------------------------------------- |
+| `.agent`    | 0 (all current)                                                                                     |
+| `.claude`   | 1 (`commands.cjs` - manifest still has old hash `95a7ff9e…`)                                        |
+| `.codex`    | 6 (`commands.cjs`, `config.cjs`, `phase.cjs`, `profile-output.cjs`, `verify.cjs`, `workstream.cjs`) |
+| `.cursor`   | 0 (all current)                                                                                     |
+| `.gemini`   | 1 (`commands.cjs`)                                                                                  |
+| `.github`   | 0 (all current)                                                                                     |
+| `.opencode` | 0 (all current)                                                                                     |
+| `.windsurf` | 0 (all current)                                                                                     |
 
 ---
 
@@ -267,14 +267,14 @@ The overwhelming majority of workflow divergences (**349 files** flagged by vali
 
 Each workflow file contains embedded command references; these are systematically rewritten per-harness:
 
-| Harness | Command Prefix | Example |
-|---------|---------------|---------|
-| `.agent` | `/gsd-command` | `/gsd-new-project` |
-| `.claude` | `/gsd:command` | `/gsd:new-project` |
-| `.gemini` | `/gsd:command` | `/gsd:new-project` |
-| `.cursor` | `/gsd:command` | `/gsd:new-project` |
-| `.codex` | `$gsd-command` | `$gsd-new-project` |
-| `.github` | `/gsd:command` | `/gsd:new-project` |
+| Harness     | Command Prefix | Example            |
+| ----------- | -------------- | ------------------ |
+| `.agent`    | `/gsd-command` | `/gsd-new-project` |
+| `.claude`   | `/gsd:command` | `/gsd:new-project` |
+| `.gemini`   | `/gsd:command` | `/gsd:new-project` |
+| `.cursor`   | `/gsd:command` | `/gsd:new-project` |
+| `.codex`    | `$gsd-command` | `$gsd-new-project` |
+| `.github`   | `/gsd:command` | `/gsd:new-project` |
 | `.opencode` | `/gsd:command` | `/gsd:new-project` |
 | `.windsurf` | `/gsd:command` | `/gsd:new-project` |
 
@@ -287,117 +287,117 @@ Additionally, workflows reference the harness binary path:
 
 #### Commands / Navigation
 
-| File | Divergent Harnesses | First diff line |
-|------|---------------------|-----------------|
-| `commands/gsd/workstreams.md` | codex | ~varies |
-| `workflows/do.md` | ALL 7 non-agent | ~27, ~40–57 |
-| `workflows/help.md` | ALL 7 non-agent | ~varies |
-| `workflows/health.md` | ALL 7 non-agent | ~28, ~162 |
-| `workflows/manager.md` | ALL 7 non-agent | ~varies |
-| `workflows/settings.md` | ALL 7 non-agent | ~varies |
+| File                          | Divergent Harnesses | First diff line |
+| ----------------------------- | ------------------- | --------------- |
+| `commands/gsd/workstreams.md` | codex               | ~varies         |
+| `workflows/do.md`             | ALL 7 non-agent     | ~27, ~40–57     |
+| `workflows/help.md`           | ALL 7 non-agent     | ~varies         |
+| `workflows/health.md`         | ALL 7 non-agent     | ~28, ~162       |
+| `workflows/manager.md`        | ALL 7 non-agent     | ~varies         |
+| `workflows/settings.md`       | ALL 7 non-agent     | ~varies         |
 
 #### Phase Lifecycle Workflows
 
-| File | Divergent Harnesses |
-|------|---------------------|
-| `workflows/add-phase.md` | codex |
-| `workflows/discuss-phase.md` | ALL 7 non-agent |
-| `workflows/discuss-phase-assumptions.md` | ALL 7 non-agent |
-| `workflows/discovery-phase.md` | ALL 7 non-agent |
-| `workflows/execute-phase.md` | ALL 7 non-agent |
-| `workflows/execute-plan.md` | ALL 7 non-agent |
-| `workflows/insert-phase.md` | codex |
-| `workflows/list-phase-assumptions.md` | claude, cursor, codex, gemini, windsurf |
-| `workflows/plan-phase.md` | ALL 7 non-agent |
-| `workflows/remove-phase.md` | codex |
-| `workflows/research-phase.md` | codex |
-| `workflows/validate-phase.md` | ALL 7 non-agent |
-| `workflows/verify-work.md` | ALL 7 minus github |
+| File                                     | Divergent Harnesses                     |
+| ---------------------------------------- | --------------------------------------- |
+| `workflows/add-phase.md`                 | codex                                   |
+| `workflows/discuss-phase.md`             | ALL 7 non-agent                         |
+| `workflows/discuss-phase-assumptions.md` | ALL 7 non-agent                         |
+| `workflows/discovery-phase.md`           | ALL 7 non-agent                         |
+| `workflows/execute-phase.md`             | ALL 7 non-agent                         |
+| `workflows/execute-plan.md`              | ALL 7 non-agent                         |
+| `workflows/insert-phase.md`              | codex                                   |
+| `workflows/list-phase-assumptions.md`    | claude, cursor, codex, gemini, windsurf |
+| `workflows/plan-phase.md`                | ALL 7 non-agent                         |
+| `workflows/remove-phase.md`              | codex                                   |
+| `workflows/research-phase.md`            | codex                                   |
+| `workflows/validate-phase.md`            | ALL 7 non-agent                         |
+| `workflows/verify-work.md`               | ALL 7 minus github                      |
 
 #### Milestone / Project Workflows
 
-| File | Divergent Harnesses |
-|------|---------------------|
-| `workflows/audit-milestone.md` | codex |
+| File                              | Divergent Harnesses               |
+| --------------------------------- | --------------------------------- |
+| `workflows/audit-milestone.md`    | codex                             |
 | `workflows/complete-milestone.md` | cursor, codex, opencode, windsurf |
-| `workflows/milestone-summary.md` | ALL 7 non-agent |
-| `workflows/new-milestone.md` | cursor, codex, opencode, windsurf |
-| `workflows/new-project.md` | ALL 7 non-agent |
-| `workflows/new-workspace.md` | cursor, codex, opencode, windsurf |
-| `workflows/plant-seed.md` | cursor, codex, opencode, windsurf |
-| `workflows/resume-project.md` | codex |
+| `workflows/milestone-summary.md`  | ALL 7 non-agent                   |
+| `workflows/new-milestone.md`      | cursor, codex, opencode, windsurf |
+| `workflows/new-project.md`        | ALL 7 non-agent                   |
+| `workflows/new-workspace.md`      | cursor, codex, opencode, windsurf |
+| `workflows/plant-seed.md`         | cursor, codex, opencode, windsurf |
+| `workflows/resume-project.md`     | codex                             |
 
 #### Autonomous / Quick Workflows
 
-| File | Divergent Harnesses |
-|------|---------------------|
-| `workflows/autonomous.md` | ALL 7 non-agent |
-| `workflows/fast.md` | codex, cursor, windsurf (claude/gemini/agent partially share) |
-| `workflows/quick.md` | ALL 7 non-agent |
+| File                      | Divergent Harnesses                                           |
+| ------------------------- | ------------------------------------------------------------- |
+| `workflows/autonomous.md` | ALL 7 non-agent                                               |
+| `workflows/fast.md`       | codex, cursor, windsurf (claude/gemini/agent partially share) |
+| `workflows/quick.md`      | ALL 7 non-agent                                               |
 
 #### Status / Reporting Workflows
 
-| File | Divergent Harnesses |
-|------|---------------------|
-| `workflows/check-todos.md` | cursor, codex, opencode, windsurf |
-| `workflows/cleanup.md` | cursor, opencode, windsurf |
-| `workflows/health.md` | ALL 7 non-agent |
-| `workflows/next.md` | claude, codex, gemini, opencode |
-| `workflows/pause-work.md` | ALL 7 minus opencode |
-| `workflows/progress.md` | ALL 7 minus opencode |
-| `workflows/review.md` | ALL 7 minus opencode |
-| `workflows/session-report.md` | claude, codex, gemini |
-| `workflows/stats.md` | ALL 7 non-agent |
-| `workflows/transition.md` | codex, opencode |
-| `workflows/update.md` | ALL 7 non-agent |
+| File                          | Divergent Harnesses               |
+| ----------------------------- | --------------------------------- |
+| `workflows/check-todos.md`    | cursor, codex, opencode, windsurf |
+| `workflows/cleanup.md`        | cursor, opencode, windsurf        |
+| `workflows/health.md`         | ALL 7 non-agent                   |
+| `workflows/next.md`           | claude, codex, gemini, opencode   |
+| `workflows/pause-work.md`     | ALL 7 minus opencode              |
+| `workflows/progress.md`       | ALL 7 minus opencode              |
+| `workflows/review.md`         | ALL 7 minus opencode              |
+| `workflows/session-report.md` | claude, codex, gemini             |
+| `workflows/stats.md`          | ALL 7 non-agent                   |
+| `workflows/transition.md`     | codex, opencode                   |
+| `workflows/update.md`         | ALL 7 non-agent                   |
 
 #### UI Workflows
 
-| File | Divergent Harnesses |
-|------|---------------------|
-| `workflows/ui-phase.md` | ALL 7 non-agent |
-| `workflows/ui-review.md` | ALL 7 non-agent |
+| File                     | Divergent Harnesses |
+| ------------------------ | ------------------- |
+| `workflows/ui-phase.md`  | ALL 7 non-agent     |
+| `workflows/ui-review.md` | ALL 7 non-agent     |
 
 #### Reference Files
 
-| File | Divergent Harnesses | Notes |
-|------|---------------------|-------|
-| `references/checkpoints.md` | claude, cursor, gemini, windsurf | 2 groups |
-| `references/continuation-format.md` | claude, codex, gemini | 3 groups |
-| `references/git-integration.md` | ALL 8 unique | all differ |
-| `references/model-profiles.md` | ALL 8 unique | all differ |
-| `references/questioning.md` | claude, cursor, gemini, opencode, windsurf | 3 groups |
-| `references/ui-brand.md` | claude, codex, gemini | 3 groups |
-| `references/user-profiling.md` | claude, cursor, gemini, windsurf | 2 groups |
-| `references/verification-patterns.md` | ALL 8 unique | all differ |
-| `references/workstream-flag.md` | cursor, windsurf | 3 groups |
+| File                                  | Divergent Harnesses                        | Notes      |
+| ------------------------------------- | ------------------------------------------ | ---------- |
+| `references/checkpoints.md`           | claude, cursor, gemini, windsurf           | 2 groups   |
+| `references/continuation-format.md`   | claude, codex, gemini                      | 3 groups   |
+| `references/git-integration.md`       | ALL 8 unique                               | all differ |
+| `references/model-profiles.md`        | ALL 8 unique                               | all differ |
+| `references/questioning.md`           | claude, cursor, gemini, opencode, windsurf | 3 groups   |
+| `references/ui-brand.md`              | claude, codex, gemini                      | 3 groups   |
+| `references/user-profiling.md`        | claude, cursor, gemini, windsurf           | 2 groups   |
+| `references/verification-patterns.md` | ALL 8 unique                               | all differ |
+| `references/workstream-flag.md`       | cursor, windsurf                           | 3 groups   |
 
 #### Templates
 
-| File | Divergent Harnesses | Notes |
-|------|---------------------|-------|
-| `templates/DEBUG.md` | claude, codex, cursor, gemini, windsurf | 4 groups |
-| `templates/UAT.md` | codex | 3 groups |
-| `templates/VALIDATION.md` | codex | 3 groups |
-| `templates/claude-md.md` | ALL 8 unique | all differ |
-| `templates/codebase/architecture.md` | claude, cursor, gemini, windsurf | 2 groups |
-| `templates/codebase/concerns.md` | claude, cursor, gemini, windsurf | 2 groups |
-| `templates/codebase/conventions.md` | claude, cursor, gemini, windsurf | 2 groups |
-| `templates/codebase/structure.md` | ALL 8 unique | all differ |
-| `templates/context.md` | claude, cursor, gemini, windsurf | 2 groups |
-| `templates/continue-here.md` | claude, cursor, gemini, windsurf | 2 groups |
-| `templates/debug-subagent-prompt.md` | claude, codex, gemini | 3 groups |
-| `templates/dev-preferences.md` | claude, codex, gemini | 3 groups |
-| `templates/discovery.md` | claude, codex, gemini | 3 groups |
-| `templates/discussion-log.md` | claude, cursor, gemini, windsurf | 2 groups |
-| `templates/phase-prompt.md` | ALL 8 unique | all differ |
-| `templates/planner-subagent-prompt.md` | claude, codex, gemini | 3 groups |
-| `templates/project.md` | claude, codex, cursor, gemini, windsurf | 5 groups |
-| `templates/research.md` | claude, codex, cursor, gemini, windsurf | 4 groups |
-| `templates/state.md` | claude, codex, cursor, gemini, windsurf | 4 groups |
-| `templates/user-profile.md` | claude, cursor, gemini, windsurf | 2 groups |
-| `templates/user-setup.md` | claude, cursor, gemini, windsurf | 2 groups |
-| `templates/verification-report.md` | claude, cursor, gemini, windsurf | 2 groups |
+| File                                   | Divergent Harnesses                     | Notes      |
+| -------------------------------------- | --------------------------------------- | ---------- |
+| `templates/DEBUG.md`                   | claude, codex, cursor, gemini, windsurf | 4 groups   |
+| `templates/UAT.md`                     | codex                                   | 3 groups   |
+| `templates/VALIDATION.md`              | codex                                   | 3 groups   |
+| `templates/claude-md.md`               | ALL 8 unique                            | all differ |
+| `templates/codebase/architecture.md`   | claude, cursor, gemini, windsurf        | 2 groups   |
+| `templates/codebase/concerns.md`       | claude, cursor, gemini, windsurf        | 2 groups   |
+| `templates/codebase/conventions.md`    | claude, cursor, gemini, windsurf        | 2 groups   |
+| `templates/codebase/structure.md`      | ALL 8 unique                            | all differ |
+| `templates/context.md`                 | claude, cursor, gemini, windsurf        | 2 groups   |
+| `templates/continue-here.md`           | claude, cursor, gemini, windsurf        | 2 groups   |
+| `templates/debug-subagent-prompt.md`   | claude, codex, gemini                   | 3 groups   |
+| `templates/dev-preferences.md`         | claude, codex, gemini                   | 3 groups   |
+| `templates/discovery.md`               | claude, codex, gemini                   | 3 groups   |
+| `templates/discussion-log.md`          | claude, cursor, gemini, windsurf        | 2 groups   |
+| `templates/phase-prompt.md`            | ALL 8 unique                            | all differ |
+| `templates/planner-subagent-prompt.md` | claude, codex, gemini                   | 3 groups   |
+| `templates/project.md`                 | claude, codex, cursor, gemini, windsurf | 5 groups   |
+| `templates/research.md`                | claude, codex, cursor, gemini, windsurf | 4 groups   |
+| `templates/state.md`                   | claude, codex, cursor, gemini, windsurf | 4 groups   |
+| `templates/user-profile.md`            | claude, cursor, gemini, windsurf        | 2 groups   |
+| `templates/user-setup.md`              | claude, cursor, gemini, windsurf        | 2 groups   |
+| `templates/verification-report.md`     | claude, cursor, gemini, windsurf        | 2 groups   |
 
 ### 3.3 Workflow Diff Sample: `do.md` (agent → claude)
 
@@ -436,27 +436,27 @@ Additionally, workflows reference the harness binary path:
 - echo "⚠️  Found $STALE_COUNT stale task directories in .agent/tasks/"
 + echo "⚠️  Found $STALE_COUNT stale task directories in .cursor/tasks/"
  175c175
-- echo "   Run: rm -rf .agent/tasks/*  (safe — only affects dead sessions)"
-+ echo "   Run: rm -rf .cursor/tasks/*  (safe — only affects dead sessions)"
+- echo "   Run: rm -rf .agent/tasks/*  (safe - only affects dead sessions)"
++ echo "   Run: rm -rf .cursor/tasks/*  (safe - only affects dead sessions)"
 ```
 
-### 3.5 Hooks Files — Partial Deployment
+### 3.5 Hooks Files - Partial Deployment
 
 5 hook files are **present only in 4 harnesses**, absent from the other 4:
 
-| Hook File | Present in | Absent from |
-|-----------|-----------|-------------|
-| `hooks/gsd-check-update.js` | `.agent`, `.claude`, `.gemini`, `.opencode` | `.codex`, `.cursor`, `.github`, `.windsurf` |
+| Hook File                      | Present in                                  | Absent from                                 |
+| ------------------------------ | ------------------------------------------- | ------------------------------------------- |
+| `hooks/gsd-check-update.js`    | `.agent`, `.claude`, `.gemini`, `.opencode` | `.codex`, `.cursor`, `.github`, `.windsurf` |
 | `hooks/gsd-context-monitor.js` | `.agent`, `.claude`, `.gemini`, `.opencode` | `.codex`, `.cursor`, `.github`, `.windsurf` |
-| `hooks/gsd-prompt-guard.js` | `.agent`, `.claude`, `.gemini`, `.opencode` | `.codex`, `.cursor`, `.github`, `.windsurf` |
-| `hooks/gsd-statusline.js` | `.agent`, `.claude`, `.gemini`, `.opencode` | `.codex`, `.cursor`, `.github`, `.windsurf` |
-| `hooks/gsd-workflow-guard.js` | `.agent`, `.claude`, `.gemini`, `.opencode` | `.codex`, `.cursor`, `.github`, `.windsurf` |
+| `hooks/gsd-prompt-guard.js`    | `.agent`, `.claude`, `.gemini`, `.opencode` | `.codex`, `.cursor`, `.github`, `.windsurf` |
+| `hooks/gsd-statusline.js`      | `.agent`, `.claude`, `.gemini`, `.opencode` | `.codex`, `.cursor`, `.github`, `.windsurf` |
+| `hooks/gsd-workflow-guard.js`  | `.agent`, `.claude`, `.gemini`, `.opencode` | `.codex`, `.cursor`, `.github`, `.windsurf` |
 
-### 3.6 Skills Files — Missing from `.claude` and `.gemini`
+### 3.6 Skills Files - Missing from `.claude` and `.gemini`
 
 All 57 `skills/gsd-*/SKILL.md` files are **absent from `.claude` and `.gemini`** entirely, while present (with divergent hashes) in `.agent`, `.codex`, `.cursor`, `.github`, `.opencode`, `.windsurf`.
 
-### 3.7 Agent Files — Missing from `.github`
+### 3.7 Agent Files - Missing from `.github`
 
 All `agents/gsd-*.md` files are **absent from `.github`** harness. They exist (with divergent hashes) in all other harnesses.
 
@@ -511,7 +511,7 @@ All `agents/gsd-*.md` files are **absent from `.github`** harness. They exist (w
   DRIFT   [gemini  ] bin/lib/workstream.cjs    canonical: 2646820c…  actual: b3f92418…
 
 ── 2/5  Workflow semantic check ──────────────────────────────────────
-  (349 DRIFT entries — see §3 above for full categorized list)
+  (349 DRIFT entries - see §3 above for full categorized list)
 
 ── 3/5  File-set completeness check ─────────────────────────────────
   OK      [agent   ] 213 declared files all present
@@ -588,43 +588,43 @@ Summary:
 
 ### 4.4 `.pi-lens/validate-harness-drift.js --verbose` (Strict Identity + Manifest Check)
 
-**Check 1 — Strict binary identity (10 files, all PASS):**
+**Check 1 - Strict binary identity (10 files, all PASS):**
 
 ```
-✓  get-shit-done/bin/gsd-tools.cjs          — 1 unique hash across all 8
-✓  get-shit-done/bin/lib/frontmatter.cjs     — 1 unique hash across all 8
-✓  get-shit-done/bin/lib/init.cjs            — 1 unique hash across all 8
-✓  get-shit-done/bin/lib/milestone.cjs       — 1 unique hash across all 8
-✓  get-shit-done/bin/lib/model-profiles.cjs  — 1 unique hash across all 8
-✓  get-shit-done/bin/lib/roadmap.cjs         — 1 unique hash across all 8
-✓  get-shit-done/bin/lib/security.cjs        — 1 unique hash across all 8
-✓  get-shit-done/bin/lib/state.cjs           — 1 unique hash across all 8
-✓  get-shit-done/bin/lib/template.cjs        — 1 unique hash across all 8
-✓  get-shit-done/bin/lib/uat.cjs             — 1 unique hash across all 8
+✓  get-shit-done/bin/gsd-tools.cjs          - 1 unique hash across all 8
+✓  get-shit-done/bin/lib/frontmatter.cjs     - 1 unique hash across all 8
+✓  get-shit-done/bin/lib/init.cjs            - 1 unique hash across all 8
+✓  get-shit-done/bin/lib/milestone.cjs       - 1 unique hash across all 8
+✓  get-shit-done/bin/lib/model-profiles.cjs  - 1 unique hash across all 8
+✓  get-shit-done/bin/lib/roadmap.cjs         - 1 unique hash across all 8
+✓  get-shit-done/bin/lib/security.cjs        - 1 unique hash across all 8
+✓  get-shit-done/bin/lib/state.cjs           - 1 unique hash across all 8
+✓  get-shit-done/bin/lib/template.cjs        - 1 unique hash across all 8
+✓  get-shit-done/bin/lib/uat.cjs             - 1 unique hash across all 8
 ```
 
-**Check 2 — Harness-specific CJS (manifest staleness), 8 FAIL:**
+**Check 2 - Harness-specific CJS (manifest staleness), 8 FAIL:**
 
 ```
 ✗  .claude/get-shit-done/bin/lib/commands.cjs
-     → disk 2fac72a2… ≠ manifest 95a7ff9e… — manifest is stale
+     → disk 2fac72a2… ≠ manifest 95a7ff9e… - manifest is stale
 ✗  .codex/get-shit-done/bin/lib/commands.cjs
-     → disk 3e2e322b… ≠ manifest 95a7ff9e… — manifest is stale
+     → disk 3e2e322b… ≠ manifest 95a7ff9e… - manifest is stale
 ✗  .codex/get-shit-done/bin/lib/config.cjs
-     → disk a183ce8e… ≠ manifest 81939c75… — manifest is stale
+     → disk a183ce8e… ≠ manifest 81939c75… - manifest is stale
 ✗  .codex/get-shit-done/bin/lib/phase.cjs
-     → disk b136a749… ≠ manifest 8a0fef06… — manifest is stale
+     → disk b136a749… ≠ manifest 8a0fef06… - manifest is stale
 ✗  .codex/get-shit-done/bin/lib/profile-output.cjs
-     → disk 686531c0… ≠ manifest b5c74d54… — manifest is stale
+     → disk 686531c0… ≠ manifest b5c74d54… - manifest is stale
 ✗  .codex/get-shit-done/bin/lib/verify.cjs
-     → disk 47f284ad… ≠ manifest 1fd33de4… — manifest is stale
+     → disk 47f284ad… ≠ manifest 1fd33de4… - manifest is stale
 ✗  .codex/get-shit-done/bin/lib/workstream.cjs
-     → disk 2e33c936… ≠ manifest b3f92418… — manifest is stale
+     → disk 2e33c936… ≠ manifest b3f92418… - manifest is stale
 ✗  .gemini/get-shit-done/bin/lib/commands.cjs
-     → disk 2fac72a2… ≠ manifest 95a7ff9e… — manifest is stale
+     → disk 2fac72a2… ≠ manifest 95a7ff9e… - manifest is stale
 ```
 
-**Check 3 — Workflow semantic equivalence (path-normalised diff), numerous FAIL:**
+**Check 3 - Workflow semantic equivalence (path-normalised diff), numerous FAIL:**
 
 ```
 ✗  add-phase.md
@@ -644,24 +644,24 @@ Summary:
 
 These divergences are **by design** and should **not** be treated as bugs or sync failures:
 
-### 5.1 Command Prefix — Native AI Platform Syntax
+### 5.1 Command Prefix - Native AI Platform Syntax
 
 Each AI platform registers GSD commands differently. The harness must use the platform's native slash/prefix:
 
-| Platform | Prefix Format | Registered as |
-|----------|--------------|---------------|
-| Claude Code (`.agent`) | `/gsd-command` | Claude Code slash commands |
-| Claude Desktop (`.claude`) | `/gsd:command` | MCP-style slash commands |
-| Gemini (`.gemini`) | `/gsd:command` | Gemini-style commands |
-| Cursor (`.cursor`) | `/gsd:command` | Cursor composer commands |
-| Codex (`.codex`) | `$gsd-command` | Shell variable / Codex-style |
-| GitHub Copilot (`.github`) | `/gsd:command` | Copilot chat commands |
-| OpenCode (`.opencode`) | `/gsd:command` | OpenCode commands |
-| Windsurf (`.windsurf`) | `/gsd:command` | Windsurf Cascade commands |
+| Platform                   | Prefix Format  | Registered as                |
+| -------------------------- | -------------- | ---------------------------- |
+| Claude Code (`.agent`)     | `/gsd-command` | Claude Code slash commands   |
+| Claude Desktop (`.claude`) | `/gsd:command` | MCP-style slash commands     |
+| Gemini (`.gemini`)         | `/gsd:command` | Gemini-style commands        |
+| Cursor (`.cursor`)         | `/gsd:command` | Cursor composer commands     |
+| Codex (`.codex`)           | `$gsd-command` | Shell variable / Codex-style |
+| GitHub Copilot (`.github`) | `/gsd:command` | Copilot chat commands        |
+| OpenCode (`.opencode`)     | `/gsd:command` | OpenCode commands            |
+| Windsurf (`.windsurf`)     | `/gsd:command` | Windsurf Cascade commands    |
 
 This affects: all workflow `.md` files, `config.cjs`, `verify.cjs`, `phase.cjs`, `workstream.cjs`, `commands.cjs`.
 
-### 5.2 Binary Path References — Harness-Scoped Runtime
+### 5.2 Binary Path References - Harness-Scoped Runtime
 
 Each harness must invoke its own copy of `gsd-tools.cjs` to ensure isolation:
 - `.agent` workflows: `node ".agent/get-shit-done/bin/gsd-tools.cjs"`
@@ -670,18 +670,18 @@ Each harness must invoke its own copy of `gsd-tools.cjs` to ensure isolation:
 
 This affects: essentially every workflow file that runs a node command.
 
-### 5.3 Agent Branding — Profile Output Personalization
+### 5.3 Agent Branding - Profile Output Personalization
 
 `profile-output.cjs` substitutes "Claude", "Cursor", "Windsurf", etc. in user-facing profiling questions so the experience feels native to the platform. This is intentional UX.
 
-### 5.4 Session History Path — Profile Pipeline
+### 5.4 Session History Path - Profile Pipeline
 
 `profile-pipeline.cjs` reads AI session history from platform-specific paths:
 - `.agent`: `.agent/projects` (Claude Code local)
 - `.cursor`: `~/.claude/projects` (Cursor session cache)
 - etc.
 
-### 5.5 JSDoc Stripping in `core.cjs` — Distribution Size
+### 5.5 JSDoc Stripping in `core.cjs` - Distribution Size
 
 The `.agent` harness ships with full JSDoc type annotations (416 extra lines) for developer tooling. Distribution harnesses strip these for payload size. **Runtime behavior is identical.**
 
@@ -699,7 +699,7 @@ GitHub Copilot does not support freestanding agent definition files. The `.githu
 
 ### 5.9 `model-profiles.md` Reference Files
 
-Despite `audit-harness-sync.cjs` reporting all 8 as divergent, `validate-model-profiles.cjs` confirms **all are semantically in sync** with `model-profiles.cjs`. The hash divergence is likely whitespace/comment variation per harness header — not a functional difference.
+Despite `audit-harness-sync.cjs` reporting all 8 as divergent, `validate-model-profiles.cjs` confirms **all are semantically in sync** with `model-profiles.cjs`. The hash divergence is likely whitespace/comment variation per harness header - not a functional difference.
 
 ---
 
@@ -707,30 +707,30 @@ Despite `audit-harness-sync.cjs` reporting all 8 as divergent, `validate-model-p
 
 ### 6.1 Immediate / High Priority
 
-| # | Item | Affected | Severity |
-|---|------|----------|----------|
-| 1 | **Regenerate stale manifests in `.codex`** — 6 CJS files have outdated manifest hashes | `.codex` | 🔴 High |
-| 2 | **Regenerate stale manifest in `.claude`** — `commands.cjs` manifest hash is stale | `.claude` | 🟡 Medium |
-| 3 | **Regenerate stale manifest in `.gemini`** — `commands.cjs` manifest hash is stale | `.gemini` | 🟡 Medium |
-| 4 | **Fix opencode missing 57 SKILL.md files** — declared in manifest but absent on disk | `.opencode` | 🔴 High |
+| #   | Item                                                                                   | Affected    | Severity |
+| --- | -------------------------------------------------------------------------------------- | ----------- | -------- |
+| 1   | **Regenerate stale manifests in `.codex`** - 6 CJS files have outdated manifest hashes | `.codex`    | 🔴 High   |
+| 2   | **Regenerate stale manifest in `.claude`** - `commands.cjs` manifest hash is stale     | `.claude`   | 🟡 Medium |
+| 3   | **Regenerate stale manifest in `.gemini`** - `commands.cjs` manifest hash is stale     | `.gemini`   | 🟡 Medium |
+| 4   | **Fix opencode missing 57 SKILL.md files** - declared in manifest but absent on disk   | `.opencode` | 🔴 High   |
 
 ### 6.2 Investigate / Medium Priority
 
-| # | Item | Affected | Notes |
-|---|------|----------|-------|
-| 5 | Verify `.codex` has intentional divergence in `config.cjs` vs `.claude`/`.gemini` — they share one hash group but codex has a third | `.codex` | Codex may have a 3rd command prefix variant in config |
-| 6 | Confirm `.cursor`/`.github`/`.windsurf` each have a unique `core.cjs` hash — determine if cursor/github/windsurf-specific patches are documented | `.cursor`, `.github`, `.windsurf` | Should be in HOOKS_ARCHITECTURE.md |
-| 7 | Audit the 5 "TAMPERED" harnesses (claude, codex, cursor, gemini, windsurf) with 62-68 files each failing manifest — determine if these are all expected command-prefix substitutions or if there are unintended changes | all non-agent/-opencode | Run with `--verbose` |
-| 8 | Investigate why `.github` only shows 4 TAMPERED manifest entries vs 62+ for others — it may have a very old manifest | `.github` | Suspicious gap |
+| #   | Item                                                                                                                                                                                                                    | Affected                          | Notes                                                 |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- | ----------------------------------------------------- |
+| 5   | Verify `.codex` has intentional divergence in `config.cjs` vs `.claude`/`.gemini` - they share one hash group but codex has a third                                                                                     | `.codex`                          | Codex may have a 3rd command prefix variant in config |
+| 6   | Confirm `.cursor`/`.github`/`.windsurf` each have a unique `core.cjs` hash - determine if cursor/github/windsurf-specific patches are documented                                                                        | `.cursor`, `.github`, `.windsurf` | Should be in HOOKS_ARCHITECTURE.md                    |
+| 7   | Audit the 5 "TAMPERED" harnesses (claude, codex, cursor, gemini, windsurf) with 62-68 files each failing manifest - determine if these are all expected command-prefix substitutions or if there are unintended changes | all non-agent/-opencode           | Run with `--verbose`                                  |
+| 8   | Investigate why `.github` only shows 4 TAMPERED manifest entries vs 62+ for others - it may have a very old manifest                                                                                                    | `.github`                         | Suspicious gap                                        |
 
 ### 6.3 Documentation / Low Priority
 
-| # | Item |
-|---|------|
-| 9 | Document the **canonical source of truth** for each CJS file — which harness is "upstream" and how distribution harnesses are generated |
-| 10 | Add a note to `HOOKS_ARCHITECTURE.md` explaining why hooks are absent in `.codex`/`.cursor`/`.github`/`.windsurf` |
-| 11 | Document why `.claude` and `.gemini` omit skills files while `.opencode` manifest lists them (and then fails fileset check) |
-| 12 | Consider adding a `--expected-diffs` configuration to `validate-harness-sync.cjs` so known intentional differences don't inflate the failure count |
+| #   | Item                                                                                                                                               |
+| --- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 9   | Document the **canonical source of truth** for each CJS file - which harness is "upstream" and how distribution harnesses are generated            |
+| 10  | Add a note to `HOOKS_ARCHITECTURE.md` explaining why hooks are absent in `.codex`/`.cursor`/`.github`/`.windsurf`                                  |
+| 11  | Document why `.claude` and `.gemini` omit skills files while `.opencode` manifest lists them (and then fails fileset check)                        |
+| 12  | Consider adding a `--expected-diffs` configuration to `validate-harness-sync.cjs` so known intentional differences don't inflate the failure count |
 
 ### 6.4 Quick Fix Commands
 
@@ -754,17 +754,17 @@ node scripts/validate-model-profiles.cjs
 
 ### Binary CJS Unique Hash Groups
 
-| Module | Group A | Group B | Group C | Group D | Group E | Group F |
-|--------|---------|---------|---------|---------|---------|---------|
-| `commands.cjs` | `2fac72a2` (.agent, .cursor, .github, .opencode, .windsurf) | `95a7ff9e` (.claude, .gemini — manifest only) | `3e2e322b` (.codex) | — | — | — |
-| `config.cjs` | `d9d9274e` (.agent, .cursor, .github, .opencode, .windsurf) | `81939c75` (.claude, .gemini) | `a183ce8e` (.codex) | — | — | — |
-| `core.cjs` | `89c6716e` (.agent) | `a5fe1881` (.claude, .codex, .gemini, .opencode) | `14fb4cc3` (.cursor) | `577090c3` (.github) | `42d43e06` (.windsurf) | — |
-| `phase.cjs` | `74a47c12` (.agent, .cursor, .github, .opencode, .windsurf) | `8a0fef06` (.claude, .gemini) | `b136a749` (.codex) | — | — | — |
-| `profile-output.cjs` | `117d1086` (.agent) | `b5c74d54` (.claude, .codex, .gemini) | `f75a8d62` (.cursor) | `87f790b0` (.github) | `423c632c` (.opencode) | `db092ff1` (.windsurf) |
-| `profile-pipeline.cjs` | `9e4cfd4b` (.agent) | `6c73a8c1` (.claude, .codex, .gemini, .opencode) | `044cd845` (.cursor) | `5c46a230` (.github) | `75127b56` (.windsurf) | — |
-| `verify.cjs` | `1eded11b` (.agent, .cursor, .github, .opencode, .windsurf) | `1fd33de4` (.claude, .gemini) | `47f284ad` (.codex) | — | — | — |
-| `workstream.cjs` | `2646820c` (.agent, .cursor, .github, .opencode, .windsurf) | `b3f92418` (.claude, .gemini) | `2e33c936` (.codex) | — | — | — |
+| Module                 | Group A                                                     | Group B                                          | Group C              | Group D              | Group E                | Group F                |
+| ---------------------- | ----------------------------------------------------------- | ------------------------------------------------ | -------------------- | -------------------- | ---------------------- | ---------------------- |
+| `commands.cjs`         | `2fac72a2` (.agent, .cursor, .github, .opencode, .windsurf) | `95a7ff9e` (.claude, .gemini - manifest only)    | `3e2e322b` (.codex)  | -                    | -                      | -                      |
+| `config.cjs`           | `d9d9274e` (.agent, .cursor, .github, .opencode, .windsurf) | `81939c75` (.claude, .gemini)                    | `a183ce8e` (.codex)  | -                    | -                      | -                      |
+| `core.cjs`             | `89c6716e` (.agent)                                         | `a5fe1881` (.claude, .codex, .gemini, .opencode) | `14fb4cc3` (.cursor) | `577090c3` (.github) | `42d43e06` (.windsurf) | -                      |
+| `phase.cjs`            | `74a47c12` (.agent, .cursor, .github, .opencode, .windsurf) | `8a0fef06` (.claude, .gemini)                    | `b136a749` (.codex)  | -                    | -                      | -                      |
+| `profile-output.cjs`   | `117d1086` (.agent)                                         | `b5c74d54` (.claude, .codex, .gemini)            | `f75a8d62` (.cursor) | `87f790b0` (.github) | `423c632c` (.opencode) | `db092ff1` (.windsurf) |
+| `profile-pipeline.cjs` | `9e4cfd4b` (.agent)                                         | `6c73a8c1` (.claude, .codex, .gemini, .opencode) | `044cd845` (.cursor) | `5c46a230` (.github) | `75127b56` (.windsurf) | -                      |
+| `verify.cjs`           | `1eded11b` (.agent, .cursor, .github, .opencode, .windsurf) | `1fd33de4` (.claude, .gemini)                    | `47f284ad` (.codex)  | -                    | -                      | -                      |
+| `workstream.cjs`       | `2646820c` (.agent, .cursor, .github, .opencode, .windsurf) | `b3f92418` (.claude, .gemini)                    | `2e33c936` (.codex)  | -                    | -                      | -                      |
 
 ---
 
-*Report generated by Worker Ant — pi-gsd colony • 2026-04-03*
+*Report generated by Worker Ant - pi-gsd colony • 2026-04-03*

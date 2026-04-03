@@ -106,7 +106,7 @@ Always at end of major completions.
 
 ## ▶ Next Up
 
-**{Identifier}: {Name}** — {one-line description}
+**{Identifier}: {Name}** - {one-line description}
 
 `{copy-paste command}`
 
@@ -115,8 +115,8 @@ Always at end of major completions.
 ───────────────────────────────────────────────────────────────
 
 **Also available:**
-- `/gsd-alternative-1` — description
-- `/gsd-alternative-2` — description
+- `/gsd-alternative-1` - description
+- `/gsd-alternative-2` - description
 
 ───────────────────────────────────────────────────────────────
 ```
@@ -141,7 +141,7 @@ Always at end of major completions.
 
 ```
 | Phase | Status | Plans | Progress |
-|-------|--------|-------|----------|
+| ----- | ------ | ----- | -------- |
 | 1     | ✓      | 3/3   | 100%     |
 | 2     | ◆      | 1/4   | 25%      |
 | 3     | ○      | 0/2   | 0%       |

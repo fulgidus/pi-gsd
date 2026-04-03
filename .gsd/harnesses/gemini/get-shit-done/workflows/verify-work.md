@@ -5,9 +5,9 @@ User tests, Claude records. One test at a time. Plain text responses.
 </purpose>
 
 <available_agent_types>
-Valid GSD subagent types (use exact names — do not fall back to 'general-purpose'):
-- gsd-planner — Creates detailed plans from phase scope
-- gsd-plan-checker — Reviews plan quality before execution
+Valid GSD subagent types (use exact names - do not fall back to 'general-purpose'):
+- gsd-planner - Creates detailed plans from phase scope
+- gsd-plan-checker - Reviews plan quality before execution
 </available_agent_types>
 
 <philosophy>
@@ -55,10 +55,10 @@ Display inline:
 ```
 ## Active UAT Sessions
 
-| # | Phase | Status | Current Test | Progress |
-|---|-------|--------|--------------|----------|
-| 1 | 04-comments | testing | 3. Reply to Comment | 2/6 |
-| 2 | 05-auth | testing | 1. Login Form | 0/4 |
+| #   | Phase       | Status  | Current Test        | Progress |
+| --- | ----------- | ------- | ------------------- | -------- |
+| 1   | 04-comments | testing | 3. Reply to Comment | 2/6      |
+| 2   | 05-auth     | testing | 1. Login Form       | 0/4      |
 
 Reply with a number to resume, or provide a phase number to start new.
 ```
@@ -129,7 +129,7 @@ Then **prepend** this test to the test list:
 - name: "Cold Start Smoke Test"
 - expected: "Kill any running server/service. Clear ephemeral state (temp DBs, caches, lock files). Start the application from scratch. Server boots without errors, any seed/migration completes, and a primary query (health check, homepage load, or basic API call) returns live data."
 
-This catches bugs that only manifest on fresh start — race conditions in startup sequences, silent seed failures, missing environment setup — which pass against warm state but break in production.
+This catches bugs that only manifest on fresh start - race conditions in startup sequences, silent seed failures, missing environment setup - which pass against warm state but break in production.
 </step>
 
 <step name="create_uat_file">
@@ -260,7 +260,7 @@ blocked_by: {inferred tag}
 reason: "{verbatim user response}"
 ```
 
-Note: Blocked tests do NOT go into the Gaps section (they aren't code issues — they're prerequisite gates).
+Note: Blocked tests do NOT go into the Gaps section (they aren't code issues - they're prerequisite gates).
 
 **If response is anything else:**
 - Treat as issue description
@@ -360,11 +360,11 @@ Present summary:
 ```
 ## UAT Complete: Phase {phase}
 
-| Result | Count |
-|--------|-------|
-| Passed | {N}   |
-| Issues | {N}   |
-| Skipped| {N}   |
+| Result  | Count |
+| ------- | ----- |
+| Passed  | {N}   |
+| Issues  | {N}   |
+| Skipped | {N}   |
 
 [If issues > 0:]
 ### Issues Found
@@ -378,9 +378,9 @@ Present summary:
 ```
 All tests passed. Ready to continue.
 
-- `/gsd:plan-phase {next}` — Plan next phase
-- `/gsd:execute-phase {next}` — Execute next phase
-- `/gsd:ui-review {phase}` — visual quality audit (if frontend files were modified)
+- `/gsd:plan-phase {next}` - Plan next phase
+- `/gsd:execute-phase {next}` - Execute next phase
+- `/gsd:ui-review {phase}` - visual quality audit (if frontend files were modified)
 ```
 </step>
 
@@ -487,8 +487,8 @@ ${AGENT_SKILLS_CHECKER}
 
 <expected_output>
 Return one of:
-- ## VERIFICATION PASSED — all checks pass
-- ## ISSUES FOUND — structured issue list
+- ## VERIFICATION PASSED - all checks pass
+- ## ISSUES FOUND - structured issue list
 </expected_output>
 """,
   subagent_type="gsd-plan-checker",
@@ -564,10 +564,10 @@ Wait for user response.
  GSD ► FIXES READY ✓
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-**Phase {X}: {Name}** — {N} gap(s) diagnosed, {M} fix plan(s) created
+**Phase {X}: {Name}** - {N} gap(s) diagnosed, {M} fix plan(s) created
 
-| Gap | Root Cause | Fix Plan |
-|-----|------------|----------|
+| Gap       | Root Cause   | Fix Plan   |
+| --------- | ------------ | ---------- |
 | {truth 1} | {root_cause} | {phase}-04 |
 | {truth 2} | {root_cause} | {phase}-04 |
 
@@ -577,7 +577,7 @@ Plans verified and ready for execution.
 
 ## ▶ Next Up
 
-**Execute fixes** — run fix plans
+**Execute fixes** - run fix plans
 
 `/clear` then `/gsd:execute-phase {phase} --gaps-only`
 
@@ -591,18 +591,18 @@ Plans verified and ready for execution.
 **Batched writes for efficiency:**
 
 Keep results in memory. Write to file only when:
-1. **Issue found** — Preserve the problem immediately
-2. **Session complete** — Final write before commit
-3. **Checkpoint** — Every 5 passed tests (safety net)
+1. **Issue found** - Preserve the problem immediately
+2. **Session complete** - Final write before commit
+3. **Checkpoint** - Every 5 passed tests (safety net)
 
-| Section | Rule | When Written |
-|---------|------|--------------|
-| Frontmatter.status | OVERWRITE | Start, complete |
+| Section             | Rule      | When Written      |
+| ------------------- | --------- | ----------------- |
+| Frontmatter.status  | OVERWRITE | Start, complete   |
 | Frontmatter.updated | OVERWRITE | On any file write |
-| Current Test | OVERWRITE | On any file write |
-| Tests.{N}.result | OVERWRITE | On any file write |
-| Summary | OVERWRITE | On any file write |
-| Gaps | APPEND | When issue found |
+| Current Test        | OVERWRITE | On any file write |
+| Tests.{N}.result    | OVERWRITE | On any file write |
+| Summary             | OVERWRITE | On any file write |
+| Gaps                | APPEND    | When issue found  |
 
 On context reset: File shows last checkpoint. Resume from there.
 </update_rules>
@@ -610,12 +610,12 @@ On context reset: File shows last checkpoint. Resume from there.
 <severity_inference>
 **Infer severity from user's natural language:**
 
-| User says | Infer |
-|-----------|-------|
-| "crashes", "error", "exception", "fails completely" | blocker |
-| "doesn't work", "nothing happens", "wrong behavior" | major |
-| "works but...", "slow", "weird", "minor issue" | minor |
-| "color", "spacing", "alignment", "looks off" | cosmetic |
+| User says                                           | Infer    |
+| --------------------------------------------------- | -------- |
+| "crashes", "error", "exception", "fails completely" | blocker  |
+| "doesn't work", "nothing happens", "wrong behavior" | major    |
+| "works but...", "slow", "weird", "minor issue"      | minor    |
+| "color", "spacing", "alignment", "looks off"        | cosmetic |
 
 Default to **major** if unclear. User can correct if needed.
 

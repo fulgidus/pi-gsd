@@ -27,15 +27,15 @@ Stop here.
 Group items by what's actionable NOW vs. what needs prerequisites:
 
 **Testable Now** (no external dependencies):
-- `pending` — tests never run
-- `human_uat` — human verification items
-- `skipped_unresolved` — skipped without clear blocking reason
+- `pending` - tests never run
+- `human_uat` - human verification items
+- `skipped_unresolved` - skipped without clear blocking reason
 
 **Needs Prerequisites:**
-- `server_blocked` — needs external server running
-- `device_needed` — needs physical device (not simulator)
-- `build_needed` — needs release/preview build
-- `third_party` — needs external service configuration
+- `server_blocked` - needs external server running
+- `device_needed` - needs physical device (not simulator)
+- `build_needed` - needs release/preview build
+- `third_party` - needs external service configuration
 
 For each item in "Testable Now", use Grep/Read to check if the underlying feature still exists in the codebase:
 - If the test references a component/function that no longer exists → mark as `stale`
@@ -53,30 +53,30 @@ Present the audit report:
 
 ### Testable Now ({count})
 
-| # | Phase | Test | Description | Status |
-|---|-------|------|-------------|--------|
-| 1 | {phase} | {test_name} | {expected} | {active/stale/needs_update} |
+| #   | Phase   | Test        | Description | Status                      |
+| --- | ------- | ----------- | ----------- | --------------------------- |
+| 1   | {phase} | {test_name} | {expected}  | {active/stale/needs_update} |
 ...
 
 ### Needs Prerequisites ({count})
 
-| # | Phase | Test | Blocked By | Description |
-|---|-------|------|------------|-------------|
-| 1 | {phase} | {test_name} | {category} | {expected} |
+| #   | Phase   | Test        | Blocked By | Description |
+| --- | ------- | ----------- | ---------- | ----------- |
+| 1   | {phase} | {test_name} | {category} | {expected}  |
 ...
 
 ### Stale (can be closed) ({count})
 
-| # | Phase | Test | Why Stale |
-|---|-------|------|-----------|
-| 1 | {phase} | {test_name} | {reason} |
+| #   | Phase   | Test        | Why Stale |
+| --- | ------- | ----------- | --------- |
+| 1   | {phase} | {test_name} | {reason}  |
 ...
 
 ---
 
 ## Recommended Actions
 
-1. **Close stale items:** `/gsd-verify-work {phase}` — mark stale tests as resolved
+1. **Close stale items:** `/gsd-verify-work {phase}` - mark stale tests as resolved
 2. **Run active tests:** Human UAT test plan below
 3. **When prerequisites met:** Retest blocked items with `/gsd-verify-work {phase}`
 ```
@@ -90,7 +90,7 @@ Group by what can be tested together (same screen, same feature, same prerequisi
 ```
 ## Human UAT Test Plan
 
-### Group 1: {category — e.g., "Billing Flow"}
+### Group 1: {category - e.g., "Billing Flow"}
 Prerequisites: {what needs to be running/configured}
 
 1. **{Test name}** (Phase {N})

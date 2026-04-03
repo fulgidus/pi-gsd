@@ -1,0 +1,14 @@
+{
+  "stateVersion": 9,
+  "lastSuggestion": {
+    "text": "Let's start with the JS module architecture doc.",
+    "shownAt": "2026-04-03T12:16:42.347Z",
+    "turnId": "1c1b9f7e",
+    "sourceLeafId": "1c1b9f7e",
+    "variantName": "default",
+    "strategy": "compact",
+    "requestedStrategy": "compact"
+  },
+  "steeringHistory": [],
+  "turnsSinceLastStalenessCheck": 1
+}

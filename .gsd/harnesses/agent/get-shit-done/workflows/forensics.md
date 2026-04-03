@@ -16,14 +16,14 @@ PROBLEM="$ARGUMENTS"
 ```
 
 If `$ARGUMENTS` is empty, ask the user:
-> "What went wrong? Describe the issue — e.g., 'autonomous mode got stuck on phase 3',
+> "What went wrong? Describe the issue - e.g., 'autonomous mode got stuck on phase 3',
 > 'execute-phase failed silently', 'costs seem unusually high'."
 
 Record the problem description for the report.
 
 ## Step 2: Gather Evidence
 
-Collect data from all available sources. Missing sources are fine — adapt to what exists.
+Collect data from all available sources. Missing sources are fine - adapt to what exists.
 
 ### 2a. Git History
 
@@ -50,9 +50,9 @@ Record:
 ### 2b. Planning State
 
 Read these files if they exist:
-- `.planning/STATE.md` — current milestone, phase, progress, blockers, last session
-- `.planning/ROADMAP.md` — phase list with status
-- `.planning/config.json` — workflow configuration
+- `.planning/STATE.md` - current milestone, phase, progress, blockers, last session
+- `.planning/ROADMAP.md` - phase list with status
+- `.planning/config.json` - workflow configuration
 
 Extract:
 - Current phase and its status
@@ -78,7 +78,7 @@ Track: which phases have complete artifact sets vs gaps.
 
 ### 2d. Session Reports
 
-Read `.planning/reports/SESSION_REPORT.md` if it exists — extract last session outcomes,
+Read `.planning/reports/SESSION_REPORT.md` if it exists - extract last session outcomes,
 work completed, token estimates.
 
 ### 2e. Git Worktree State
@@ -172,26 +172,26 @@ Write to `.planning/forensics/report-$(date +%Y%m%d-%H%M%S).md`:
 ## Evidence Summary
 
 ### Git Activity
-- **Last commit:** {date} — "{message}"
+- **Last commit:** {date} - "{message}"
 - **Commits (last 30):** {count}
 - **Time span:** {earliest} → {latest}
-- **Uncommitted changes:** {yes/no — list if yes}
-- **Active worktrees:** {count — list if >1}
+- **Uncommitted changes:** {yes/no - list if yes}
+- **Active worktrees:** {count - list if >1}
 
 ### Planning State
 - **Current milestone:** {version or "none"}
-- **Current phase:** {number — name — status}
+- **Current phase:** {number - name - status}
 - **Last session:** {stopped_at from STATE.md}
 - **Blockers:** {any flags from STATE.md}
 
 ### Artifact Completeness
-| Phase | PLAN | CONTEXT | RESEARCH | SUMMARY | VERIFICATION |
-|-------|------|---------|----------|---------|-------------|
-{for each phase: name | ✅/❌ per artifact}
+| Phase                 | PLAN              | CONTEXT | RESEARCH | SUMMARY | VERIFICATION |
+| --------------------- | ----------------- | ------- | -------- | ------- | ------------ |
+| {for each phase: name | ✅/❌ per artifact} |
 
 ## Anomalies Detected
 
-### {Anomaly Type} — {Confidence: HIGH/MEDIUM/LOW}
+### {Anomaly Type} - {Confidence: HIGH/MEDIUM/LOW}
 **Evidence:** {specific commits, files, or state data}
 **Interpretation:** {what this likely means}
 
@@ -207,7 +207,7 @@ Based on the evidence above, the most likely explanation is:
 
 1. {Specific, actionable remediation step}
 2. {Another step if applicable}
-3. {Recovery command if applicable — e.g., `/gsd-resume-work`, `/gsd-execute-phase N`}
+3. {Recovery command if applicable - e.g., `/gsd-resume-work`, `/gsd-execute-phase N`}
 
 ---
 

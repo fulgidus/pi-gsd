@@ -11,10 +11,10 @@ Read all files referenced by the invoking prompt's execution_context before star
 <step name="gather_session_data">
 Collect session data from available sources:
 
-1. **STATE.md** — current phase, milestone, progress, blockers, decisions
-2. **Git log** — commits made during this session (last 24h or since last report)
-3. **Plan/Summary files** — plans executed, summaries written
-4. **ROADMAP.md** — milestone context and phase goals
+1. **STATE.md** - current phase, milestone, progress, blockers, decisions
+2. **Git log** - commits made during this session (last 24h or since last report)
+3. **Plan/Summary files** - plans executed, summaries written
+4. **ROADMAP.md** - milestone context and phase goals
 
 ```bash
 # Get recent commits (last 24 hours)
@@ -42,7 +42,7 @@ ls -la .planning/reports/SESSION_REPORT*.md 2>/dev/null || echo "No previous rep
 Estimate token usage from observable signals:
 
 - Count of tool calls is not directly available, so estimate from git activity and file operations
-- Note: This is an **estimate** — exact token counts require API-level instrumentation not available to hooks
+- Note: This is an **estimate** - exact token counts require API-level instrumentation not available to hooks
 
 Estimation heuristics:
 - Each commit ≈ 1 plan cycle (research + plan + execute + verify)
@@ -65,7 +65,7 @@ Write `.planning/reports/SESSION_REPORT.md` (or `.planning/reports/YYYYMMDD-sess
 
 **Generated:** [timestamp]
 **Project:** [from PROJECT.md title or directory name]
-**Milestone:** [N] — [milestone name from ROADMAP.md]
+**Milestone:** [N] - [milestone name from ROADMAP.md]
 
 ---
 
@@ -89,7 +89,7 @@ Write `.planning/reports/SESSION_REPORT.md` (or `.planning/reports/YYYYMMDD-sess
 
 ## Files Changed
 
-[Summary of files modified, created, deleted — from git diff stat]
+[Summary of files modified, created, deleted - from git diff stat]
 
 ## Blockers & Open Items
 
@@ -98,11 +98,11 @@ Write `.planning/reports/SESSION_REPORT.md` (or `.planning/reports/YYYYMMDD-sess
 
 ## Estimated Resource Usage
 
-| Metric | Estimate |
-|--------|----------|
-| Commits | [N] |
-| Files changed | [N] |
-| Plans executed | [N] |
+| Metric            | Estimate    |
+| ----------------- | ----------- |
+| Commits           | [N]         |
+| Files changed     | [N]         |
+| Plans executed    | [N]         |
 | Subagents spawned | [estimated] |
 
 > **Note:** Token and cost estimates require API-level instrumentation.

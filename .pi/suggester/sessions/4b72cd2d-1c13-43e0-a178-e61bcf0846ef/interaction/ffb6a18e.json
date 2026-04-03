@@ -1,0 +1,22 @@
+{
+  "stateVersion": 9,
+  "pendingNextTurnObservation": {
+    "suggestionTurnId": "25ee03f9",
+    "suggestionShownAt": "2026-04-03T13:54:33.121Z",
+    "userPromptSubmittedAt": "2026-04-03T14:02:40.266Z",
+    "variantName": "default",
+    "strategy": "compact",
+    "requestedStrategy": "compact"
+  },
+  "steeringHistory": [
+    {
+      "turnId": "25ee03f9",
+      "suggestedPrompt": "What's left to finish c2 and c4?",
+      "actualUserPrompt": "in .gsd/JS_MODULE_ARCHITECTURE.md i think we should really bump the versions to more recent ones (4.6 opus & sonnet, 4.5 haiku)",
+      "classification": "changed_course",
+      "similarity": 0.12304727125177521,
+      "timestamp": "2026-04-03T14:02:40.266Z"
+    }
+  ],
+  "turnsSinceLastStalenessCheck": 3
+}

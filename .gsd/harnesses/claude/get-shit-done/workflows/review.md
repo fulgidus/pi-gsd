@@ -1,5 +1,5 @@
 <purpose>
-Cross-AI peer review — invoke external AI CLIs to independently review phase plans.
+Cross-AI peer review - invoke external AI CLIs to independently review phase plans.
 Each CLI gets the same prompt (PROJECT.md context, phase plans, requirements) and
 produces structured feedback. Results are combined into REVIEWS.md for the planner
 to incorporate via --reviews flag.
@@ -53,7 +53,7 @@ if [[ "$INIT" == @file:* ]]; then INIT=$(cat "${INIT#@file:}"); fi
 Read from init: `phase_dir`, `phase_number`, `padded_phase`.
 
 Then read:
-1. `.planning/PROJECT.md` (first 80 lines — project context)
+1. `.planning/PROJECT.md` (first 80 lines - project context)
 2. Phase section from `.planning/ROADMAP.md`
 3. All `*-PLAN.md` files in the phase directory
 4. `*-CONTEXT.md` if present (user decisions)
@@ -93,11 +93,11 @@ Provide structured feedback on plan quality, completeness, and risks.
 
 Analyze each plan and provide:
 
-1. **Summary** — One-paragraph assessment
-2. **Strengths** — What's well-designed (bullet points)
-3. **Concerns** — Potential issues, gaps, risks (bullet points with severity: HIGH/MEDIUM/LOW)
-4. **Suggestions** — Specific improvements (bullet points)
-5. **Risk Assessment** — Overall risk level (LOW/MEDIUM/HIGH) with justification
+1. **Summary** - One-paragraph assessment
+2. **Strengths** - What's well-designed (bullet points)
+3. **Concerns** - Potential issues, gaps, risks (bullet points with severity: HIGH/MEDIUM/LOW)
+4. **Suggestions** - Specific improvements (bullet points)
+5. **Risk Assessment** - Overall risk level (LOW/MEDIUM/HIGH) with justification
 
 Focus on:
 - Missing edge cases or error handling
@@ -114,7 +114,7 @@ Write to a temp file: `/tmp/gsd-review-prompt-{phase}.md`
 </step>
 
 <step name="invoke_reviewers">
-For each selected CLI, invoke in sequence (not parallel — avoid rate limits):
+For each selected CLI, invoke in sequence (not parallel - avoid rate limits):
 
 **Gemini:**
 ```bash
@@ -136,7 +136,7 @@ If a CLI fails, log the error and continue with remaining CLIs.
 Display progress:
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- GSD ► CROSS-AI REVIEW — Phase {N}
+ GSD ► CROSS-AI REVIEW - Phase {N}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ◆ Reviewing with {CLI}... done ✓
@@ -155,7 +155,7 @@ reviewed_at: {ISO timestamp}
 plans_reviewed: [{list of PLAN.md files}]
 ---
 
-# Cross-AI Plan Review — Phase {N}
+# Cross-AI Plan Review - Phase {N}
 
 ## Gemini Review
 
@@ -183,10 +183,10 @@ plans_reviewed: [{list of PLAN.md files}]
 {strengths mentioned by 2+ reviewers}
 
 ### Agreed Concerns
-{concerns raised by 2+ reviewers — highest priority}
+{concerns raised by 2+ reviewers - highest priority}
 
 ### Divergent Views
-{where reviewers disagreed — worth investigating}
+{where reviewers disagreed - worth investigating}
 ```
 
 Commit:

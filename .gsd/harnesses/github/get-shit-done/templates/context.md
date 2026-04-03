@@ -7,8 +7,8 @@ Template for `.planning/phases/XX-name/{phase_num}-CONTEXT.md` - captures implem
 **Key principle:** Categories are NOT predefined. They emerge from what was actually discussed for THIS phase. A CLI phase has CLI-relevant sections, a UI phase has UI-relevant sections.
 
 **Downstream consumers:**
-- `gsd-phase-researcher` — Reads decisions to focus research (e.g., "card layout" → research card component patterns)
-- `gsd-planner` — Reads decisions to create specific tasks (e.g., "infinite scroll" → task includes virtualization)
+- `gsd-phase-researcher` - Reads decisions to focus research (e.g., "card layout" → research card component patterns)
+- `gsd-planner` - Reads decisions to create specific tasks (e.g., "infinite scroll" → task includes virtualization)
 
 ---
 
@@ -23,7 +23,7 @@ Template for `.planning/phases/XX-name/{phase_num}-CONTEXT.md` - captures implem
 <domain>
 ## Phase Boundary
 
-[Clear statement of what this phase delivers — the scope anchor. This comes from ROADMAP.md and is fixed. Discussion clarifies implementation within this boundary.]
+[Clear statement of what this phase delivers - the scope anchor. This comes from ROADMAP.md and is fixed. Discussion clarifies implementation within this boundary.]
 
 </domain>
 
@@ -41,7 +41,7 @@ Template for `.planning/phases/XX-name/{phase_num}-CONTEXT.md` - captures implem
 - **D-04:** [Specific decision made]
 
 ### the agent's Discretion
-[Areas where user explicitly said "you decide" — the agent has flexibility here during planning/implementation]
+[Areas where user explicitly said "you decide" - the agent has flexibility here during planning/implementation]
 
 </decisions>
 
@@ -50,7 +50,7 @@ Template for `.planning/phases/XX-name/{phase_num}-CONTEXT.md` - captures implem
 
 [Any particular references, examples, or "I want it like X" moments from discussion. Product references, specific behaviors, interaction patterns.]
 
-[If none: "No specific requirements — open to standard approaches"]
+[If none: "No specific requirements - open to standard approaches"]
 
 </specifics>
 
@@ -62,13 +62,13 @@ Template for `.planning/phases/XX-name/{phase_num}-CONTEXT.md` - captures implem
 [List every spec, ADR, feature doc, or design doc that defines requirements or constraints for this phase. Use full relative paths so agents can read them directly. Group by topic area when the phase has multiple concerns.]
 
 ### [Topic area 1]
-- `path/to/spec-or-adr.md` — [What this doc decides/defines that's relevant]
-- `path/to/doc.md` §N — [Specific section and what it covers]
+- `path/to/spec-or-adr.md` - [What this doc decides/defines that's relevant]
+- `path/to/doc.md` §N - [Specific section and what it covers]
 
 ### [Topic area 2]
-- `path/to/feature-doc.md` — [What capability this defines]
+- `path/to/feature-doc.md` - [What capability this defines]
 
-[If the project has no external specs: "No external specs — requirements are fully captured in decisions above"]
+[If the project has no external specs: "No external specs - requirements are fully captured in decisions above"]
 
 </canonical_refs>
 
@@ -91,7 +91,7 @@ Template for `.planning/phases/XX-name/{phase_num}-CONTEXT.md` - captures implem
 
 [Ideas that came up during discussion but belong in other phases. Captured here so they're not lost, but explicitly out of scope for this phase.]
 
-[If none: "None — discussion stayed within phase scope"]
+[If none: "None - discussion stayed within phase scope"]
 
 </deferred>
 
@@ -124,7 +124,7 @@ Display posts from followed users in a scrollable feed. Users can view posts and
 ### Layout style
 - Card-based layout, not timeline or list
 - Each card shows: author avatar, name, timestamp, full post content, reaction counts
-- Cards have subtle shadows, rounded corners — modern feel
+- Cards have subtle shadows, rounded corners - modern feel
 
 ### Loading behavior
 - Infinite scroll, not pagination
@@ -146,11 +146,11 @@ Display posts from followed users in a scrollable feed. Users can view posts and
 ## Canonical References
 
 ### Feed display
-- `docs/features/social-feed.md` — Feed requirements, post card fields, engagement display rules
-- `docs/decisions/adr-012-infinite-scroll.md` — Scroll strategy decision, virtualization requirements
+- `docs/features/social-feed.md` - Feed requirements, post card fields, engagement display rules
+- `docs/decisions/adr-012-infinite-scroll.md` - Scroll strategy decision, virtualization requirements
 
 ### Empty states
-- `docs/design/empty-states.md` — Empty state patterns, illustration guidelines
+- `docs/design/empty-states.md` - Empty state patterns, illustration guidelines
 
 </canonical_refs>
 
@@ -158,15 +158,15 @@ Display posts from followed users in a scrollable feed. Users can view posts and
 ## Specific Ideas
 
 - "I like how Twitter shows the new posts indicator without disrupting your scroll position"
-- Cards should feel like Linear's issue cards — clean, not cluttered
+- Cards should feel like Linear's issue cards - clean, not cluttered
 
 </specifics>
 
 <deferred>
 ## Deferred Ideas
 
-- Commenting on posts — Phase 5
-- Bookmarking posts — add to backlog
+- Commenting on posts - Phase 5
+- Bookmarking posts - add to backlog
 
 </deferred>
 
@@ -220,15 +220,15 @@ CLI command to backup database to local file or S3. Supports full and incrementa
 ## Canonical References
 
 ### Backup CLI
-- `docs/features/backup-restore.md` — Backup requirements, supported backends, encryption spec
-- `docs/decisions/adr-007-cli-conventions.md` — Flag naming, exit codes, output format standards
+- `docs/features/backup-restore.md` - Backup requirements, supported backends, encryption spec
+- `docs/decisions/adr-007-cli-conventions.md` - Flag naming, exit codes, output format standards
 
 </canonical_refs>
 
 <specifics>
 ## Specific Ideas
 
-- "I want it to feel like pg_dump — familiar to database people"
+- "I want it to feel like pg_dump - familiar to database people"
 - Should work in CI pipelines (exit codes, no interactive prompts)
 
 </specifics>
@@ -236,8 +236,8 @@ CLI command to backup database to local file or S3. Supports full and incrementa
 <deferred>
 ## Deferred Ideas
 
-- Scheduled backups — separate phase
-- Backup rotation/retention — add to backlog
+- Scheduled backups - separate phase
+- Backup rotation/retention - add to backlog
 
 </deferred>
 
@@ -291,8 +291,8 @@ Organize existing photo library into structured folders. Handle duplicates and a
 ## Canonical References
 
 ### Organization rules
-- `docs/features/photo-organization.md` — Grouping rules, duplicate policy, naming spec
-- `docs/decisions/adr-003-exif-handling.md` — EXIF extraction strategy, fallback for missing metadata
+- `docs/features/photo-organization.md` - Grouping rules, duplicate policy, naming spec
+- `docs/decisions/adr-003-exif-handling.md` - EXIF extraction strategy, fallback for missing metadata
 
 </canonical_refs>
 
@@ -300,15 +300,15 @@ Organize existing photo library into structured folders. Handle duplicates and a
 ## Specific Ideas
 
 - "I want to be able to find photos by roughly when they were taken"
-- Don't delete anything — worst case, move to a review folder
+- Don't delete anything - worst case, move to a review folder
 
 </specifics>
 
 <deferred>
 ## Deferred Ideas
 
-- Face detection grouping — future phase
-- Cloud sync — out of scope for now
+- Face detection grouping - future phase
+- Cloud sync - out of scope for now
 
 </deferred>
 
@@ -343,10 +343,10 @@ The output should answer: "What does the researcher need to investigate? What ch
 - `gsd-planner` uses decisions + research to create executable tasks AND reads canonical_refs to verify alignment
 - Downstream agents should NOT need to ask the user again about captured decisions
 
-**CRITICAL — Canonical references:**
+**CRITICAL - Canonical references:**
 - The `<canonical_refs>` section is MANDATORY. Every CONTEXT.md must have one.
 - If your project has external specs, ADRs, or design docs, list them with full relative paths grouped by topic
 - If ROADMAP.md lists `Canonical refs:` per phase, extract and expand those
-- Inline mentions like "see ADR-019" scattered in decisions are useless to downstream agents — they need full paths and section references in a dedicated section they can find
-- If no external specs exist, say so explicitly — don't silently omit the section
+- Inline mentions like "see ADR-019" scattered in decisions are useless to downstream agents - they need full paths and section references in a dedicated section they can find
+- If no external specs exist, say so explicitly - don't silently omit the section
 </guidelines>

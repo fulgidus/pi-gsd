@@ -1,6 +1,6 @@
 # Architecture Research Template
 
-Template for `.planning/research/ARCHITECTURE.md` — system structure patterns for the project domain.
+Template for `.planning/research/ARCHITECTURE.md` - system structure patterns for the project domain.
 
 <template>
 
@@ -39,11 +39,11 @@ Template for `.planning/research/ARCHITECTURE.md` — system structure patterns 
 
 ### Component Responsibilities
 
-| Component | Responsibility | Typical Implementation |
-|-----------|----------------|------------------------|
-| [name] | [what it owns] | [how it's usually built] |
-| [name] | [what it owns] | [how it's usually built] |
-| [name] | [what it owns] | [how it's usually built] |
+| Component | Responsibility | Typical Implementation   |
+| --------- | -------------- | ------------------------ |
+| [name]    | [what it owns] | [how it's usually built] |
+| [name]    | [what it owns] | [how it's usually built] |
+| [name]    | [what it owns] | [how it's usually built] |
 
 ## Recommended Project Structure
 
@@ -121,11 +121,11 @@ src/
 
 ## Scaling Considerations
 
-| Scale | Architecture Adjustments |
-|-------|--------------------------|
-| 0-1k users | [approach — usually monolith is fine] |
-| 1k-100k users | [approach — what to optimize first] |
-| 100k+ users | [approach — when to consider splitting] |
+| Scale         | Architecture Adjustments                |
+| ------------- | --------------------------------------- |
+| 0-1k users    | [approach - usually monolith is fine]   |
+| 1k-100k users | [approach - what to optimize first]     |
+| 100k+ users   | [approach - when to consider splitting] |
 
 ### Scaling Priorities
 
@@ -150,15 +150,15 @@ src/
 
 ### External Services
 
-| Service | Integration Pattern | Notes |
-|---------|---------------------|-------|
-| [service] | [how to connect] | [gotchas] |
-| [service] | [how to connect] | [gotchas] |
+| Service   | Integration Pattern | Notes     |
+| --------- | ------------------- | --------- |
+| [service] | [how to connect]    | [gotchas] |
+| [service] | [how to connect]    | [gotchas] |
 
 ### Internal Boundaries
 
-| Boundary | Communication | Notes |
-|----------|---------------|-------|
+| Boundary              | Communication       | Notes            |
+| --------------------- | ------------------- | ---------------- |
 | [module A ↔ module B] | [API/events/direct] | [considerations] |
 
 ## Sources
@@ -179,7 +179,7 @@ src/
 **System Overview:**
 - Use ASCII box-drawing diagrams for clarity (├── └── │ ─ for structure visualization only)
 - Show major components and their relationships
-- Don't over-detail — this is conceptual, not implementation
+- Don't over-detail - this is conceptual, not implementation
 
 **Project Structure:**
 - Be specific about folder organization
@@ -192,7 +192,7 @@ src/
 - Note when patterns are overkill for small projects
 
 **Scaling Considerations:**
-- Be realistic — most projects don't need to scale to millions
+- Be realistic - most projects don't need to scale to millions
 - Focus on "what breaks first" not theoretical limits
 - Avoid premature optimization recommendations
 

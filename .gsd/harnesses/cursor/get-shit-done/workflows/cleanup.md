@@ -69,7 +69,7 @@ Present a dry-run summary for each milestone:
 ```
 ## Cleanup Summary
 
-### v{X.Y} — {Milestone Name}
+### v{X.Y} - {Milestone Name}
 These phase directories will be archived:
 - 01-foundation/
 - 02-auth/
@@ -77,7 +77,7 @@ These phase directories will be archived:
 
 Destination: .planning/milestones/v{X.Y}-phases/
 
-### v{X.Z} — {Milestone Name}
+### v{X.Z} - {Milestone Name}
 These phase directories will be archived:
 - 04-security/
 - 05-hardening/
@@ -93,7 +93,7 @@ No phase directories found to archive. Phases may have been removed or archived 
 
 Stop here.
 
-conversational prompting: "Proceed with archiving?" with options: "Yes — archive listed phases" | "Cancel"
+conversational prompting: "Proceed with archiving?" with options: "Yes - archive listed phases" | "Cancel"
 
 If "Cancel": Stop.
 

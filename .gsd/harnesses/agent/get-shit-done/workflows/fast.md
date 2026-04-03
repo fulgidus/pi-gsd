@@ -69,7 +69,7 @@ If the table doesn't exist, skip this step silently.
 ```bash
 # Check if STATE.md has quick tasks table
 if grep -q "Quick Tasks Completed" .planning/STATE.md 2>/dev/null; then
-  # Append entry — workflow handles the format
+  # Append entry - workflow handles the format
   echo "| $(date +%Y-%m-%d) | fast | $TASK | ✅ |" >> .planning/STATE.md
 fi
 ```
@@ -90,7 +90,7 @@ No next-step suggestions. No workflow routing. Just done.
 </process>
 
 <guardrails>
-- NEVER spawn a Task/subagent — this runs inline
+- NEVER spawn a Task/subagent - this runs inline
 - NEVER create PLAN.md or SUMMARY.md files
 - NEVER run research or plan-checking
 - If the task takes more than 3 file edits, STOP and redirect to /gsd-quick

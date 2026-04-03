@@ -1,5 +1,5 @@
 <purpose>
-Create all phases necessary to close gaps identified by `/gsd-audit-milestone`. Reads MILESTONE-AUDIT.md, groups gaps into logical phases, creates phase entries in ROADMAP.md, and offers to plan each phase. One command creates all fix phases — no manual `/gsd-add-phase` per gap.
+Create all phases necessary to close gaps identified by `/gsd-audit-milestone`. Reads MILESTONE-AUDIT.md, groups gaps into logical phases, creates phase entries in ROADMAP.md, and offers to plan each phase. One command creates all fix phases - no manual `/gsd-add-phase` per gap.
 </purpose>
 
 <required_reading>
@@ -16,9 +16,9 @@ Read all files referenced by the invoking prompt's execution_context before star
 ```
 
 Parse YAML frontmatter to extract structured gaps:
-- `gaps.requirements` — unsatisfied requirements
-- `gaps.integration` — missing cross-phase connections
-- `gaps.flows` — broken E2E flows
+- `gaps.requirements` - unsatisfied requirements
+- `gaps.integration` - missing cross-phase connections
+- `gaps.flows` - broken E2E flows
 
 If no audit file exists or has no gaps, error:
 ```
@@ -29,11 +29,11 @@ No audit gaps found. Run `/gsd-audit-milestone` first.
 
 Group gaps by priority from REQUIREMENTS.md:
 
-| Priority | Action |
-|----------|--------|
-| `must` | Create phase, blocks milestone |
-| `should` | Create phase, recommended |
-| `nice` | Ask user: include or defer? |
+| Priority | Action                         |
+| -------- | ------------------------------ |
+| `must`   | Create phase, blocks milestone |
+| `should` | Create phase, recommended      |
+| `nice`   | Ask user: include or defer?    |
 
 For integration/flow gaps, infer priority from affected requirements.
 
@@ -170,15 +170,15 @@ node ".agent/get-shit-done/bin/gsd-tools.cjs" commit "docs(roadmap): add gap clo
 ---
 
 **Also available:**
-- `/gsd-execute-phase {N}` — if plans already exist
-- `cat .planning/ROADMAP.md` — see updated roadmap
+- `/gsd-execute-phase {N}` - if plans already exist
+- `cat .planning/ROADMAP.md` - see updated roadmap
 
 ---
 
 **After all gap phases complete:**
 
-`/gsd-audit-milestone` — re-audit to verify gaps closed
-`/gsd-complete-milestone {version}` — archive when audit passes
+`/gsd-audit-milestone` - re-audit to verify gaps closed
+`/gsd-complete-milestone {version}` - archive when audit passes
 ```
 
 </process>

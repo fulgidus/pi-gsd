@@ -1,5 +1,5 @@
 <purpose>
-Retroactive 6-pillar visual audit of implemented frontend code. Standalone command that works on any project — GSD-managed or not. Produces scored UI-REVIEW.md with actionable findings.
+Retroactive 6-pillar visual audit of implemented frontend code. Standalone command that works on any project - GSD-managed or not. Produces scored UI-REVIEW.md with actionable findings.
 </purpose>
 
 <required_reading>
@@ -7,8 +7,8 @@ Retroactive 6-pillar visual audit of implemented frontend code. Standalone comma
 </required_reading>
 
 <available_agent_types>
-Valid GSD subagent types (use exact names — do not fall back to 'general-purpose'):
-- gsd-ui-auditor — Audits UI against design requirements
+Valid GSD subagent types (use exact names - do not fall back to 'general-purpose'):
+- gsd-ui-auditor - Audits UI against design requirements
 </available_agent_types>
 
 <process>
@@ -30,7 +30,7 @@ UI_AUDITOR_MODEL=$(node ".claude/get-shit-done/bin/gsd-tools.cjs" resolve-model 
 Display banner:
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- GSD ► UI AUDIT — PHASE {N}: {name}
+ GSD ► UI AUDIT - PHASE {N}: {name}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -42,14 +42,14 @@ UI_SPEC_FILE=$(ls "${PHASE_DIR}"/*-UI-SPEC.md 2>/dev/null | head -1)
 UI_REVIEW_FILE=$(ls "${PHASE_DIR}"/*-UI-REVIEW.md 2>/dev/null | head -1)
 ```
 
-**If `SUMMARY_FILES` empty:** Exit — "Phase {N} not executed. Run /gsd:execute-phase {N} first."
+**If `SUMMARY_FILES` empty:** Exit - "Phase {N} not executed. Run /gsd:execute-phase {N} first."
 
 **If `UI_REVIEW_FILE` non-empty:** Use AskUserQuestion:
 - header: "Existing UI Review"
 - question: "UI-REVIEW.md already exists for Phase {N}."
 - options:
-  - "Re-audit — run fresh audit"
-  - "View — display current review and exit"
+  - "Re-audit - run fresh audit"
+  - "View - display current review and exit"
 
 If "View": display file, exit.
 If "Re-audit": continue.
@@ -59,8 +59,8 @@ If "Re-audit": continue.
 Build file list for auditor:
 - All SUMMARY.md files in phase dir
 - All PLAN.md files in phase dir
-- UI-SPEC.md (if exists — audit baseline)
-- CONTEXT.md (if exists — locked decisions)
+- UI-SPEC.md (if exists - audit baseline)
+- CONTEXT.md (if exists - locked decisions)
 
 ## 3. Spawn gsd-ui-auditor
 
@@ -81,8 +81,8 @@ Conduct 6-pillar visual audit of Phase {phase_number}: {phase_name}
 
 <files_to_read>
 - {summary_paths} (Execution summaries)
-- {plan_paths} (Execution plans — what was intended)
-- {ui_spec_path} (UI Design Contract — audit baseline, if exists)
+- {plan_paths} (Execution plans - what was intended)
+- {ui_spec_path} (UI Design Contract - audit baseline, if exists)
 - {context_path} (User decisions, if exists)
 </files_to_read>
 
@@ -116,15 +116,15 @@ Display score summary:
  GSD ► UI AUDIT COMPLETE ✓
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-**Phase {N}: {Name}** — Overall: {score}/24
+**Phase {N}: {Name}** - Overall: {score}/24
 
-| Pillar | Score |
-|--------|-------|
-| Copywriting | {N}/4 |
-| Visuals | {N}/4 |
-| Color | {N}/4 |
-| Typography | {N}/4 |
-| Spacing | {N}/4 |
+| Pillar            | Score |
+| ----------------- | ----- |
+| Copywriting       | {N}/4 |
+| Visuals           | {N}/4 |
+| Color             | {N}/4 |
+| Typography        | {N}/4 |
+| Spacing           | {N}/4 |
 | Experience Design | {N}/4 |
 
 Top fixes:
@@ -138,8 +138,8 @@ Full review: {path to UI-REVIEW.md}
 
 ## ▶ Next
 
-- `/gsd:verify-work {N}` — UAT testing
-- `/gsd:plan-phase {N+1}` — plan next phase
+- `/gsd:verify-work {N}` - UAT testing
+- `/gsd:plan-phase {N+1}` - plan next phase
 
 <sub>/clear first → fresh context window</sub>
 

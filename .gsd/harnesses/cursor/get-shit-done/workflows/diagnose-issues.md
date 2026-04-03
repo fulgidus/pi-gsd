@@ -7,8 +7,8 @@ Orchestrator stays lean: parse gaps, spawn agents, collect results, update UAT.
 </purpose>
 
 <available_agent_types>
-Valid GSD subagent types (use exact names — do not fall back to 'general-purpose'):
-- gsd-debugger — Diagnoses and fixes issues
+Valid GSD subagent types (use exact names - do not fall back to 'general-purpose'):
+- gsd-debugger - Diagnoses and fixes issues
 </available_agent_types>
 
 <paths>
@@ -62,11 +62,11 @@ gaps = [
 
 Spawning parallel debug agents to investigate root causes:
 
-| Gap (Truth) | Severity |
-|-------------|----------|
-| Comment appears immediately after submission | major |
-| Reply button positioned correctly | minor |
-| Delete removes comment | blocker |
+| Gap (Truth)                                  | Severity |
+| -------------------------------------------- | -------- |
+| Comment appears immediately after submission | major    |
+| Reply button positioned correctly            | minor    |
+| Delete removes comment                       | blocker  |
 
 Each agent will:
 1. Create DEBUG-{slug}.md with symptoms pre-filled
@@ -183,11 +183,11 @@ Display:
  GSD ► DIAGNOSIS COMPLETE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-| Gap (Truth) | Root Cause | Files |
-|-------------|------------|-------|
-| Comment appears immediately | useEffect missing dependency | CommentList.tsx |
-| Reply button positioned correctly | CSS flex order incorrect | ReplyButton.tsx |
-| Delete removes comment | API missing auth header | api/comments.ts |
+| Gap (Truth)                       | Root Cause                   | Files           |
+| --------------------------------- | ---------------------------- | --------------- |
+| Comment appears immediately       | useEffect missing dependency | CommentList.tsx |
+| Reply button positioned correctly | CSS flex order incorrect     | ReplyButton.tsx |
+| Delete removes comment            | API missing auth header      | api/comments.ts |
 
 Debug sessions: ${DEBUG_DIR}/
 
@@ -202,7 +202,7 @@ Do NOT offer manual next steps - verify-work handles the rest.
 
 <context_efficiency>
 Agents start with symptoms pre-filled from UAT (no symptom gathering).
-Agents only diagnose—plan-phase --gaps handles fixes (no fix application).
+Agents only diagnose-plan-phase --gaps handles fixes (no fix application).
 </context_efficiency>
 
 <failure_handling>

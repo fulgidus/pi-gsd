@@ -57,9 +57,9 @@ AskUserQuestion(
   header: "Scope",
   question: "How big is this? (rough estimate)",
   options: [
-    { label: "Small", description: "A few hours — could be a quick task" },
-    { label: "Medium", description: "A phase or two — needs planning" },
-    { label: "Large", description: "A full milestone — significant effort" }
+    { label: "Small", description: "A few hours - could be a quick task" },
+    { label: "Medium", description: "A phase or two - needs planning" },
+    { label: "Large", description: "A full milestone - significant effort" }
   ]
 )
 ```
@@ -124,7 +124,7 @@ scope matches any of these conditions:
 
 ## Scope Estimate
 
-**{$SCOPE}** — {elaboration based on scope choice}
+**{$SCOPE}** - {elaboration based on scope choice}
 
 ## Breadcrumbs
 
@@ -140,7 +140,7 @@ Related code and decisions found in the current codebase:
 
 <step name="commit_seed">
 ```bash
-node ".agent/get-shit-done/bin/gsd-tools.cjs" commit "docs: plant seed — {$IDEA}" --files .planning/seeds/SEED-{PADDED}-{slug}.md
+node ".agent/get-shit-done/bin/gsd-tools.cjs" commit "docs: plant seed - {$IDEA}" --files .planning/seeds/SEED-{PADDED}-{slug}.md
 ```
 </step>
 

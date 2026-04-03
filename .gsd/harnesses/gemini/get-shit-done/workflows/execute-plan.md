@@ -10,8 +10,8 @@ Read config.json for planning behavior settings.
 </required_reading>
 
 <available_agent_types>
-Valid GSD subagent types (use exact names — do not fall back to 'general-purpose'):
-- gsd-executor — Executes plan tasks, commits, creates SUMMARY.md
+Valid GSD subagent types (use exact names - do not fall back to 'general-purpose'):
+- gsd-executor - Executes plan tasks, commits, creates SUMMARY.md
 </available_agent_types>
 
 <process>
@@ -66,11 +66,11 @@ grep -n "type=\"checkpoint" .planning/phases/XX-name/{phase}-{plan}-PLAN.md
 
 **Routing by checkpoint type:**
 
-| Checkpoints | Pattern | Execution |
-|-------------|---------|-----------|
-| None | A (autonomous) | Single subagent: full plan + SUMMARY + commit |
-| Verify-only | B (segmented) | Segments between checkpoints. After none/human-verify → SUBAGENT. After decision/human-action → MAIN |
-| Decision | C (main) | Execute entirely in main context |
+| Checkpoints | Pattern        | Execution                                                                                            |
+| ----------- | -------------- | ---------------------------------------------------------------------------------------------------- |
+| None        | A (autonomous) | Single subagent: full plan + SUMMARY + commit                                                        |
+| Verify-only | B (segmented)  | Segments between checkpoints. After none/human-verify → SUBAGENT. After decision/human-action → MAIN |
+| Decision    | C (main)       | Execute entirely in main context                                                                     |
 
 **Pattern A:** init_agent_tracking → spawn Task(subagent_type="gsd-executor", model=executor_model, isolation="worktree") with prompt: execute plan at [path], autonomous, all tasks + SUMMARY + commit, follow deviation/auth rules, report: plan name, tasks, SUMMARY path, commit hash → track agent_id → wait → update tracking → report.
 
@@ -112,7 +112,7 @@ Pattern B only (verify-only checkpoints). Skip for A/C.
    - Check `git log --oneline --all --grep="{phase}-{plan}"` returns ≥1 commit
    - Append `## Self-Check: PASSED` or `## Self-Check: FAILED` to SUMMARY
 
-   **Known Claude Code bug (classifyHandoffIfNeeded):** If any segment agent reports "failed" with `classifyHandoffIfNeeded is not defined`, this is a Claude Code runtime bug — not a real failure. Run spot-checks; if they pass, treat as successful.
+   **Known Claude Code bug (classifyHandoffIfNeeded):** If any segment agent reports "failed" with `classifyHandoffIfNeeded is not defined`, this is a Claude Code runtime bug - not a real failure. Run spot-checks; if they pass, treat as successful.
 
 
 
@@ -125,7 +125,7 @@ cat .planning/phases/XX-name/{phase}-{plan}-PLAN.md
 ```
 This IS the execution instructions. Follow exactly. If plan references CONTEXT.md: honor user's vision throughout.
 
-**If plan contains `<interfaces>` block:** These are pre-extracted type definitions and contracts. Use them directly — do NOT re-read the source files to discover types. The planner already extracted what you need.
+**If plan contains `<interfaces>` block:** These are pre-extracted type definitions and contracts. Use them directly - do NOT re-read the source files to discover types. The planner already extracted what you need.
 </step>
 
 <step name="previous_phase_check">
@@ -137,12 +137,12 @@ If previous SUMMARY has unresolved "Issues Encountered" or "Next Phase Readiness
 </step>
 
 <step name="execute">
-Deviations are normal — handle via rules below.
+Deviations are normal - handle via rules below.
 
 1. Read @context files from prompt
 2. **MCP tools:** If CLAUDE.md or project instructions reference MCP tools (e.g. jCodeMunch for code navigation), prefer them over Grep/Glob when available. Fall back to Grep/Glob if MCP tools are not accessible.
 3. Per task:
-   - **MANDATORY read_first gate:** If the task has a `<read_first>` field, you MUST read every listed file BEFORE making any edits. This is not optional. Do not skip files because you "already know" what's in them — read them. The read_first files establish ground truth for the task.
+   - **MANDATORY read_first gate:** If the task has a `<read_first>` field, you MUST read every listed file BEFORE making any edits. This is not optional. Do not skip files because you "already know" what's in them - read them. The read_first files establish ground truth for the task.
    - `type="auto"`: if `tdd="true"` → TDD execution. Implement with deviation rules + auth gates. Verify done criteria. Commit (see task_commit). Track hash for Summary.
    - `type="checkpoint:*"`: STOP → checkpoint_protocol → wait for user → continue only after confirmation.
    - **MANDATORY acceptance_criteria check:** After completing each task, if it has `<acceptance_criteria>`, verify EVERY criterion before moving to the next task. Use grep, file reads, or CLI commands to confirm each criterion. If any criterion fails, fix the implementation before proceeding. Do not skip criteria or mark them as "will verify later".
@@ -155,7 +155,7 @@ Deviations are normal — handle via rules below.
 
 ## Authentication Gates
 
-Auth errors during execution are NOT failures — they're expected interaction points.
+Auth errors during execution are NOT failures - they're expected interaction points.
 
 **Indicators:** "Not authenticated", "Unauthorized", 401/403, "Please run {tool} login", "Set {ENV_VAR}"
 
@@ -180,12 +180,12 @@ Auth errors during execution are NOT failures — they're expected interaction p
 
 You WILL discover unplanned work. Apply automatically, track all for Summary.
 
-| Rule | Trigger | Action | Permission |
-|------|---------|--------|------------|
-| **1: Bug** | Broken behavior, errors, wrong queries, type errors, security vulns, race conditions, leaks | Fix → test → verify → track `[Rule 1 - Bug]` | Auto |
-| **2: Missing Critical** | Missing essentials: error handling, validation, auth, CSRF/CORS, rate limiting, indexes, logging | Add → test → verify → track `[Rule 2 - Missing Critical]` | Auto |
-| **3: Blocking** | Prevents completion: missing deps, wrong types, broken imports, missing env/config/files, circular deps | Fix blocker → verify proceeds → track `[Rule 3 - Blocking]` | Auto |
-| **4: Architectural** | Structural change: new DB table, schema change, new service, switching libs, breaking API, new infra | STOP → present decision (below) → track `[Rule 4 - Architectural]` | Ask user |
+| Rule                    | Trigger                                                                                                 | Action                                                             | Permission |
+| ----------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | ---------- |
+| **1: Bug**              | Broken behavior, errors, wrong queries, type errors, security vulns, race conditions, leaks             | Fix → test → verify → track `[Rule 1 - Bug]`                       | Auto       |
+| **2: Missing Critical** | Missing essentials: error handling, validation, auth, CSRF/CORS, rate limiting, indexes, logging        | Add → test → verify → track `[Rule 2 - Missing Critical]`          | Auto       |
+| **3: Blocking**         | Prevents completion: missing deps, wrong types, broken imports, missing env/config/files, circular deps | Fix blocker → verify proceeds → track `[Rule 3 - Blocking]`        | Auto       |
+| **4: Architectural**    | Structural change: new DB table, schema change, new service, switching libs, breaking API, new infra    | STOP → present decision (below) → track `[Rule 4 - Architectural]` | Ask user   |
 
 **Rule 4 format:**
 ```
@@ -213,7 +213,7 @@ Proceed with proposed change? (yes / different approach / defer)
 
 Summary MUST include deviations section. None? → `## Deviations from Plan\n\nNone - plan executed exactly as written.`
 
-Per deviation: **[Rule N - Category] Title** — Found during: Task X | Issue | Fix | Files modified | Verification | Commit hash
+Per deviation: **[Rule N - Category] Title** - Found during: Task X | Issue | Fix | Files modified | Verification | Commit hash
 
 End with: **Total deviations:** N auto-fixed (breakdown). **Impact:** assessment.
 
@@ -222,7 +222,7 @@ End with: **Total deviations:** N auto-fixed (breakdown). **Impact:** assessment
 <tdd_plan_execution>
 ## TDD Execution
 
-For `type: tdd` plans — RED-GREEN-REFACTOR:
+For `type: tdd` plans - RED-GREEN-REFACTOR:
 
 1. **Infrastructure** (first TDD plan only): detect project, install framework, config, verify empty suite
 2. **RED:** Read `<behavior>` → failing test(s) → run (MUST fail) → commit: `test({phase}-{plan}): add failing test for [feature]`
@@ -237,7 +237,7 @@ See `.gemini/get-shit-done/references/tdd.md` for structure.
 <precommit_failure_handling>
 ## Pre-commit Hook Failure Handling
 
-Your commits may trigger pre-commit hooks. Auto-fix hooks handle themselves transparently — files get fixed and re-staged automatically.
+Your commits may trigger pre-commit hooks. Auto-fix hooks handle themselves transparently - files get fixed and re-staged automatically.
 
 **If running as a parallel executor agent (spawned by execute-phase):**
 Use `--no-verify` on all commits. Pre-commit hooks cause build lock contention when multiple agents commit simultaneously (e.g., cargo lock fights in Rust projects). The orchestrator validates once after all agents complete.
@@ -246,7 +246,7 @@ Use `--no-verify` on all commits. Pre-commit hooks cause build lock contention w
 If a commit is BLOCKED by a hook:
 
 1. The `git commit` command fails with hook error output
-2. Read the error — it tells you exactly which hook and what failed
+2. Read the error - it tells you exactly which hook and what failed
 3. Fix the issue (type error, lint violation, secret leak, etc.)
 4. `git add` the fixed files
 5. Retry the commit
@@ -268,16 +268,16 @@ git add src/types/user.ts
 
 **3. Commit type:**
 
-| Type | When | Example |
-|------|------|---------|
-| `feat` | New functionality | feat(08-02): create user registration endpoint |
-| `fix` | Bug fix | fix(08-02): correct email validation regex |
-| `test` | Test-only (TDD RED) | test(08-02): add failing test for password hashing |
-| `refactor` | No behavior change (TDD REFACTOR) | refactor(08-02): extract validation to helper |
-| `perf` | Performance | perf(08-02): add database index |
-| `docs` | Documentation | docs(08-02): add API docs |
-| `style` | Formatting | style(08-02): format auth module |
-| `chore` | Config/deps | chore(08-02): add bcrypt dependency |
+| Type       | When                              | Example                                            |
+| ---------- | --------------------------------- | -------------------------------------------------- |
+| `feat`     | New functionality                 | feat(08-02): create user registration endpoint     |
+| `fix`      | Bug fix                           | fix(08-02): correct email validation regex         |
+| `test`     | Test-only (TDD RED)               | test(08-02): add failing test for password hashing |
+| `refactor` | No behavior change (TDD REFACTOR) | refactor(08-02): extract validation to helper      |
+| `perf`     | Performance                       | perf(08-02): add database index                    |
+| `docs`     | Documentation                     | docs(08-02): add API docs                          |
+| `style`    | Formatting                        | style(08-02): format auth module                   |
+| `chore`    | Config/deps                       | chore(08-02): add bcrypt dependency                |
 
 **4. Format:** `{type}({phase}-{plan}): {description}` with bullet points for key changes.
 
@@ -306,8 +306,8 @@ TASK_COMMITS+=("Task ${TASK_NUM}: ${TASK_COMMIT}")
 git status --short | grep '^??'
 ```
 If new untracked files appeared after running scripts or tools, decide for each:
-- **Commit it** — if it's a source file, config, or intentional artifact
-- **Add to .gitignore** — if it's a generated/runtime output (build artifacts, `.env` files, cache files, compiled output)
+- **Commit it** - if it's a source file, config, or intentional artifact
+- **Add to .gitignore** - if it's a generated/runtime output (build artifacts, `.env` files, cache files, compiled output)
 - Do NOT leave generated files untracked
 
 </task_commit>
@@ -317,13 +317,13 @@ On `type="checkpoint:*"`: automate everything possible first. Checkpoints are fo
 
 Display: `CHECKPOINT: [Type]` box → Progress {X}/{Y} → Task name → type-specific content → `YOUR ACTION: [signal]`
 
-| Type | Content | Resume signal |
-|------|---------|---------------|
-| human-verify (90%) | What was built + verification steps (commands/URLs) | "approved" or describe issues |
-| decision (9%) | Decision needed + context + options with pros/cons | "Select: option-id" |
-| human-action (1%) | What was automated + ONE manual step + verification plan | "done" |
+| Type               | Content                                                  | Resume signal                 |
+| ------------------ | -------------------------------------------------------- | ----------------------------- |
+| human-verify (90%) | What was built + verification steps (commands/URLs)      | "approved" or describe issues |
+| decision (9%)      | Decision needed + context + options with pros/cons       | "Select: option-id"           |
+| human-action (1%)  | What was automated + ONE manual step + verification plan | "done"                        |
 
-After response: verify if specified. Pass → continue. Fail → inform, wait. WAIT for user — do NOT hallucinate completion.
+After response: verify if specified. Pass → continue. Fail → inform, wait. WAIT for user - do NOT hallucinate completion.
 
 See .gemini/get-shit-done/references/checkpoints.md for details.
 </step>
@@ -490,11 +490,11 @@ If `USER_SETUP_CREATED=true`: display `⚠️ USER SETUP REQUIRED` with path + e
 (ls -1 .planning/phases/[current-phase-dir]/*-SUMMARY.md 2>/dev/null || true) | wc -l
 ```
 
-| Condition | Route | Action |
-|-----------|-------|--------|
-| summaries < plans | **A: More plans** | Find next PLAN without SUMMARY. Yolo: auto-continue. Interactive: show next plan, suggest `/gsd:execute-phase {phase}` + `/gsd:verify-work`. STOP here. |
-| summaries = plans, current < highest phase | **B: Phase done** | Show completion, suggest `/gsd:plan-phase {Z+1}` + `/gsd:verify-work {Z}` + `/gsd:discuss-phase {Z+1}` |
-| summaries = plans, current = highest phase | **C: Milestone done** | Show banner, suggest `/gsd:complete-milestone` + `/gsd:verify-work` + `/gsd:add-phase` |
+| Condition                                  | Route                 | Action                                                                                                                                                  |
+| ------------------------------------------ | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| summaries < plans                          | **A: More plans**     | Find next PLAN without SUMMARY. Yolo: auto-continue. Interactive: show next plan, suggest `/gsd:execute-phase {phase}` + `/gsd:verify-work`. STOP here. |
+| summaries = plans, current < highest phase | **B: Phase done**     | Show completion, suggest `/gsd:plan-phase {Z+1}` + `/gsd:verify-work {Z}` + `/gsd:discuss-phase {Z+1}`                                                  |
+| summaries = plans, current = highest phase | **C: Milestone done** | Show banner, suggest `/gsd:complete-milestone` + `/gsd:verify-work` + `/gsd:add-phase`                                                                  |
 
 All routes: `/clear` first for fresh context.
 </step>

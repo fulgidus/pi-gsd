@@ -94,7 +94,7 @@ Roadmap updated: .planning/ROADMAP.md
 ---
 
 **Also available:**
-- `/gsd-add-phase <description>` — add another phase
+- `/gsd-add-phase <description>` - add another phase
 - Review roadmap
 
 ---

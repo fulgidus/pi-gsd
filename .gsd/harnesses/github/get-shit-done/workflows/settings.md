@@ -26,14 +26,14 @@ cat .planning/config.json
 ```
 
 Parse current values (default to `true` if not present):
-- `workflow.research` — spawn researcher during plan-phase
-- `workflow.plan_check` — spawn plan checker during plan-phase
-- `workflow.verifier` — spawn verifier during execute-phase
-- `workflow.nyquist_validation` — validation architecture research during plan-phase (default: true if absent)
-- `workflow.ui_phase` — generate UI-SPEC.md design contracts for frontend phases (default: true if absent)
-- `workflow.ui_safety_gate` — prompt to run /gsd-ui-phase before planning frontend phases (default: true if absent)
-- `model_profile` — which model each agent uses (default: `balanced`)
-- `git.branching_strategy` — branching approach (default: `"none"`)
+- `workflow.research` - spawn researcher during plan-phase
+- `workflow.plan_check` - spawn plan checker during plan-phase
+- `workflow.verifier` - spawn verifier during execute-phase
+- `workflow.nyquist_validation` - validation architecture research during plan-phase (default: true if absent)
+- `workflow.ui_phase` - generate UI-SPEC.md design contracts for frontend phases (default: true if absent)
+- `workflow.ui_safety_gate` - prompt to run /gsd-ui-phase before planning frontend phases (default: true if absent)
+- `model_profile` - which model each agent uses (default: `balanced`)
+- `git.branching_strategy` - branching approach (default: `"none"`)
 </step>
 
 <step name="present_settings">
@@ -114,7 +114,7 @@ AskUserQuestion([
     multiSelect: false,
     options: [
       { label: "Yes (Recommended)", description: "plan-phase asks to run /gsd-ui-phase first when frontend indicators detected." },
-      { label: "No", description: "No prompt — plan-phase proceeds without UI-SPEC check." }
+      { label: "No", description: "No prompt - plan-phase proceeds without UI-SPEC check." }
     ]
   },
   {
@@ -150,8 +150,8 @@ AskUserQuestion([
     header: "Skip Discuss",
     multiSelect: false,
     options: [
-      { label: "No (Recommended)", description: "Run smart discuss before each phase — surfaces gray areas and captures decisions." },
-      { label: "Yes", description: "Skip discuss in /gsd-autonomous — chain directly to plan. Best for backend/pipeline work where phase descriptions are the spec." }
+      { label: "No (Recommended)", description: "Run smart discuss before each phase - surfaces gray areas and captures decisions." },
+      { label: "Yes", description: "Skip discuss in /gsd-autonomous - chain directly to plan. Best for backend/pipeline work where phase descriptions are the spec." }
     ]
   }
 ])
@@ -247,28 +247,28 @@ Display:
  GSD ► SETTINGS UPDATED
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-| Setting              | Value |
-|----------------------|-------|
-| Model Profile        | {quality/balanced/budget/inherit} |
-| Plan Researcher      | {On/Off} |
-| Plan Checker         | {On/Off} |
-| Execution Verifier   | {On/Off} |
-| Auto-Advance         | {On/Off} |
-| Nyquist Validation   | {On/Off} |
-| UI Phase             | {On/Off} |
-| UI Safety Gate       | {On/Off} |
-| Git Branching        | {None/Per Phase/Per Milestone} |
-| Skip Discuss         | {On/Off} |
-| Context Warnings     | {On/Off} |
-| Saved as Defaults    | {Yes/No} |
+| Setting            | Value                             |
+| ------------------ | --------------------------------- |
+| Model Profile      | {quality/balanced/budget/inherit} |
+| Plan Researcher    | {On/Off}                          |
+| Plan Checker       | {On/Off}                          |
+| Execution Verifier | {On/Off}                          |
+| Auto-Advance       | {On/Off}                          |
+| Nyquist Validation | {On/Off}                          |
+| UI Phase           | {On/Off}                          |
+| UI Safety Gate     | {On/Off}                          |
+| Git Branching      | {None/Per Phase/Per Milestone}    |
+| Skip Discuss       | {On/Off}                          |
+| Context Warnings   | {On/Off}                          |
+| Saved as Defaults  | {Yes/No}                          |
 
 These settings apply to future /gsd-plan-phase and /gsd-execute-phase runs.
 
 Quick commands:
-- /gsd-set-profile <profile> — switch model profile
-- /gsd-plan-phase --research — force research
-- /gsd-plan-phase --skip-research — skip research
-- /gsd-plan-phase --skip-verify — skip plan check
+- /gsd-set-profile <profile> - switch model profile
+- /gsd-plan-phase --research - force research
+- /gsd-plan-phase --skip-research - skip research
+- /gsd-plan-phase --skip-verify - skip plan check
 ```
 </step>
 

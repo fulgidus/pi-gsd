@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // gsd-hook-version: 1.30.0
-// SHARED CANONICAL FILE — hardlinked into all harness hooks/ directories.
+// SHARED CANONICAL FILE - hardlinked into all harness hooks/ directories.
 // Harness is auto-detected from process.env at runtime (GEMINI_API_KEY -> AfterTool).
 // Do NOT add harness-specific if/else blocks here. See HOOKS_ARCHITECTURE.md.
 // Context Monitor - PostToolUse/AfterTool hook (Gemini uses AfterTool)
@@ -123,12 +123,12 @@ process.stdin.on('end', () => {
     const isGsdActive = fs.existsSync(path.join(cwd, '.planning', 'STATE.md'));
 
     // Build advisory warning message (never use imperative commands that
-    // override user preferences — see #884)
+    // override user preferences - see #884)
     let message;
     if (isCritical) {
       message = isGsdActive
         ? `CONTEXT CRITICAL: Usage at ${usedPct}%. Remaining: ${remaining}%. ` +
-          'Context is nearly exhausted. Do NOT start new complex work or write handoff files — ' +
+          'Context is nearly exhausted. Do NOT start new complex work or write handoff files - ' +
           'GSD state is already tracked in STATE.md. Inform the user so they can run ' +
           '/gsd:pause-work at the next natural stopping point.'
         : `CONTEXT CRITICAL: Usage at ${usedPct}%. Remaining: ${remaining}%. ` +
