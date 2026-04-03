@@ -1,6 +1,6 @@
 {
 	"name": "pi-gsd",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "Get Shit Done - Unofficial port of the renowned AI-native project-planning spec-driven toolkit",
 	"main": "dist/gsd-tools.js",
 	"bin": {
