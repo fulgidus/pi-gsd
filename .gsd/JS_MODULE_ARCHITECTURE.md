@@ -204,9 +204,9 @@ phase_naming: 'sequential'
 
 ```js
 const MODEL_ALIAS_MAP = {
-  'opus':   'claude-opus-4-0',
-  'sonnet': 'claude-sonnet-4-5',
-  'haiku':  'claude-haiku-3-5',
+  'opus':   'claude-opus-4-6',
+  'sonnet': 'claude-sonnet-4-6',
+  'haiku':  'claude-haiku-4-5',
 };
 ```
 
@@ -790,7 +790,7 @@ resolveModelInternal(cwd, agentType)          [core.cjs:1000]
   │       where profile = config.model_profile ?? 'balanced'
   │       missing agentType → falls back to 'sonnet'
   └─ 4. config.resolve_model_ids === true
-         ? MODEL_ALIAS_MAP[alias]   → 'claude-opus-4-0' / 'claude-sonnet-4-5' / 'claude-haiku-3-5'
+         ? MODEL_ALIAS_MAP[alias]   → 'claude-opus-4-6' / 'claude-sonnet-4-6' / 'claude-haiku-4-5'
          : alias                    → 'opus' / 'sonnet' / 'haiku'
 ```
 
@@ -1108,9 +1108,9 @@ status: pending            # pending | complete
 
 | Alias | Full model ID |
 |-------|--------------|
-| `opus` | `claude-opus-4-0` |
-| `sonnet` | `claude-sonnet-4-5` |
-| `haiku` | `claude-haiku-3-5` |
+| `opus` | `claude-opus-4-6` |
+| `sonnet` | `claude-sonnet-4-6` |
+| `haiku` | `claude-haiku-4-5` |
 
 > Aliases are expanded to full IDs only when `config.resolve_model_ids === true`. When `resolve_model_ids === "omit"`, the model parameter is omitted entirely from agent invocations (letting the harness default apply). When `false` (default), the short alias string is passed through unchanged.
 
