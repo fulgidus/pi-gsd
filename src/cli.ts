@@ -975,12 +975,14 @@ async function runCommand(
 		case "generate-claude-md": {
 			const { cmdGenerateClaudeMd } = await import("./lib/profile-output.js");
 			const outputIdx2 = args.indexOf("--output");
+			const harnessIdx = args.indexOf("--harness");
 			cmdGenerateClaudeMd(
 				cwd,
 				{
 					output: outputIdx2 !== -1 ? args[outputIdx2 + 1] : null,
 					auto: args.includes("--auto"),
 					force: args.includes("--force"),
+					harness: harnessIdx !== -1 ? args[harnessIdx + 1] : null,
 				},
 				raw,
 			);

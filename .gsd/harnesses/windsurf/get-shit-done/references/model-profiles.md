@@ -1,4 +1,4 @@
-<!-- AUTO-GENERATED — do not edit by hand.
+<!-- AUTO-GENERATED - do not edit by hand.
      Source of truth: get-shit-done/bin/lib/model-profiles.cjs
      Regenerate with: node get-shit-done/bin/gsd-tools.cjs generate-model-profiles-md --harness windsurf
 -->
@@ -47,7 +47,7 @@ Model profiles control which Claude model each GSD agent uses. This allows balan
 **inherit** - Follow the current session model
 - All agents resolve to `inherit`
 - Best when you switch models interactively (for example OpenCode `/model`)
-- **Required when using non-Anthropic providers** (OpenRouter, local models, etc.) — otherwise GSD may call Anthropic models directly, incurring unexpected costs
+- **Required when using non-Anthropic providers** (OpenRouter, local models, etc.) - otherwise GSD may call Anthropic models directly, incurring unexpected costs
 - Use when: you want GSD to follow your currently selected runtime model
 
 ## Using Non-Claude Runtimes (Codex, OpenCode, Gemini CLI)
