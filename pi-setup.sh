@@ -31,9 +31,15 @@ PACKAGES=(
     "npm:pi-mcp-adapter"
     "npm:@manojlds/ralphi"
     "npm:pi-powerline-footer"
+    # "npm:pi-messenger"
+    "npm:pi-ask-user"
+    "npm:pi-tool-display"
+    "npm:pi-annotate"
+    "npm:@0xkobold/pi-learn"
     "npm:pi-animations"
     # "npm:@0xkobold/pi-ollama"
 )
+
 
 # Check if pi is installed
 if ! command -v pi &> /dev/null; then

@@ -1,6 +1,6 @@
 # pi-gsd
 
-A **TypeScript** pi package that ports the **Get Shit Done (GSD) v1.30.0** framework across 8 AI coding harnesses.
+A **TypeScript** pi package that ports the **Get Shit Done (GSD) v1.30.0**.
 
 ## Stack
 
@@ -22,8 +22,6 @@ npm run build:harnesses # Assemble .gsd/harnesses/ from canonical sources
 ## Validation / Integrity
 
 ```bash
-node scripts/validate-harness-sync.cjs   # 5-check cross-harness integrity suite
-node scripts/audit-harness-sync.cjs      # File hash comparison
 node scripts/validate-model-profiles.cjs # model-profiles.md ↔ .cjs sync
 ```
 
@@ -38,16 +36,15 @@ src/
 └── lib/                # Core modules (commands, config, core, state, ...)
 skills/                 # 57 GSD skill definitions (gsd-*/SKILL.md) — published
 scripts/                # Build + validation pipeline
-.gsd/                   # Canonical hook source + per-harness binary copies
+.pi/                    # Tier-2 modules and hooks
 dist/                   # Build output (gitignored)
 ```
 
 ## Conventions
 
-- **Tier-1 modules are byte-identical** across all 8 harnesses — never edit them directly in harness dirs
-- **Tier-2 modules** live in `.gsd/bin/<harness>/lib/` — edit canonical source only
-- **Hook files are hardlinked** — editing one edits all; never copy them
-- **Command prefix**: use `/gsd-<name>` (hyphen) everywhere; `/gsd:<name>` (colon) is internal dispatch only
+- **Tier-1 modules are byte-identical** to original GSD behavior
+- **Tier-2 modules** live in `.pi/`
+- **Command prefix**: use `/gsd-<name>` (hyphen) everywhere; `/gsd:<name>` (colon) is never used
 - **Commits**: Conventional Commits format
 - **Never touch**: `*.lock`, `.env*`, `.git/hooks/*`
 

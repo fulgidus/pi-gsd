@@ -75,7 +75,82 @@
         }
       ],
       "trend": "stable"
+    },
+    ".gsd/hooks/gsd-workflow-guard.js": {
+      "latest": {
+        "commit": "f2700f7",
+        "timestamp": "2026-04-03T20:49:24.210Z",
+        "mi": 49,
+        "cognitive": 34,
+        "nesting": 5,
+        "lines": 62,
+        "maxCyclomatic": 25,
+        "entropy": 6.2
+      },
+      "history": [
+        {
+          "commit": "f2700f7",
+          "timestamp": "2026-04-03T20:49:24.210Z",
+          "mi": 49,
+          "cognitive": 34,
+          "nesting": 5,
+          "lines": 62,
+          "maxCyclomatic": 25,
+          "entropy": 6.2
+        }
+      ],
+      "trend": "stable"
+    },
+    ".gsd/hooks/gsd-context-monitor.js": {
+      "latest": {
+        "commit": "f2700f7",
+        "timestamp": "2026-04-03T20:49:24.233Z",
+        "mi": 41.1,
+        "cognitive": 62,
+        "nesting": 5,
+        "lines": 98,
+        "maxCyclomatic": 51,
+        "entropy": 5.44
+      },
+      "history": [
+        {
+          "commit": "f2700f7",
+          "timestamp": "2026-04-03T20:49:24.233Z",
+          "mi": 41.1,
+          "cognitive": 62,
+          "nesting": 5,
+          "lines": 98,
+          "maxCyclomatic": 51,
+          "entropy": 5.44
+        }
+      ],
+      "trend": "stable"
+    },
+    "scripts/postinstall.js": {
+      "latest": {
+        "commit": "f2700f7",
+        "timestamp": "2026-04-03T20:49:40.360Z",
+        "mi": 31.9,
+        "cognitive": 92,
+        "nesting": 5,
+        "lines": 222,
+        "maxCyclomatic": 42,
+        "entropy": 5.49
+      },
+      "history": [
+        {
+          "commit": "f2700f7",
+          "timestamp": "2026-04-03T20:49:40.360Z",
+          "mi": 31.9,
+          "cognitive": 92,
+          "nesting": 5,
+          "lines": 222,
+          "maxCyclomatic": 42,
+          "entropy": 5.49
+        }
+      ],
+      "trend": "stable"
     }
   },
-  "capturedAt": "2026-04-03T17:52:00.165Z"
+  "capturedAt": "2026-04-03T20:49:45.380Z"
 }

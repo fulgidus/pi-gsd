@@ -1,9 +1,3507 @@
 {
-  "success": false,
-  "issues": [],
-  "unusedExports": [],
-  "unusedFiles": [],
-  "unusedDeps": [],
+  "success": true,
+  "issues": [
+    {
+      "type": "file",
+      "name": ".pi-lens/validate-harness-drift.js",
+      "file": ".pi-lens/validate-harness-drift.js"
+    },
+    {
+      "type": "file",
+      "name": "scripts/audit-harness-sync.cjs",
+      "file": "scripts/audit-harness-sync.cjs"
+    },
+    {
+      "type": "file",
+      "name": "scripts/validate-harness-sync.cjs",
+      "file": "scripts/validate-harness-sync.cjs"
+    },
+    {
+      "type": "file",
+      "name": "scripts/validate-model-profiles.cjs",
+      "file": "scripts/validate-model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/hooks/gsd-check-update.js",
+      "file": ".gsd/hooks/gsd-check-update.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/hooks/gsd-context-monitor.js",
+      "file": ".gsd/hooks/gsd-context-monitor.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/hooks/gsd-prompt-guard.js",
+      "file": ".gsd/hooks/gsd-prompt-guard.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/hooks/gsd-statusline.js",
+      "file": ".gsd/hooks/gsd-statusline.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/hooks/gsd-workflow-guard.js",
+      "file": ".gsd/hooks/gsd-workflow-guard.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/gsd-tools.cjs",
+      "file": ".gsd/bin/agent/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/gsd-tools.cjs",
+      "file": ".gsd/bin/claude/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/gsd-tools.cjs",
+      "file": ".gsd/bin/codex/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/gsd-tools.cjs",
+      "file": ".gsd/bin/cursor/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/gsd-tools.cjs",
+      "file": ".gsd/bin/github/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/gsd-tools.cjs",
+      "file": ".gsd/bin/opencode/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/gsd-tools.cjs",
+      "file": ".gsd/bin/windsurf/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/commands.cjs",
+      "file": ".gsd/bin/agent/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/config.cjs",
+      "file": ".gsd/bin/agent/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/core.cjs",
+      "file": ".gsd/bin/agent/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/frontmatter.cjs",
+      "file": ".gsd/bin/agent/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/init.cjs",
+      "file": ".gsd/bin/agent/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/milestone.cjs",
+      "file": ".gsd/bin/agent/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/model-profiles.cjs",
+      "file": ".gsd/bin/agent/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/phase.cjs",
+      "file": ".gsd/bin/agent/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/profile-output.cjs",
+      "file": ".gsd/bin/agent/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/profile-pipeline.cjs",
+      "file": ".gsd/bin/agent/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/roadmap.cjs",
+      "file": ".gsd/bin/agent/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/security.cjs",
+      "file": ".gsd/bin/agent/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/state.cjs",
+      "file": ".gsd/bin/agent/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/template.cjs",
+      "file": ".gsd/bin/agent/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/uat.cjs",
+      "file": ".gsd/bin/agent/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/verify.cjs",
+      "file": ".gsd/bin/agent/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/workstream.cjs",
+      "file": ".gsd/bin/agent/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/commands.cjs",
+      "file": ".gsd/bin/claude/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/config.cjs",
+      "file": ".gsd/bin/claude/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/core.cjs",
+      "file": ".gsd/bin/claude/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/frontmatter.cjs",
+      "file": ".gsd/bin/claude/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/init.cjs",
+      "file": ".gsd/bin/claude/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/milestone.cjs",
+      "file": ".gsd/bin/claude/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/model-profiles.cjs",
+      "file": ".gsd/bin/claude/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/phase.cjs",
+      "file": ".gsd/bin/claude/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/profile-output.cjs",
+      "file": ".gsd/bin/claude/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/profile-pipeline.cjs",
+      "file": ".gsd/bin/claude/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/roadmap.cjs",
+      "file": ".gsd/bin/claude/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/security.cjs",
+      "file": ".gsd/bin/claude/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/state.cjs",
+      "file": ".gsd/bin/claude/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/template.cjs",
+      "file": ".gsd/bin/claude/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/uat.cjs",
+      "file": ".gsd/bin/claude/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/verify.cjs",
+      "file": ".gsd/bin/claude/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/workstream.cjs",
+      "file": ".gsd/bin/claude/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/commands.cjs",
+      "file": ".gsd/bin/codex/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/config.cjs",
+      "file": ".gsd/bin/codex/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/core.cjs",
+      "file": ".gsd/bin/codex/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/frontmatter.cjs",
+      "file": ".gsd/bin/codex/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/init.cjs",
+      "file": ".gsd/bin/codex/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/milestone.cjs",
+      "file": ".gsd/bin/codex/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/model-profiles.cjs",
+      "file": ".gsd/bin/codex/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/phase.cjs",
+      "file": ".gsd/bin/codex/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/profile-output.cjs",
+      "file": ".gsd/bin/codex/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/profile-pipeline.cjs",
+      "file": ".gsd/bin/codex/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/roadmap.cjs",
+      "file": ".gsd/bin/codex/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/security.cjs",
+      "file": ".gsd/bin/codex/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/state.cjs",
+      "file": ".gsd/bin/codex/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/template.cjs",
+      "file": ".gsd/bin/codex/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/uat.cjs",
+      "file": ".gsd/bin/codex/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/verify.cjs",
+      "file": ".gsd/bin/codex/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/workstream.cjs",
+      "file": ".gsd/bin/codex/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/commands.cjs",
+      "file": ".gsd/bin/cursor/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/config.cjs",
+      "file": ".gsd/bin/cursor/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/core.cjs",
+      "file": ".gsd/bin/cursor/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/frontmatter.cjs",
+      "file": ".gsd/bin/cursor/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/init.cjs",
+      "file": ".gsd/bin/cursor/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/milestone.cjs",
+      "file": ".gsd/bin/cursor/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/model-profiles.cjs",
+      "file": ".gsd/bin/cursor/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/phase.cjs",
+      "file": ".gsd/bin/cursor/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/profile-output.cjs",
+      "file": ".gsd/bin/cursor/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/profile-pipeline.cjs",
+      "file": ".gsd/bin/cursor/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/roadmap.cjs",
+      "file": ".gsd/bin/cursor/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/security.cjs",
+      "file": ".gsd/bin/cursor/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/state.cjs",
+      "file": ".gsd/bin/cursor/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/template.cjs",
+      "file": ".gsd/bin/cursor/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/uat.cjs",
+      "file": ".gsd/bin/cursor/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/verify.cjs",
+      "file": ".gsd/bin/cursor/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/workstream.cjs",
+      "file": ".gsd/bin/cursor/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/commands.cjs",
+      "file": ".gsd/bin/github/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/config.cjs",
+      "file": ".gsd/bin/github/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/core.cjs",
+      "file": ".gsd/bin/github/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/frontmatter.cjs",
+      "file": ".gsd/bin/github/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/init.cjs",
+      "file": ".gsd/bin/github/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/milestone.cjs",
+      "file": ".gsd/bin/github/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/model-profiles.cjs",
+      "file": ".gsd/bin/github/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/phase.cjs",
+      "file": ".gsd/bin/github/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/profile-output.cjs",
+      "file": ".gsd/bin/github/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/profile-pipeline.cjs",
+      "file": ".gsd/bin/github/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/roadmap.cjs",
+      "file": ".gsd/bin/github/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/security.cjs",
+      "file": ".gsd/bin/github/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/state.cjs",
+      "file": ".gsd/bin/github/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/template.cjs",
+      "file": ".gsd/bin/github/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/uat.cjs",
+      "file": ".gsd/bin/github/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/verify.cjs",
+      "file": ".gsd/bin/github/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/workstream.cjs",
+      "file": ".gsd/bin/github/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/commands.cjs",
+      "file": ".gsd/bin/opencode/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/config.cjs",
+      "file": ".gsd/bin/opencode/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/core.cjs",
+      "file": ".gsd/bin/opencode/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/frontmatter.cjs",
+      "file": ".gsd/bin/opencode/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/init.cjs",
+      "file": ".gsd/bin/opencode/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/milestone.cjs",
+      "file": ".gsd/bin/opencode/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/model-profiles.cjs",
+      "file": ".gsd/bin/opencode/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/phase.cjs",
+      "file": ".gsd/bin/opencode/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/profile-output.cjs",
+      "file": ".gsd/bin/opencode/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/profile-pipeline.cjs",
+      "file": ".gsd/bin/opencode/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/roadmap.cjs",
+      "file": ".gsd/bin/opencode/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/security.cjs",
+      "file": ".gsd/bin/opencode/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/state.cjs",
+      "file": ".gsd/bin/opencode/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/template.cjs",
+      "file": ".gsd/bin/opencode/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/uat.cjs",
+      "file": ".gsd/bin/opencode/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/verify.cjs",
+      "file": ".gsd/bin/opencode/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/workstream.cjs",
+      "file": ".gsd/bin/opencode/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/commands.cjs",
+      "file": ".gsd/bin/windsurf/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/config.cjs",
+      "file": ".gsd/bin/windsurf/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/core.cjs",
+      "file": ".gsd/bin/windsurf/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/frontmatter.cjs",
+      "file": ".gsd/bin/windsurf/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/init.cjs",
+      "file": ".gsd/bin/windsurf/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/milestone.cjs",
+      "file": ".gsd/bin/windsurf/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/model-profiles.cjs",
+      "file": ".gsd/bin/windsurf/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/phase.cjs",
+      "file": ".gsd/bin/windsurf/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/profile-output.cjs",
+      "file": ".gsd/bin/windsurf/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/profile-pipeline.cjs",
+      "file": ".gsd/bin/windsurf/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/roadmap.cjs",
+      "file": ".gsd/bin/windsurf/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/security.cjs",
+      "file": ".gsd/bin/windsurf/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/state.cjs",
+      "file": ".gsd/bin/windsurf/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/template.cjs",
+      "file": ".gsd/bin/windsurf/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/uat.cjs",
+      "file": ".gsd/bin/windsurf/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/verify.cjs",
+      "file": ".gsd/bin/windsurf/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/workstream.cjs",
+      "file": ".gsd/bin/windsurf/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/hooks/gsd-check-update.js",
+      "file": ".gsd/harnesses/agent/hooks/gsd-check-update.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/hooks/gsd-context-monitor.js",
+      "file": ".gsd/harnesses/agent/hooks/gsd-context-monitor.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/hooks/gsd-prompt-guard.js",
+      "file": ".gsd/harnesses/agent/hooks/gsd-prompt-guard.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/hooks/gsd-statusline.js",
+      "file": ".gsd/harnesses/agent/hooks/gsd-statusline.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/hooks/gsd-workflow-guard.js",
+      "file": ".gsd/harnesses/agent/hooks/gsd-workflow-guard.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/hooks/gsd-check-update.js",
+      "file": ".gsd/harnesses/claude/hooks/gsd-check-update.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/hooks/gsd-context-monitor.js",
+      "file": ".gsd/harnesses/claude/hooks/gsd-context-monitor.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/hooks/gsd-prompt-guard.js",
+      "file": ".gsd/harnesses/claude/hooks/gsd-prompt-guard.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/hooks/gsd-statusline.js",
+      "file": ".gsd/harnesses/claude/hooks/gsd-statusline.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/hooks/gsd-workflow-guard.js",
+      "file": ".gsd/harnesses/claude/hooks/gsd-workflow-guard.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/hooks/gsd-check-update.js",
+      "file": ".gsd/harnesses/gemini/hooks/gsd-check-update.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/hooks/gsd-context-monitor.js",
+      "file": ".gsd/harnesses/gemini/hooks/gsd-context-monitor.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/hooks/gsd-prompt-guard.js",
+      "file": ".gsd/harnesses/gemini/hooks/gsd-prompt-guard.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/hooks/gsd-statusline.js",
+      "file": ".gsd/harnesses/gemini/hooks/gsd-statusline.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/hooks/gsd-workflow-guard.js",
+      "file": ".gsd/harnesses/gemini/hooks/gsd-workflow-guard.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/hooks/gsd-check-update.js",
+      "file": ".gsd/harnesses/opencode/hooks/gsd-check-update.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/hooks/gsd-context-monitor.js",
+      "file": ".gsd/harnesses/opencode/hooks/gsd-context-monitor.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/hooks/gsd-prompt-guard.js",
+      "file": ".gsd/harnesses/opencode/hooks/gsd-prompt-guard.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/hooks/gsd-statusline.js",
+      "file": ".gsd/harnesses/opencode/hooks/gsd-statusline.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/hooks/gsd-workflow-guard.js",
+      "file": ".gsd/harnesses/opencode/hooks/gsd-workflow-guard.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/gsd-tools.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/gsd-tools.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/gsd-tools.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/gsd-tools.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/gsd-tools.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/gsd-tools.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/gsd-tools.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/gsd-tools.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/commands.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/config.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/core.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/frontmatter.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/init.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/milestone.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/model-profiles.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/phase.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/profile-output.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/profile-pipeline.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/roadmap.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/security.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/state.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/template.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/uat.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/verify.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/workstream.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/commands.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/config.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/core.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/frontmatter.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/init.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/milestone.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/model-profiles.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/phase.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/profile-output.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/profile-pipeline.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/roadmap.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/security.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/state.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/template.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/uat.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/verify.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/workstream.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/commands.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/config.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/core.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/frontmatter.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/init.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/milestone.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/model-profiles.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/phase.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/profile-output.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/profile-pipeline.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/roadmap.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/security.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/state.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/template.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/uat.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/verify.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/workstream.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/commands.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/config.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/core.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/frontmatter.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/init.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/milestone.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/model-profiles.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/phase.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/profile-output.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/profile-pipeline.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/roadmap.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/security.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/state.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/template.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/uat.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/verify.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/workstream.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/commands.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/config.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/core.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/frontmatter.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/init.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/milestone.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/model-profiles.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/phase.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/profile-output.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/profile-pipeline.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/roadmap.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/security.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/state.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/template.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/uat.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/verify.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/workstream.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/commands.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/config.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/core.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/frontmatter.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/init.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/milestone.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/model-profiles.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/phase.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/profile-output.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/profile-pipeline.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/roadmap.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/security.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/state.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/template.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/uat.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/verify.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/workstream.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/commands.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/config.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/core.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/frontmatter.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/init.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/milestone.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/model-profiles.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/phase.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/profile-output.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/profile-pipeline.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/roadmap.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/security.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/state.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/template.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/uat.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/verify.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/workstream.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/commands.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/config.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/core.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/frontmatter.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/init.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/milestone.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/model-profiles.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/phase.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/profile-output.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/profile-pipeline.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/roadmap.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/security.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/state.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/template.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/uat.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/verify.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/workstream.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/workstream.cjs"
+    },
+    {
+      "type": "dependency",
+      "name": "commander",
+      "file": "package.json",
+      "line": 64
+    },
+    {
+      "type": "devDependency",
+      "name": "tsup",
+      "file": "package.json",
+      "line": 68
+    },
+    {
+      "type": "export",
+      "name": "MODEL_ALIAS_MAP",
+      "file": "src/lib/core.ts",
+      "line": 121
+    },
+    {
+      "type": "export",
+      "name": "detectSubRepos",
+      "file": "src/lib/core.ts",
+      "line": 133
+    },
+    {
+      "type": "export",
+      "name": "reapStaleTempFiles",
+      "file": "src/lib/core.ts",
+      "line": 207
+    },
+    {
+      "type": "export",
+      "name": "withPlanningLock",
+      "file": "src/lib/core.ts",
+      "line": 572
+    },
+    {
+      "type": "export",
+      "name": "searchPhaseInDir",
+      "file": "src/lib/core.ts",
+      "line": 740
+    },
+    {
+      "type": "export",
+      "name": "getAgentsDir",
+      "file": "src/lib/core.ts",
+      "line": 978
+    },
+    {
+      "type": "export",
+      "name": "pathExistsInternal",
+      "file": "src/lib/core.ts",
+      "line": 1039
+    },
+    {
+      "type": "export",
+      "name": "getPhaseFileStats",
+      "file": "src/lib/core.ts",
+      "line": 1140
+    },
+    {
+      "type": "export",
+      "name": "PhaseNamingMode",
+      "file": "src/lib/core.ts",
+      "line": 17
+    },
+    {
+      "type": "export",
+      "name": "ModelProfile",
+      "file": "src/lib/core.ts",
+      "line": 18
+    },
+    {
+      "type": "export",
+      "name": "ResolveModelIds",
+      "file": "src/lib/core.ts",
+      "line": 19
+    },
+    {
+      "type": "export",
+      "name": "GSDConfig",
+      "file": "src/lib/core.ts",
+      "line": 21
+    },
+    {
+      "type": "export",
+      "name": "PlanningPaths",
+      "file": "src/lib/core.ts",
+      "line": 46
+    },
+    {
+      "type": "export",
+      "name": "PhaseSearchResult",
+      "file": "src/lib/core.ts",
+      "line": 56
+    },
+    {
+      "type": "export",
+      "name": "ArchivedPhaseEntry",
+      "file": "src/lib/core.ts",
+      "line": 72
+    },
+    {
+      "type": "export",
+      "name": "MilestoneInfo",
+      "file": "src/lib/core.ts",
+      "line": 79
+    },
+    {
+      "type": "export",
+      "name": "RoadmapPhaseResult",
+      "file": "src/lib/core.ts",
+      "line": 84
+    },
+    {
+      "type": "export",
+      "name": "GitResult",
+      "file": "src/lib/core.ts",
+      "line": 92
+    },
+    {
+      "type": "export",
+      "name": "PhaseFileStats",
+      "file": "src/lib/core.ts",
+      "line": 98
+    },
+    {
+      "type": "export",
+      "name": "AgentsInstallStatus",
+      "file": "src/lib/core.ts",
+      "line": 107
+    },
+    {
+      "type": "export",
+      "name": "ReapOptions",
+      "file": "src/lib/core.ts",
+      "line": 114
+    },
+    {
+      "type": "export",
+      "name": "stripFrontmatter",
+      "file": "src/lib/state.ts",
+      "line": 123
+    },
+    {
+      "type": "export",
+      "name": "scanForInjection",
+      "file": "src/lib/security.ts",
+      "line": 57
+    },
+    {
+      "type": "export",
+      "name": "SafeJsonResult",
+      "file": "src/lib/security.ts",
+      "line": 12
+    },
+    {
+      "type": "export",
+      "name": "SafeJsonError",
+      "file": "src/lib/security.ts",
+      "line": 16
+    },
+    {
+      "type": "export",
+      "name": "SafeJsonParseResult",
+      "file": "src/lib/security.ts",
+      "line": 20
+    },
+    {
+      "type": "export",
+      "name": "PathValidationResult",
+      "file": "src/lib/security.ts",
+      "line": 22
+    },
+    {
+      "type": "export",
+      "name": "FieldValidationResult",
+      "file": "src/lib/security.ts",
+      "line": 28
+    },
+    {
+      "type": "export",
+      "name": "FRONTMATTER_SCHEMAS",
+      "file": "src/lib/frontmatter.ts",
+      "line": 16
+    },
+    {
+      "type": "export",
+      "name": "spliceFrontmatter",
+      "file": "src/lib/frontmatter.ts",
+      "line": 206
+    },
+    {
+      "type": "export",
+      "name": "FrontmatterObject",
+      "file": "src/lib/frontmatter.ts",
+      "line": 12
+    },
+    {
+      "type": "export",
+      "name": "FrontmatterSchema",
+      "file": "src/lib/frontmatter.ts",
+      "line": 14
+    },
+    {
+      "type": "export",
+      "name": "ensureConfigFile",
+      "file": "src/lib/config.ts",
+      "line": 186
+    },
+    {
+      "type": "export",
+      "name": "setConfigValue",
+      "file": "src/lib/config.ts",
+      "line": 211
+    },
+    {
+      "type": "export",
+      "name": "parseCurrentTest",
+      "file": "src/lib/uat.ts",
+      "line": 146
+    },
+    {
+      "type": "export",
+      "name": "buildCheckpoint",
+      "file": "src/lib/uat.ts",
+      "line": 183
+    },
+    {
+      "type": "export",
+      "name": "ModelAlias",
+      "file": "src/lib/model-profiles.ts",
+      "line": 13
+    },
+    {
+      "type": "export",
+      "name": "AgentName",
+      "file": "src/lib/model-profiles.ts",
+      "line": 15
+    },
+    {
+      "type": "export",
+      "name": "AgentProfile",
+      "file": "src/lib/model-profiles.ts",
+      "line": 17
+    },
+    {
+      "type": "export",
+      "name": "HarnessConfig",
+      "file": "src/lib/model-profiles.ts",
+      "line": 75
+    }
+  ],
+  "unusedExports": [
+    {
+      "type": "export",
+      "name": "MODEL_ALIAS_MAP",
+      "file": "src/lib/core.ts",
+      "line": 121
+    },
+    {
+      "type": "export",
+      "name": "detectSubRepos",
+      "file": "src/lib/core.ts",
+      "line": 133
+    },
+    {
+      "type": "export",
+      "name": "reapStaleTempFiles",
+      "file": "src/lib/core.ts",
+      "line": 207
+    },
+    {
+      "type": "export",
+      "name": "withPlanningLock",
+      "file": "src/lib/core.ts",
+      "line": 572
+    },
+    {
+      "type": "export",
+      "name": "searchPhaseInDir",
+      "file": "src/lib/core.ts",
+      "line": 740
+    },
+    {
+      "type": "export",
+      "name": "getAgentsDir",
+      "file": "src/lib/core.ts",
+      "line": 978
+    },
+    {
+      "type": "export",
+      "name": "pathExistsInternal",
+      "file": "src/lib/core.ts",
+      "line": 1039
+    },
+    {
+      "type": "export",
+      "name": "getPhaseFileStats",
+      "file": "src/lib/core.ts",
+      "line": 1140
+    },
+    {
+      "type": "export",
+      "name": "PhaseNamingMode",
+      "file": "src/lib/core.ts",
+      "line": 17
+    },
+    {
+      "type": "export",
+      "name": "ModelProfile",
+      "file": "src/lib/core.ts",
+      "line": 18
+    },
+    {
+      "type": "export",
+      "name": "ResolveModelIds",
+      "file": "src/lib/core.ts",
+      "line": 19
+    },
+    {
+      "type": "export",
+      "name": "GSDConfig",
+      "file": "src/lib/core.ts",
+      "line": 21
+    },
+    {
+      "type": "export",
+      "name": "PlanningPaths",
+      "file": "src/lib/core.ts",
+      "line": 46
+    },
+    {
+      "type": "export",
+      "name": "PhaseSearchResult",
+      "file": "src/lib/core.ts",
+      "line": 56
+    },
+    {
+      "type": "export",
+      "name": "ArchivedPhaseEntry",
+      "file": "src/lib/core.ts",
+      "line": 72
+    },
+    {
+      "type": "export",
+      "name": "MilestoneInfo",
+      "file": "src/lib/core.ts",
+      "line": 79
+    },
+    {
+      "type": "export",
+      "name": "RoadmapPhaseResult",
+      "file": "src/lib/core.ts",
+      "line": 84
+    },
+    {
+      "type": "export",
+      "name": "GitResult",
+      "file": "src/lib/core.ts",
+      "line": 92
+    },
+    {
+      "type": "export",
+      "name": "PhaseFileStats",
+      "file": "src/lib/core.ts",
+      "line": 98
+    },
+    {
+      "type": "export",
+      "name": "AgentsInstallStatus",
+      "file": "src/lib/core.ts",
+      "line": 107
+    },
+    {
+      "type": "export",
+      "name": "ReapOptions",
+      "file": "src/lib/core.ts",
+      "line": 114
+    },
+    {
+      "type": "export",
+      "name": "stripFrontmatter",
+      "file": "src/lib/state.ts",
+      "line": 123
+    },
+    {
+      "type": "export",
+      "name": "scanForInjection",
+      "file": "src/lib/security.ts",
+      "line": 57
+    },
+    {
+      "type": "export",
+      "name": "SafeJsonResult",
+      "file": "src/lib/security.ts",
+      "line": 12
+    },
+    {
+      "type": "export",
+      "name": "SafeJsonError",
+      "file": "src/lib/security.ts",
+      "line": 16
+    },
+    {
+      "type": "export",
+      "name": "SafeJsonParseResult",
+      "file": "src/lib/security.ts",
+      "line": 20
+    },
+    {
+      "type": "export",
+      "name": "PathValidationResult",
+      "file": "src/lib/security.ts",
+      "line": 22
+    },
+    {
+      "type": "export",
+      "name": "FieldValidationResult",
+      "file": "src/lib/security.ts",
+      "line": 28
+    },
+    {
+      "type": "export",
+      "name": "FRONTMATTER_SCHEMAS",
+      "file": "src/lib/frontmatter.ts",
+      "line": 16
+    },
+    {
+      "type": "export",
+      "name": "spliceFrontmatter",
+      "file": "src/lib/frontmatter.ts",
+      "line": 206
+    },
+    {
+      "type": "export",
+      "name": "FrontmatterObject",
+      "file": "src/lib/frontmatter.ts",
+      "line": 12
+    },
+    {
+      "type": "export",
+      "name": "FrontmatterSchema",
+      "file": "src/lib/frontmatter.ts",
+      "line": 14
+    },
+    {
+      "type": "export",
+      "name": "ensureConfigFile",
+      "file": "src/lib/config.ts",
+      "line": 186
+    },
+    {
+      "type": "export",
+      "name": "setConfigValue",
+      "file": "src/lib/config.ts",
+      "line": 211
+    },
+    {
+      "type": "export",
+      "name": "parseCurrentTest",
+      "file": "src/lib/uat.ts",
+      "line": 146
+    },
+    {
+      "type": "export",
+      "name": "buildCheckpoint",
+      "file": "src/lib/uat.ts",
+      "line": 183
+    },
+    {
+      "type": "export",
+      "name": "ModelAlias",
+      "file": "src/lib/model-profiles.ts",
+      "line": 13
+    },
+    {
+      "type": "export",
+      "name": "AgentName",
+      "file": "src/lib/model-profiles.ts",
+      "line": 15
+    },
+    {
+      "type": "export",
+      "name": "AgentProfile",
+      "file": "src/lib/model-profiles.ts",
+      "line": 17
+    },
+    {
+      "type": "export",
+      "name": "HarnessConfig",
+      "file": "src/lib/model-profiles.ts",
+      "line": 75
+    }
+  ],
+  "unusedFiles": [
+    {
+      "type": "file",
+      "name": ".pi-lens/validate-harness-drift.js",
+      "file": ".pi-lens/validate-harness-drift.js"
+    },
+    {
+      "type": "file",
+      "name": "scripts/audit-harness-sync.cjs",
+      "file": "scripts/audit-harness-sync.cjs"
+    },
+    {
+      "type": "file",
+      "name": "scripts/validate-harness-sync.cjs",
+      "file": "scripts/validate-harness-sync.cjs"
+    },
+    {
+      "type": "file",
+      "name": "scripts/validate-model-profiles.cjs",
+      "file": "scripts/validate-model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/hooks/gsd-check-update.js",
+      "file": ".gsd/hooks/gsd-check-update.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/hooks/gsd-context-monitor.js",
+      "file": ".gsd/hooks/gsd-context-monitor.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/hooks/gsd-prompt-guard.js",
+      "file": ".gsd/hooks/gsd-prompt-guard.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/hooks/gsd-statusline.js",
+      "file": ".gsd/hooks/gsd-statusline.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/hooks/gsd-workflow-guard.js",
+      "file": ".gsd/hooks/gsd-workflow-guard.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/gsd-tools.cjs",
+      "file": ".gsd/bin/agent/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/gsd-tools.cjs",
+      "file": ".gsd/bin/claude/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/gsd-tools.cjs",
+      "file": ".gsd/bin/codex/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/gsd-tools.cjs",
+      "file": ".gsd/bin/cursor/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/gsd-tools.cjs",
+      "file": ".gsd/bin/github/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/gsd-tools.cjs",
+      "file": ".gsd/bin/opencode/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/gsd-tools.cjs",
+      "file": ".gsd/bin/windsurf/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/commands.cjs",
+      "file": ".gsd/bin/agent/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/config.cjs",
+      "file": ".gsd/bin/agent/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/core.cjs",
+      "file": ".gsd/bin/agent/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/frontmatter.cjs",
+      "file": ".gsd/bin/agent/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/init.cjs",
+      "file": ".gsd/bin/agent/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/milestone.cjs",
+      "file": ".gsd/bin/agent/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/model-profiles.cjs",
+      "file": ".gsd/bin/agent/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/phase.cjs",
+      "file": ".gsd/bin/agent/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/profile-output.cjs",
+      "file": ".gsd/bin/agent/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/profile-pipeline.cjs",
+      "file": ".gsd/bin/agent/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/roadmap.cjs",
+      "file": ".gsd/bin/agent/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/security.cjs",
+      "file": ".gsd/bin/agent/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/state.cjs",
+      "file": ".gsd/bin/agent/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/template.cjs",
+      "file": ".gsd/bin/agent/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/uat.cjs",
+      "file": ".gsd/bin/agent/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/verify.cjs",
+      "file": ".gsd/bin/agent/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/agent/lib/workstream.cjs",
+      "file": ".gsd/bin/agent/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/commands.cjs",
+      "file": ".gsd/bin/claude/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/config.cjs",
+      "file": ".gsd/bin/claude/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/core.cjs",
+      "file": ".gsd/bin/claude/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/frontmatter.cjs",
+      "file": ".gsd/bin/claude/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/init.cjs",
+      "file": ".gsd/bin/claude/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/milestone.cjs",
+      "file": ".gsd/bin/claude/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/model-profiles.cjs",
+      "file": ".gsd/bin/claude/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/phase.cjs",
+      "file": ".gsd/bin/claude/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/profile-output.cjs",
+      "file": ".gsd/bin/claude/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/profile-pipeline.cjs",
+      "file": ".gsd/bin/claude/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/roadmap.cjs",
+      "file": ".gsd/bin/claude/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/security.cjs",
+      "file": ".gsd/bin/claude/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/state.cjs",
+      "file": ".gsd/bin/claude/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/template.cjs",
+      "file": ".gsd/bin/claude/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/uat.cjs",
+      "file": ".gsd/bin/claude/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/verify.cjs",
+      "file": ".gsd/bin/claude/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/claude/lib/workstream.cjs",
+      "file": ".gsd/bin/claude/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/commands.cjs",
+      "file": ".gsd/bin/codex/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/config.cjs",
+      "file": ".gsd/bin/codex/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/core.cjs",
+      "file": ".gsd/bin/codex/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/frontmatter.cjs",
+      "file": ".gsd/bin/codex/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/init.cjs",
+      "file": ".gsd/bin/codex/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/milestone.cjs",
+      "file": ".gsd/bin/codex/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/model-profiles.cjs",
+      "file": ".gsd/bin/codex/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/phase.cjs",
+      "file": ".gsd/bin/codex/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/profile-output.cjs",
+      "file": ".gsd/bin/codex/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/profile-pipeline.cjs",
+      "file": ".gsd/bin/codex/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/roadmap.cjs",
+      "file": ".gsd/bin/codex/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/security.cjs",
+      "file": ".gsd/bin/codex/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/state.cjs",
+      "file": ".gsd/bin/codex/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/template.cjs",
+      "file": ".gsd/bin/codex/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/uat.cjs",
+      "file": ".gsd/bin/codex/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/verify.cjs",
+      "file": ".gsd/bin/codex/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/codex/lib/workstream.cjs",
+      "file": ".gsd/bin/codex/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/commands.cjs",
+      "file": ".gsd/bin/cursor/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/config.cjs",
+      "file": ".gsd/bin/cursor/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/core.cjs",
+      "file": ".gsd/bin/cursor/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/frontmatter.cjs",
+      "file": ".gsd/bin/cursor/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/init.cjs",
+      "file": ".gsd/bin/cursor/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/milestone.cjs",
+      "file": ".gsd/bin/cursor/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/model-profiles.cjs",
+      "file": ".gsd/bin/cursor/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/phase.cjs",
+      "file": ".gsd/bin/cursor/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/profile-output.cjs",
+      "file": ".gsd/bin/cursor/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/profile-pipeline.cjs",
+      "file": ".gsd/bin/cursor/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/roadmap.cjs",
+      "file": ".gsd/bin/cursor/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/security.cjs",
+      "file": ".gsd/bin/cursor/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/state.cjs",
+      "file": ".gsd/bin/cursor/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/template.cjs",
+      "file": ".gsd/bin/cursor/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/uat.cjs",
+      "file": ".gsd/bin/cursor/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/verify.cjs",
+      "file": ".gsd/bin/cursor/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/cursor/lib/workstream.cjs",
+      "file": ".gsd/bin/cursor/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/commands.cjs",
+      "file": ".gsd/bin/github/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/config.cjs",
+      "file": ".gsd/bin/github/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/core.cjs",
+      "file": ".gsd/bin/github/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/frontmatter.cjs",
+      "file": ".gsd/bin/github/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/init.cjs",
+      "file": ".gsd/bin/github/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/milestone.cjs",
+      "file": ".gsd/bin/github/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/model-profiles.cjs",
+      "file": ".gsd/bin/github/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/phase.cjs",
+      "file": ".gsd/bin/github/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/profile-output.cjs",
+      "file": ".gsd/bin/github/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/profile-pipeline.cjs",
+      "file": ".gsd/bin/github/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/roadmap.cjs",
+      "file": ".gsd/bin/github/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/security.cjs",
+      "file": ".gsd/bin/github/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/state.cjs",
+      "file": ".gsd/bin/github/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/template.cjs",
+      "file": ".gsd/bin/github/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/uat.cjs",
+      "file": ".gsd/bin/github/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/verify.cjs",
+      "file": ".gsd/bin/github/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/github/lib/workstream.cjs",
+      "file": ".gsd/bin/github/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/commands.cjs",
+      "file": ".gsd/bin/opencode/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/config.cjs",
+      "file": ".gsd/bin/opencode/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/core.cjs",
+      "file": ".gsd/bin/opencode/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/frontmatter.cjs",
+      "file": ".gsd/bin/opencode/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/init.cjs",
+      "file": ".gsd/bin/opencode/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/milestone.cjs",
+      "file": ".gsd/bin/opencode/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/model-profiles.cjs",
+      "file": ".gsd/bin/opencode/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/phase.cjs",
+      "file": ".gsd/bin/opencode/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/profile-output.cjs",
+      "file": ".gsd/bin/opencode/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/profile-pipeline.cjs",
+      "file": ".gsd/bin/opencode/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/roadmap.cjs",
+      "file": ".gsd/bin/opencode/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/security.cjs",
+      "file": ".gsd/bin/opencode/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/state.cjs",
+      "file": ".gsd/bin/opencode/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/template.cjs",
+      "file": ".gsd/bin/opencode/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/uat.cjs",
+      "file": ".gsd/bin/opencode/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/verify.cjs",
+      "file": ".gsd/bin/opencode/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/opencode/lib/workstream.cjs",
+      "file": ".gsd/bin/opencode/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/commands.cjs",
+      "file": ".gsd/bin/windsurf/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/config.cjs",
+      "file": ".gsd/bin/windsurf/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/core.cjs",
+      "file": ".gsd/bin/windsurf/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/frontmatter.cjs",
+      "file": ".gsd/bin/windsurf/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/init.cjs",
+      "file": ".gsd/bin/windsurf/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/milestone.cjs",
+      "file": ".gsd/bin/windsurf/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/model-profiles.cjs",
+      "file": ".gsd/bin/windsurf/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/phase.cjs",
+      "file": ".gsd/bin/windsurf/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/profile-output.cjs",
+      "file": ".gsd/bin/windsurf/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/profile-pipeline.cjs",
+      "file": ".gsd/bin/windsurf/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/roadmap.cjs",
+      "file": ".gsd/bin/windsurf/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/security.cjs",
+      "file": ".gsd/bin/windsurf/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/state.cjs",
+      "file": ".gsd/bin/windsurf/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/template.cjs",
+      "file": ".gsd/bin/windsurf/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/uat.cjs",
+      "file": ".gsd/bin/windsurf/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/verify.cjs",
+      "file": ".gsd/bin/windsurf/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/bin/windsurf/lib/workstream.cjs",
+      "file": ".gsd/bin/windsurf/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/hooks/gsd-check-update.js",
+      "file": ".gsd/harnesses/agent/hooks/gsd-check-update.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/hooks/gsd-context-monitor.js",
+      "file": ".gsd/harnesses/agent/hooks/gsd-context-monitor.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/hooks/gsd-prompt-guard.js",
+      "file": ".gsd/harnesses/agent/hooks/gsd-prompt-guard.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/hooks/gsd-statusline.js",
+      "file": ".gsd/harnesses/agent/hooks/gsd-statusline.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/hooks/gsd-workflow-guard.js",
+      "file": ".gsd/harnesses/agent/hooks/gsd-workflow-guard.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/hooks/gsd-check-update.js",
+      "file": ".gsd/harnesses/claude/hooks/gsd-check-update.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/hooks/gsd-context-monitor.js",
+      "file": ".gsd/harnesses/claude/hooks/gsd-context-monitor.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/hooks/gsd-prompt-guard.js",
+      "file": ".gsd/harnesses/claude/hooks/gsd-prompt-guard.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/hooks/gsd-statusline.js",
+      "file": ".gsd/harnesses/claude/hooks/gsd-statusline.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/hooks/gsd-workflow-guard.js",
+      "file": ".gsd/harnesses/claude/hooks/gsd-workflow-guard.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/hooks/gsd-check-update.js",
+      "file": ".gsd/harnesses/gemini/hooks/gsd-check-update.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/hooks/gsd-context-monitor.js",
+      "file": ".gsd/harnesses/gemini/hooks/gsd-context-monitor.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/hooks/gsd-prompt-guard.js",
+      "file": ".gsd/harnesses/gemini/hooks/gsd-prompt-guard.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/hooks/gsd-statusline.js",
+      "file": ".gsd/harnesses/gemini/hooks/gsd-statusline.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/hooks/gsd-workflow-guard.js",
+      "file": ".gsd/harnesses/gemini/hooks/gsd-workflow-guard.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/hooks/gsd-check-update.js",
+      "file": ".gsd/harnesses/opencode/hooks/gsd-check-update.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/hooks/gsd-context-monitor.js",
+      "file": ".gsd/harnesses/opencode/hooks/gsd-context-monitor.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/hooks/gsd-prompt-guard.js",
+      "file": ".gsd/harnesses/opencode/hooks/gsd-prompt-guard.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/hooks/gsd-statusline.js",
+      "file": ".gsd/harnesses/opencode/hooks/gsd-statusline.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/hooks/gsd-workflow-guard.js",
+      "file": ".gsd/harnesses/opencode/hooks/gsd-workflow-guard.js"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/gsd-tools.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/gsd-tools.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/gsd-tools.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/gsd-tools.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/gsd-tools.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/gsd-tools.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/gsd-tools.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/gsd-tools.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/gsd-tools.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/commands.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/config.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/core.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/frontmatter.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/init.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/milestone.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/model-profiles.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/phase.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/profile-output.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/profile-pipeline.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/roadmap.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/security.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/state.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/template.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/uat.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/verify.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/agent/get-shit-done/bin/lib/workstream.cjs",
+      "file": ".gsd/harnesses/agent/get-shit-done/bin/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/commands.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/config.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/core.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/frontmatter.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/init.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/milestone.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/model-profiles.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/phase.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/profile-output.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/profile-pipeline.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/roadmap.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/security.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/state.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/template.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/uat.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/verify.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/claude/get-shit-done/bin/lib/workstream.cjs",
+      "file": ".gsd/harnesses/claude/get-shit-done/bin/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/commands.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/config.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/core.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/frontmatter.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/init.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/milestone.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/model-profiles.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/phase.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/profile-output.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/profile-pipeline.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/roadmap.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/security.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/state.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/template.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/uat.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/verify.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/codex/get-shit-done/bin/lib/workstream.cjs",
+      "file": ".gsd/harnesses/codex/get-shit-done/bin/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/commands.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/config.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/core.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/frontmatter.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/init.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/milestone.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/model-profiles.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/phase.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/profile-output.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/profile-pipeline.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/roadmap.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/security.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/state.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/template.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/uat.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/verify.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/cursor/get-shit-done/bin/lib/workstream.cjs",
+      "file": ".gsd/harnesses/cursor/get-shit-done/bin/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/commands.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/config.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/core.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/frontmatter.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/init.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/milestone.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/model-profiles.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/phase.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/profile-output.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/profile-pipeline.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/roadmap.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/security.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/state.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/template.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/uat.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/verify.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/gemini/get-shit-done/bin/lib/workstream.cjs",
+      "file": ".gsd/harnesses/gemini/get-shit-done/bin/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/commands.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/config.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/core.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/frontmatter.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/init.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/milestone.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/model-profiles.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/phase.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/profile-output.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/profile-pipeline.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/roadmap.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/security.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/state.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/template.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/uat.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/verify.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/github/get-shit-done/bin/lib/workstream.cjs",
+      "file": ".gsd/harnesses/github/get-shit-done/bin/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/commands.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/config.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/core.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/frontmatter.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/init.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/milestone.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/model-profiles.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/phase.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/profile-output.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/profile-pipeline.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/roadmap.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/security.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/state.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/template.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/uat.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/verify.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/opencode/get-shit-done/bin/lib/workstream.cjs",
+      "file": ".gsd/harnesses/opencode/get-shit-done/bin/lib/workstream.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/commands.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/commands.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/config.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/config.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/core.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/core.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/frontmatter.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/frontmatter.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/init.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/init.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/milestone.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/milestone.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/model-profiles.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/model-profiles.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/phase.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/phase.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/profile-output.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/profile-output.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/profile-pipeline.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/profile-pipeline.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/roadmap.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/roadmap.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/security.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/security.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/state.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/state.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/template.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/template.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/uat.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/uat.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/verify.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/verify.cjs"
+    },
+    {
+      "type": "file",
+      "name": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/workstream.cjs",
+      "file": ".gsd/harnesses/windsurf/get-shit-done/bin/lib/workstream.cjs"
+    }
+  ],
+  "unusedDeps": [
+    {
+      "type": "dependency",
+      "name": "commander",
+      "file": "package.json",
+      "line": 64
+    },
+    {
+      "type": "devDependency",
+      "name": "tsup",
+      "file": "package.json",
+      "line": 68
+    }
+  ],
   "unlistedDeps": [],
-  "summary": "Failed to parse output"
+  "summary": "Found 341 issues"
 }
