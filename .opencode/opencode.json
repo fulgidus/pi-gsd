@@ -1,0 +1,10 @@
+{
+  "permission": {
+    "read": {
+      "/home/fulgidus/Documents/pi-gsd/.opencode/get-shit-done/*": "allow"
+    },
+    "external_directory": {
+      "/home/fulgidus/Documents/pi-gsd/.opencode/get-shit-done/*": "allow"
+    }
+  }
+}

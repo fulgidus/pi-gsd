@@ -1,0 +1,46 @@
+name: Validate model-profiles sync
+
+# Runs on every push and pull-request that touches either the source data
+# (.cjs) or any of the generated markdown copies.  Also runs on any push to
+# main/master so the full repo state is always verified after merges.
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - '.agent/get-shit-done/bin/lib/model-profiles.cjs'
+      - '**/get-shit-done/references/model-profiles.md'
+      - 'scripts/validate-model-profiles.cjs'
+  pull_request:
+    paths:
+      - '.agent/get-shit-done/bin/lib/model-profiles.cjs'
+      - '**/get-shit-done/references/model-profiles.md'
+      - 'scripts/validate-model-profiles.cjs'
+
+jobs:
+  model-profiles-sync:
+    name: model-profiles.md in sync with model-profiles.cjs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Validate model-profiles sync
+        run: node scripts/validate-model-profiles.cjs --quiet
+
+      - name: Show diff on failure
+        if: failure()
+        run: |
+          echo "::error::One or more harness model-profiles.md files are out of sync."
+          echo "Run the following to regenerate them:"
+          echo "  node scripts/validate-model-profiles.cjs --fix"
+          echo ""
+          node scripts/validate-model-profiles.cjs --verbose || true
