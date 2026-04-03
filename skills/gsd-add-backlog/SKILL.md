@@ -20,7 +20,7 @@ the normal phase sequence and accumulate context over time.
 2. **Find next backlog number:**
 
    ```bash
-   NEXT=$(node ".agent/get-shit-done/bin/gsd-tools.cjs" phase next-decimal 999 --raw)
+   NEXT=$(node ".pi/get-shit-done/bin/gsd-tools.cjs" phase next-decimal 999 --raw)
    ```
 
    If no 999.x phases exist, start at 999.1.
@@ -28,7 +28,7 @@ the normal phase sequence and accumulate context over time.
 3. **Create the phase directory:**
 
    ```bash
-   SLUG=$(node ".agent/get-shit-done/bin/gsd-tools.cjs" generate-slug "$ARGUMENTS")
+   SLUG=$(node ".pi/get-shit-done/bin/gsd-tools.cjs" generate-slug "$ARGUMENTS")
    mkdir -p ".planning/phases/${NEXT}-${SLUG}"
    touch ".planning/phases/${NEXT}-${SLUG}/.gitkeep"
    ```
@@ -52,7 +52,7 @@ the normal phase sequence and accumulate context over time.
 5. **Commit:**
 
    ```bash
-   node ".agent/get-shit-done/bin/gsd-tools.cjs" commit "docs: add backlog item ${NEXT} - ${ARGUMENTS}" --files .planning/ROADMAP.md ".planning/phases/${NEXT}-${SLUG}/.gitkeep"
+   node ".pi/get-shit-done/bin/gsd-tools.cjs" commit "docs: add backlog item ${NEXT} - ${ARGUMENTS}" --files .planning/ROADMAP.md ".planning/phases/${NEXT}-${SLUG}/.gitkeep"
    ```
 
 6. **Report:**

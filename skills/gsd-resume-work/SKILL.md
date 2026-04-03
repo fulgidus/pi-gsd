@@ -17,11 +17,11 @@ Routes to the resume-project workflow which handles:
   </objective>
 
 <execution_context>
-@.agent/get-shit-done/workflows/resume-project.md
+@.pi/get-shit-done/workflows/resume-project.md
 </execution_context>
 
 <process>
-**Follow the resume-project workflow** from `@.agent/get-shit-done/workflows/resume-project.md`.
+**Follow the resume-project workflow** from `@.pi/get-shit-done/workflows/resume-project.md`.
 
 The workflow handles all resumption logic including:
 

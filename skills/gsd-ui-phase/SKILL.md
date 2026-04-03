@@ -10,8 +10,8 @@ Flow: Validate → Research UI → Verify UI-SPEC → Done
 </objective>
 
 <execution_context>
-@.agent/get-shit-done/workflows/ui-phase.md
-@.agent/get-shit-done/references/ui-brand.md
+@.pi/get-shit-done/workflows/ui-phase.md
+@.pi/get-shit-done/references/ui-brand.md
 </execution_context>
 
 <context>
@@ -19,6 +19,6 @@ Phase number: $ARGUMENTS - optional, auto-detects next unplanned phase if omitte
 </context>
 
 <process>
-Execute @.agent/get-shit-done/workflows/ui-phase.md end-to-end.
+Execute @.pi/get-shit-done/workflows/ui-phase.md end-to-end.
 Preserve all workflow gates.
 </process>

@@ -18,7 +18,7 @@ Routes to the add-todo workflow which handles:
 </objective>
 
 <execution_context>
-@.agent/get-shit-done/workflows/add-todo.md
+@.pi/get-shit-done/workflows/add-todo.md
 </execution_context>
 
 <context>
@@ -28,7 +28,7 @@ State is resolved in-workflow via `init todos` and targeted reads.
 </context>
 
 <process>
-**Follow the add-todo workflow** from `@.agent/get-shit-done/workflows/add-todo.md`.
+**Follow the add-todo workflow** from `@.pi/get-shit-done/workflows/add-todo.md`.
 
 The workflow handles all logic including:
 1. Directory ensuring

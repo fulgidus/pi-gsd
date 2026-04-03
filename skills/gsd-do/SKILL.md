@@ -12,8 +12,8 @@ Use when you know what you want but don't know which `/gsd-*` command to run.
 </objective>
 
 <execution_context>
-@.agent/get-shit-done/workflows/do.md
-@.agent/get-shit-done/references/ui-brand.md
+@.pi/get-shit-done/workflows/do.md
+@.pi/get-shit-done/references/ui-brand.md
 </execution_context>
 
 <context>
@@ -21,6 +21,6 @@ $ARGUMENTS
 </context>
 
 <process>
-Execute the do workflow from @.agent/get-shit-done/workflows/do.md end-to-end.
+Execute the do workflow from @.pi/get-shit-done/workflows/do.md end-to-end.
 Route user intent to the best GSD command and invoke it.
 </process>

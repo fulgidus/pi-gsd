@@ -23,7 +23,7 @@ Flags are composable: `--discuss --research --full` gives discussion + research 
 </objective>
 
 <execution_context>
-@.agent/get-shit-done/workflows/quick.md
+@.pi/get-shit-done/workflows/quick.md
 </execution_context>
 
 <context>
@@ -33,6 +33,6 @@ Context files are resolved inside the workflow (`init quick`) and delegated via 
 </context>
 
 <process>
-Execute the quick workflow from @.agent/get-shit-done/workflows/quick.md end-to-end.
+Execute the quick workflow from @.pi/get-shit-done/workflows/quick.md end-to-end.
 Preserve all workflow gates (validation, task description, planning, execution, state updates, commits).
 </process>
