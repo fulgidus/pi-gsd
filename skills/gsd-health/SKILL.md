@@ -12,6 +12,10 @@ Validate `.planning/` directory integrity and report actionable issues. Checks f
 </execution_context>
 
 <process>
-Execute the health workflow from @.pi/get-shit-done/workflows/health.md end-to-end.
-Parse --repair flag from arguments and pass to workflow.
+1. Run: `gsd-tools validate health --output toon`
+   - If successful, present the toon output to the user.
+   - If the command fails or toon output is unavailable, fall back to: `gsd-tools validate health` (plain JSON output).
+
+2. Execute the health workflow from @.pi/get-shit-done/workflows/health.md end-to-end.
+   Parse --repair flag from arguments and pass to workflow.
 </process>
