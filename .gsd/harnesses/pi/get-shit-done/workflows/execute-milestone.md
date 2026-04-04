@@ -123,7 +123,10 @@ On unrecoverable stop, write two files matching original GSD pause-work conventi
   "stopped_at": "ISO-timestamp",
   "phase": "N",
   "phase_name": "phase name",
-  "stop_reason": "uat_failure | scope_violation | context_exhausted | unrecoverable_error",
+  "stop_reason": "uat_failure | scope_violation | context_exhausted | unrecoverable_error | audit_gaps_found | audit_no_result",
+  "retry_attempts": 0,
+  "gap_phases_executed": [],
+  "remaining_gaps": [],
   "uat_pass_rate": 75,
   "scope_status": "violation",
   "phases_completed": ["1", "2", "3"],
@@ -215,20 +218,64 @@ Message: "Audit did not produce a result. Run /gsd-audit-milestone manually."
 Display `Audit ✅ passed` and proceed to Step 2.
 
 **If `gaps_found`:**
-Critical requirements are unsatisfied. Do NOT proceed to complete-milestone.
-Display the gap summary clearly:
+Critical requirements are unsatisfied. Do NOT proceed to complete-milestone yet.
+
+Read `config.workflow.auto_retry_audit` (default: `true`) and
+`config.workflow.auto_retry_audit_budget` (default: `1`).
+
+**If `auto_retry_audit` is true and budget > 0:**
+
+Display:
+```
+━━ AUDIT: gaps found — attempting autonomous fix ━━
+[gap list from audit file]
+Retry budget: ${budget} attempt(s) remaining
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+Run the gap-closure loop (decrement budget each cycle):
+
+```
+1. Skill(skill="gsd-plan-milestone-gaps")
+   — creates gap-closure phase plans targeting the unsatisfied requirements
+
+2. For each gap-closure phase produced:
+   Skill(skill="gsd-execute-phase", args="${gap_phase} --gaps-only")
+
+3. Skill(skill="gsd-audit-milestone")
+   — re-audit with fresh eyes
+```
+
+After re-audit:
+- **`passed`** → proceed to Step 2 (complete-milestone) ✅
+- **`tech_debt`** → note it, proceed to Step 2 ✅
+- **`gaps_found` and budget > 0** → loop again
+- **`gaps_found` and budget exhausted** → enriched HANDOFF (see below), stop
+
+**If `auto_retry_audit` is false OR budget exhausted after retries:**
+
+Display:
 ```
 ━━ AUDIT: gaps found — milestone NOT complete ━━━━
-The following requirements are unsatisfied:
-[gap list from audit file]
+[gap list]
 
-Do NOT run /gsd-complete-milestone yet.
+Retry attempts made: ${attempts}
+What was tried:      [gap phases planned and executed]
+Still unsatisfied:   [remaining requirement gaps]
+
 Fix path:
   1. /gsd-plan-milestone-gaps   — plan gap-closure phases
   2. /gsd-execute-milestone     — re-run execution
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
-Write HANDOFF with `stop_reason: "audit_gaps_found"`. Stop.
+
+Write HANDOFF with:
+- `stop_reason: "audit_gaps_found"`
+- `retry_attempts`: how many cycles were run
+- `gap_phases_executed`: which phases were planned and executed
+- `remaining_gaps`: the unsatisfied requirements still open
+
+Stop.
 
 **If `tech_debt`:**
 Non-critical. Display the tech debt summary, then proceed to Step 2 with a note.
