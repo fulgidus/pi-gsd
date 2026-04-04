@@ -354,8 +354,7 @@ export async function cmdExtractMessages(
         return;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const messages: any[] = [];
+    const messages: unknown[] = [];
     const sessionFiles = fs
         .readdirSync(resolvedDir)
         .filter((f) => f.endsWith(".jsonl"));
@@ -430,8 +429,7 @@ export async function cmdProfileSample(
     const limit = options.limit ?? 150;
     const maxChars = options.maxChars ?? 500;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const samples: any[] = [];
+    const samples: unknown[] = [];
 
     // ── Pi sessions ──────────────────────────────────────────────────────────
     const piBase = getPiSessionsBasePath();

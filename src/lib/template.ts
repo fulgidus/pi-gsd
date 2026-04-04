@@ -13,7 +13,7 @@ import {
     output,
     toPosixPath,
 } from "./core.js";
-import { reconstructFrontmatter } from "./frontmatter.js";
+import { reconstructFrontmatter, type FrontmatterObject } from "./frontmatter.js";
 
 export function cmdTemplateSelect(
     cwd: string,
@@ -89,8 +89,7 @@ export function cmdTemplateFill(
     const phaseId = `${padded}-${phaseSlug}`;
     const planNum = (options.plan || "01").padStart(2, "0");
     const fields = options.fields || {};
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let frontmatter: Record<string, any>, body: string, fileName: string;
+    let frontmatter: FrontmatterObject, body: string, fileName: string;
 
     switch (templateType) {
         case "summary":

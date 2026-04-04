@@ -212,7 +212,7 @@ export function ensureConfigFile(cwd: string): {
 export function setConfigValue(
     cwd: string,
     keyPath: string,
-    parsedValue: any,
+    parsedValue: unknown,
 ):
     | { updated: boolean; key: string; value: unknown; previousValue: unknown }
     | undefined {
@@ -302,7 +302,7 @@ export function cmdConfigSet(
             `Unknown config key: "${keyPath}". Valid keys: ${[...VALID_CONFIG_KEYS].sort().join(", ")}, agent_skills.<agent-type>`,
         );
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let parsedValue: any = value;
+    let parsedValue: unknown = value;
     if (value === "true") parsedValue = true;
     else if (value === "false") parsedValue = false;
     else if (value !== undefined && !isNaN(Number(value)) && value !== "")

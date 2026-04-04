@@ -142,8 +142,9 @@ export function cmdRenderCheckpoint(
 
 // ─── Internal helpers ─────────────────────────────────────────────────────────
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function parseCurrentTest(content: string): any {
+interface CurrentTest { complete: boolean; number?: number; name?: string; expected?: string; }
+
+export function parseCurrentTest(content: string): CurrentTest {
     const currentTestMatch = content.match(
         /##\s*Current Test\s*(?:\n<!--[\s\S]*?-->)?\n([\s\S]*?)(?=\n##\s|$)/i,
     );
@@ -179,8 +180,7 @@ export function parseCurrentTest(content: string): any {
     };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function buildCheckpoint(currentTest: any): string {
+export function buildCheckpoint(currentTest: CurrentTest): string {
     return [
         "╔══════════════════════════════════════════════════════════════╗",
         "║  CHECKPOINT: Verification Required                           ║",

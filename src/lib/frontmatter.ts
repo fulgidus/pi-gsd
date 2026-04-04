@@ -9,6 +9,8 @@ import { gsdError, normalizeMd, output, safeReadFile } from "./core.js";
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+// NOTE: Changing to unknown would cascade to 16 call-sites — tracked in TODO #6
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type FrontmatterObject = Record<string, any>;
 
 export type FrontmatterSchema = "plan" | "summary" | "verification";
@@ -52,7 +54,7 @@ export function extractFrontmatter(content: string): FrontmatterObject {
 
     // Stack to track nested objects: [{obj, key, indent}]
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const stack: Array<{ obj: any; key: string | null; indent: number }> = [
+    const stack: Array<{ obj: FrontmatterObject; key: string | null; indent: number }> = [
         { obj: frontmatter, key: null, indent: -1 },
     ];
 
@@ -241,8 +243,9 @@ export function parseMustHavesBlock(
     const blockLines = afterBlock.split(/\r?\n/).slice(1);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const items: any[] = [];
+    const items: unknown[] = [];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- YAML list parser; current can be object OR scalar
     let current: any = null;
     let listItemIndent = -1;
 
@@ -354,7 +357,7 @@ export function cmdFrontmatterSet(
     const content = fs.readFileSync(fullPath, "utf-8");
     const fm = extractFrontmatter(content);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let parsedValue: any;
+    let parsedValue: unknown;
     try {
         parsedValue = JSON.parse(value);
     } catch {
@@ -385,7 +388,7 @@ export function cmdFrontmatterMerge(
     const content = fs.readFileSync(fullPath, "utf-8");
     const fm = extractFrontmatter(content);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let mergeData: Record<string, any>;
+    let mergeData: FrontmatterObject;
     try {
         mergeData = JSON.parse(data);
     } catch {

@@ -44,11 +44,10 @@ function getLatestCompletedMilestone(
     }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function withProjectRoot(
     cwd: string,
-    result: Record<string, any>,
-): Record<string, any> {
+    result: Record<string, unknown>,
+): Record<string, unknown> {
     result.project_root = cwd;
     // For dist build: __dirname is dist/, gsd-tools.js is dist/gsd-tools.js
     // Agents/ is at ../agents relative to dist/

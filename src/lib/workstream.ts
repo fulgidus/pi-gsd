@@ -294,8 +294,8 @@ export function cmdWorkstreamStatus(
             /* ok */
         }
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let stateInfo: any = {};
+    interface WorkstreamStateInfo { status: string; current_phase: string | null; last_activity: string | null; }
+    let stateInfo: WorkstreamStateInfo = { status: "unknown", current_phase: null, last_activity: null };
     try {
         const sc = fs.readFileSync(p.state, "utf-8");
         stateInfo = {

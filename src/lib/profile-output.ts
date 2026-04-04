@@ -44,10 +44,10 @@ function resolveProfileOutput(
     return path.join(cwd, defaultName);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function loadAnalysis(
     analysisPath: string | null | undefined,
     cwd: string,
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- analysis JSON blob; tracked in TODO #6
 ): any {
     if (!analysisPath) return null;
     const fullPath = path.isAbsolute(analysisPath)
