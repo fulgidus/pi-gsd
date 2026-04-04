@@ -22,25 +22,45 @@ import {
 	mkdirSync,
 	readFileSync,
 	statSync,
+	symlinkSync,
 	writeFileSync,
 } from "node:fs";
 import { homedir } from "node:os";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import type { ContextUsage, ExtensionAPI } from "@mariozechner/pi-coding-agent";
 
 /**
- * Extracts the <core> section from a reference file and writes a derived
- * `-core.md` sibling. Runs on session_start and tool_result so the core
- * file is always fresh — including immediately after the LLM creates the
- * source file mid-session.
- *
- * @param cwd - project root
- * @param ref - name segments, e.g. ['ui', 'brand'] → reads ui-brand.md,
- *              writes ui-brand-core.md
- *
- * Fallback: if the source has no <core> tag, copies the full file so
- * prompts that reference the core variant never 404.
+ * Ensures .pi/gsd/ in the project is a symlink to the harness files
+ * inside the pi-gsd package. Creates the symlink on first run; skips
+ * if already present. Never overwrites a real directory (user may have
+ * customised it).
  */
+const ensureHarnessSymlink = (cwd: string): void => {
+	try {
+		const dest = join(cwd, ".pi", "gsd");
+		if (existsSync(dest)) return; // already there (symlink or real dir)
+
+		// Walk up from this extension file to the package root:
+		// <pkg>/.gsd/extensions/pi-gsd-hooks.ts → <pkg>
+		const extFile = typeof __filename !== "undefined" ? __filename : "";
+		const pkgRoot = join(dirname(extFile), "..", "..");
+		const harnessSrc = join(
+			pkgRoot,
+			".gsd",
+			"harnesses",
+			"pi",
+			"get-shit-done",
+		);
+
+		if (!existsSync(harnessSrc)) return; // package incomplete — skip silently
+
+		mkdirSync(join(cwd, ".pi"), { recursive: true });
+		symlinkSync(harnessSrc, dest, "dir");
+	} catch {
+		/* silent — never block session startup */
+	}
+};
+
 const syncReferenceToCore = (cwd: string, ref: string[]): void => {
 	try {
 		const refsDir = join(cwd, ".pi", "gsd", "references");
@@ -63,6 +83,9 @@ const syncReferenceToCore = (cwd: string, ref: string[]): void => {
 export default function (pi: ExtensionAPI) {
 	// ── session_start: GSD update check ──────────────────────────────────────
 	pi.on("session_start", async (_event, ctx) => {
+		// Ensure harness files are reachable via .pi/gsd/ symlink
+		ensureHarnessSymlink(ctx.cwd);
+
 		// Sync derived core files from tagged reference sources
 		syncReferenceToCore(ctx.cwd, ["ui", "brand"]);
 

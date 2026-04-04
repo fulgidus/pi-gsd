@@ -19,6 +19,7 @@
 		"dist",
 		"scripts/postinstall.js",
 		".gsd/extensions",
+		".gsd/harnesses",
 		"README.md",
 		"LICENSE",
 		"prompts"
