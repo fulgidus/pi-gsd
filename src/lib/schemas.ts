@@ -239,6 +239,8 @@ const WorkflowConfigSchema = z
 		node_repair_budget: z.number().int().nonnegative().default(2),
 		auto_retry_audit: z.boolean().default(true),
 		auto_retry_audit_budget: z.number().int().nonnegative().default(1),
+		auto_retry_tech_debt: z.boolean().default(true),
+		auto_retry_tech_debt_budget: z.number().int().nonnegative().default(1),
 		ui_phase: z.boolean().default(true),
 		ui_safety_gate: z.boolean().default(true),
 		text_mode: z.boolean().default(false),

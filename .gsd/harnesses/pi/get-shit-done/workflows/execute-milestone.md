@@ -123,10 +123,12 @@ On unrecoverable stop, write two files matching original GSD pause-work conventi
   "stopped_at": "ISO-timestamp",
   "phase": "N",
   "phase_name": "phase name",
-  "stop_reason": "uat_failure | scope_violation | context_exhausted | unrecoverable_error | audit_gaps_found | audit_no_result",
-  "retry_attempts": 0,
-  "gap_phases_executed": [],
-  "remaining_gaps": [],
+  "stop_reason": "uat_failure | scope_violation | context_exhausted | unrecoverable_error | audit_exhausted | audit_no_result",
+  "outer_cycles": 0,
+  "gaps_store": [],
+  "debt_store": [],
+  "gaps_phases_tried": [],
+  "debt_phases_tried": [],
   "uat_pass_rate": 75,
   "scope_status": "violation",
   "phases_completed": ["1", "2", "3"],
@@ -174,7 +176,7 @@ Announce: `✓ Phase ${N} complete — UAT: ${pass_rate}%  Scope: ${scope_status
 
 ### Interactive mode
 
-Do NOT auto-invoke the lifecycle. Surface the execution summary and hand back to the user:
+Do NOT auto-invoke the lifecycle. Surface the execution summary and hand back:
 
 ```
 ━━ execute-milestone: all phases done ━━━━━━━━━━━━
@@ -193,112 +195,141 @@ Stop. The user owns the audit decision.
 
 ### Silent mode — Auto Lifecycle
 
-Only in silent mode: automatically invoke audit → complete → cleanup.
-
-Display transition banner:
+Only in silent mode. Display transition banner:
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- All phases complete → Starting lifecycle: audit → complete → cleanup
+ All phases complete → lifecycle: audit → complete → cleanup
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-#### Step 1 — Audit
+Read config once:
+- `config.workflow.auto_retry_audit` (default: `true`)
+- `config.workflow.auto_retry_audit_budget` (default: `1`)
+- `config.workflow.auto_retry_tech_debt` (default: `true`)
+- `config.workflow.auto_retry_tech_debt_budget` (default: `1`)
+
+Initialise accumulators (persist across the outer loop):
+- `gaps_store = []` — unsatisfied requirements not yet resolved
+- `debt_store = []` — tech debt items not yet resolved
+- `gaps_phases_tried = []` — inserted phases attempted for gap closure
+- `debt_phases_tried = []` — inserted phases attempted for debt resolution
+- `outer_cycles = 0`
+
+---
+
+#### OUTER LOOP — Full audit cycle
+
+`LABEL: outer_loop`
+
+**Step A — Full audit**
 
 ```
 Skill(skill="gsd-audit-milestone")
 ```
 
-Read `AUDIT_STATUS` from the audit result file.
+If no result / malformed → Write HANDOFF (§G), stop.
 
-**If no result / malformed:**
-→ Write HANDOFF (§G), stop.
-Message: "Audit did not produce a result. Run /gsd-audit-milestone manually."
+Extract from audit result:
+- `current_gaps[]` — unsatisfied requirement IDs + affected phase numbers
+- `current_debt[]` — tech debt items + affected phase numbers
 
-**If `passed`:**
-Display `Audit ✅ passed` and proceed to Step 2.
+If both empty → AUDIT PASSED. Proceed to Step D (complete).
 
-**If `gaps_found`:**
-Critical requirements are unsatisfied. Do NOT proceed to complete-milestone yet.
+---
 
-Read `config.workflow.auto_retry_audit` (default: `true`) and
-`config.workflow.auto_retry_audit_budget` (default: `1`).
+**Step B — Gap closure loop** (only if `current_gaps` non-empty)
 
-**If `auto_retry_audit` is true and budget > 0:**
+If `auto_retry_audit = false`: add `current_gaps` to `gaps_store`, skip to Step C.
 
-Display:
-```
-━━ AUDIT: gaps found — attempting autonomous fix ━━
-[gap list from audit file]
-Retry budget: ${budget} attempt(s) remaining
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-Run the gap-closure loop (decrement budget each cycle):
+While `current_gaps` non-empty and `auto_retry_audit_budget > 0`:
 
 ```
-1. Skill(skill="gsd-plan-milestone-gaps")
-   — creates gap-closure phase plans targeting the unsatisfied requirements
-
-2. For each gap-closure phase produced:
-   Skill(skill="gsd-execute-phase", args="${gap_phase} --gaps-only")
-
-3. Skill(skill="gsd-audit-milestone")
-   — re-audit with fresh eyes
+1. Decrement auto_retry_audit_budget
+2. Insert a gap-closure phase (decimal after last phase):
+   Skill(skill="gsd-insert-phase", args="${last_phase}.${gap_cycle} 'Gap closure: ${gap_summary}'")
+3. Plan it with gap context:
+   Skill(skill="gsd-plan-phase", args="${new_phase} --auto")
+   (Pass unsatisfied requirement details as planning context)
+4. Execute it:
+   Skill(skill="gsd-execute-phase", args="${new_phase}")
+5. Track: append new_phase to gaps_phases_tried
+6. Targeted re-audit — affected phases only:
+   Skill(skill="gsd-audit-milestone", args="--phases ${gap_affected_phases}")
+7. Re-read current_gaps from result
+   - Resolved? current_gaps = [], break loop
+   - Reduced? loop again if budget > 0
+   - Same/worse? loop again if budget > 0
 ```
 
-After re-audit:
-- **`passed`** → proceed to Step 2 (complete-milestone) ✅
-- **`tech_debt`** → note it, proceed to Step 2 ✅
-- **`gaps_found` and budget > 0** → loop again
-- **`gaps_found` and budget exhausted** → enriched HANDOFF (see below), stop
+After loop:
+- If `current_gaps` empty → gaps resolved ✅, `gaps_store = []`
+- If still non-empty → `gaps_store = current_gaps` (budget exhausted or disabled)
 
-**If `auto_retry_audit` is false OR budget exhausted after retries:**
+---
 
-Display:
+**Step C — Tech debt loop** (only if `current_debt` non-empty)
+
+If `auto_retry_tech_debt = false`: add `current_debt` to `debt_store`, skip to final gate.
+
+While `current_debt` non-empty and `auto_retry_tech_debt_budget > 0`:
+
 ```
-━━ AUDIT: gaps found — milestone NOT complete ━━━━
-[gap list]
-
-Retry attempts made: ${attempts}
-What was tried:      [gap phases planned and executed]
-Still unsatisfied:   [remaining requirement gaps]
-
-Fix path:
-  1. /gsd-plan-milestone-gaps   — plan gap-closure phases
-  2. /gsd-execute-milestone     — re-run execution
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Decrement auto_retry_tech_debt_budget
+2. Insert a debt-resolution phase (decimal after last phase):
+   Skill(skill="gsd-insert-phase", args="${last_phase}.${debt_cycle} 'Tech debt: ${debt_summary}'")
+3. Plan it with debt context:
+   Skill(skill="gsd-plan-phase", args="${new_phase} --auto")
+   (Pass tech debt item details as planning context)
+4. Execute it:
+   Skill(skill="gsd-execute-phase", args="${new_phase}")
+5. Track: append new_phase to debt_phases_tried
+6. Targeted re-audit — affected phases only:
+   Skill(skill="gsd-audit-milestone", args="--phases ${debt_affected_phases}")
+7. Re-read current_debt from result
+   - Resolved? current_debt = [], break loop
+   - Reduced? loop again if budget > 0
+   - gaps_found in re-audit? add to gaps_store, break (handled in next outer cycle)
 ```
 
-Write HANDOFF with:
-- `stop_reason: "audit_gaps_found"`
-- `retry_attempts`: how many cycles were run
-- `gap_phases_executed`: which phases were planned and executed
-- `remaining_gaps`: the unsatisfied requirements still open
+After loop:
+- If `current_debt` empty → debt resolved ✅, `debt_store = []`
+- If still non-empty → `debt_store = current_debt`
 
-Stop.
+---
 
-**If `tech_debt`:**
-Non-critical. Display the tech debt summary, then proceed to Step 2 with a note.
+**Final gate (end of outer loop body)**
 
-#### Step 2 — Complete Milestone
+If `gaps_store` empty AND `debt_store` empty:
+→ AUDIT CLEAN. Proceed to Step D.
+
+If anything remains in stores:
+- Increment `outer_cycles`
+- If outer budget remaining (derived from max of both budgets > 0):
+  → `GOTO outer_loop` (re-run full audit from top, fresh eyes)
+- If exhausted:
+  → Write enriched HANDOFF (§G), stop.
+
+---
+
+#### Step D — Complete Milestone
 
 ```
 Skill(skill="gsd-complete-milestone", args="${milestone_version}")
 ```
 
-Verify archive file produced:
+Verify archive produced:
 ```bash
 ls .planning/milestones/v${milestone_version}-ROADMAP.md 2>/dev/null || true
 ```
 If absent → Write HANDOFF, stop. Message: "complete-milestone did not produce archive files."
 
-#### Step 3 — Cleanup
+#### Step E — Cleanup
 
 ```
 Skill(skill="gsd-cleanup")
 ```
 
-Cleanup handles its own dry-run and user confirmation internally.
+Cleanup handles its own dry-run and confirmation internally.
 
 ---
 
