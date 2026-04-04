@@ -10,3 +10,4 @@ coverage
 # ralphi
 .ralphi/*
 !.ralphi/config.yaml
+.pi/gsd/references/ui-brand-core.md

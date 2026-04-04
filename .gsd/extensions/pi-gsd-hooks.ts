@@ -17,14 +17,55 @@
  */
 
 import { execSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import {
+	existsSync,
+	mkdirSync,
+	readFileSync,
+	statSync,
+	writeFileSync,
+} from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
 import type { ContextUsage, ExtensionAPI } from "@mariozechner/pi-coding-agent";
 
+/**
+ * Extracts the <core> section from a reference file and writes a derived
+ * `-core.md` sibling. Runs on session_start and tool_result so the core
+ * file is always fresh — including immediately after the LLM creates the
+ * source file mid-session.
+ *
+ * @param cwd - project root
+ * @param ref - name segments, e.g. ['ui', 'brand'] → reads ui-brand.md,
+ *              writes ui-brand-core.md
+ *
+ * Fallback: if the source has no <core> tag, copies the full file so
+ * prompts that reference the core variant never 404.
+ */
+const syncReferenceToCore = (cwd: string, ref: string[]): void => {
+	try {
+		const refsDir = join(cwd, ".pi", "gsd", "references");
+		const refName = ref.join("-") + ".md";
+		const coreName = [...ref, "core"].join("-") + ".md";
+		const src = join(refsDir, refName);
+		const dst = join(refsDir, coreName);
+		if (!existsSync(src)) return;
+		const srcMtime = statSync(src).mtimeMs;
+		const dstMtime = existsSync(dst) ? statSync(dst).mtimeMs : 0;
+		if (srcMtime <= dstMtime) return; // already in sync
+		const content = readFileSync(src, "utf8");
+		const match = content.match(/<core>([\s\S]*?)<\/core>/i);
+		writeFileSync(dst, match ? match[1].trim() : content, "utf8");
+	} catch {
+		/* silent — never block session startup or tool execution */
+	}
+};
+
 export default function (pi: ExtensionAPI) {
 	// ── session_start: GSD update check ──────────────────────────────────────
 	pi.on("session_start", async (_event, ctx) => {
+		// Sync derived core files from tagged reference sources
+		syncReferenceToCore(ctx.cwd, ["ui", "brand"]);
+
 		try {
 			const cacheDir = join(homedir(), ".pi", "cache");
 			const cacheFile = join(cacheDir, "gsd-update-check.json");
@@ -529,6 +570,10 @@ export default function (pi: ExtensionAPI) {
 	let lastLevel: "warning" | "critical" | null = null;
 
 	pi.on("tool_result", async (_event, ctx) => {
+		// Keep derived core files in sync after any tool write (e.g. gsd-new-project
+		// creating ui-brand.md mid-session — no reboot needed)
+		syncReferenceToCore(ctx.cwd, ["ui", "brand"]);
+
 		try {
 			const usage: ContextUsage | undefined = ctx.getContextUsage();
 			if (!usage || usage.percent === null) return undefined;

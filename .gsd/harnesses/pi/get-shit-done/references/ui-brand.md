@@ -2,6 +2,9 @@
 
 Visual patterns for user-facing GSD output. Orchestrators @-reference this file.
 
+<core>
+<!-- Loaded by ALL commands via ui-brand-core.md -->
+
 ## Stage Banners
 
 Use for major workflow transitions.
@@ -22,29 +25,6 @@ Use for major workflow transitions.
 - `VERIFYING`
 - `PHASE {N} COMPLETE ✓`
 - `MILESTONE COMPLETE 🎉`
-
----
-
-## Checkpoint Boxes
-
-User action required. 62-character width.
-
-```
-╔══════════════════════════════════════════════════════════════╗
-║  CHECKPOINT: {Type}                                          ║
-╚══════════════════════════════════════════════════════════════╝
-
-{Content}
-
-──────────────────────────────────────────────────────────────
-→ {ACTION PROMPT}
-──────────────────────────────────────────────────────────────
-```
-
-**Types:**
-- `CHECKPOINT: Verification Required` → `→ Type "approved" or describe issues`
-- `CHECKPOINT: Decision Required` → `→ Select: option-a / option-b`
-- `CHECKPOINT: Action Required` → `→ Type "done" when complete`
 
 ---
 
@@ -81,22 +61,6 @@ Plans: 3/5 complete
 
 ---
 
-## Spawning Indicators
-
-```
-◆ Spawning researcher...
-
-◆ Spawning 4 researchers in parallel...
-  → Stack research
-  → Features research
-  → Architecture research
-  → Pitfalls research
-
-✓ Researcher complete: STACK.md written
-```
-
----
-
 ## Next Up Block
 
 Always at end of major completions.
@@ -123,20 +87,6 @@ Always at end of major completions.
 
 ---
 
-## Error Box
-
-```
-╔══════════════════════════════════════════════════════════════╗
-║  ERROR                                                       ║
-╚══════════════════════════════════════════════════════════════╝
-
-{Error description}
-
-**To fix:** {Resolution steps}
-```
-
----
-
 ## Tables
 
 ```
@@ -156,5 +106,60 @@ Always at end of major completions.
 - Skipping `GSD ►` prefix in banners
 - Random emoji (`🚀`, `✨`, `💫`)
 - Missing Next Up block after completions
+
+</core>
+
+<!-- Execution-only: loaded by gsd-execute-phase, gsd-ui-phase, gsd-ui-review -->
+
+## Checkpoint Boxes
+
+User action required. 62-character width.
+
+```
+╔══════════════════════════════════════════════════════════════╗
+║  CHECKPOINT: {Type}                                          ║
+╚══════════════════════════════════════════════════════════════╝
+
+{Content}
+
+──────────────────────────────────────────────────────────────
+→ {ACTION PROMPT}
+──────────────────────────────────────────────────────────────
+```
+
+**Types:**
+- `CHECKPOINT: Verification Required` → `→ Type "approved" or describe issues`
+- `CHECKPOINT: Decision Required` → `→ Select: option-a / option-b`
+- `CHECKPOINT: Action Required` → `→ Type "done" when complete`
+
+---
+
+## Spawning Indicators
+
+```
+◆ Spawning researcher...
+
+◆ Spawning 4 researchers in parallel...
+  → Stack research
+  → Features research
+  → Architecture research
+  → Pitfalls research
+
+✓ Researcher complete: STACK.md written
+```
+
+---
+
+## Error Box
+
+```
+╔══════════════════════════════════════════════════════════════╗
+║  ERROR                                                       ║
+╚══════════════════════════════════════════════════════════════╝
+
+{Error description}
+
+**To fix:** {Resolution steps}
+```
 
 </ui_patterns>
