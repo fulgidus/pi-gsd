@@ -3,7 +3,7 @@ Retroactive 6-pillar visual audit of implemented frontend code. Standalone comma
 </purpose>
 
 <required_reading>
-@.agent/get-shit-done/references/ui-brand.md
+@.pi/gsd/references/ui-brand.md
 </required_reading>
 
 <available_agent_types>
@@ -16,15 +16,15 @@ Valid GSD subagent types (use exact names - do not fall back to 'general-purpose
 ## 0. Initialize
 
 ```bash
-INIT=$(node ".agent/get-shit-done/bin/gsd-tools.cjs" init phase-op "${PHASE_ARG}")
+INIT=$(node ".pi/gsd/bin/gsd-tools.cjs" init phase-op "${PHASE_ARG}")
 if [[ "$INIT" == @file:* ]]; then INIT=$(cat "${INIT#@file:}"); fi
-AGENT_SKILLS_UI_REVIEWER=$(node ".agent/get-shit-done/bin/gsd-tools.cjs" agent-skills gsd-ui-reviewer 2>/dev/null)
+AGENT_SKILLS_UI_REVIEWER=$(node ".pi/gsd/bin/gsd-tools.cjs" agent-skills gsd-ui-reviewer 2>/dev/null)
 ```
 
 Parse: `phase_dir`, `phase_number`, `phase_name`, `phase_slug`, `padded_phase`, `commit_docs`.
 
 ```bash
-UI_AUDITOR_MODEL=$(node ".agent/get-shit-done/bin/gsd-tools.cjs" resolve-model gsd-ui-auditor --raw)
+UI_AUDITOR_MODEL=$(node ".pi/gsd/bin/gsd-tools.cjs" resolve-model gsd-ui-auditor --raw)
 ```
 
 Display banner:
@@ -71,7 +71,7 @@ Build file list for auditor:
 Build prompt:
 
 ```markdown
-Read .agent/agents/gsd-ui-auditor.md for instructions.
+Read .pi/gsd/agents/gsd-ui-auditor.md for instructions.
 
 <objective>
 Conduct 6-pillar visual audit of Phase {phase_number}: {phase_name}
@@ -149,7 +149,7 @@ Full review: {path to UI-REVIEW.md}
 ## 5. Commit (if configured)
 
 ```bash
-node ".agent/get-shit-done/bin/gsd-tools.cjs" commit "docs(${padded_phase}): UI audit review" --files "${PHASE_DIR}/${PADDED_PHASE}-UI-REVIEW.md"
+node ".pi/gsd/bin/gsd-tools.cjs" commit "docs(${padded_phase}): UI audit review" --files "${PHASE_DIR}/${PADDED_PHASE}-UI-REVIEW.md"
 ```
 
 </process>
