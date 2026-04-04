@@ -241,7 +241,9 @@ export default function (pi: ExtensionAPI) {
 			lines.push(`  → /gsd-discuss-phase ${n}    Gather context first`);
 			lines.push(`  → /gsd-plan-phase ${n}       Jump straight to planning`);
 		} else if (next.summaries < next.plans) {
-			lines.push(`  → /gsd-execute-phase ${n}    ${next.summaries}/${next.plans} plans done`);
+			lines.push(
+				`  → /gsd-execute-phase ${n}    ${next.summaries}/${next.plans} plans done`,
+			);
 		} else {
 			lines.push(`  → /gsd-verify-work ${n}      All plans done, verify UAT`);
 		}
@@ -254,10 +256,15 @@ export default function (pi: ExtensionAPI) {
 		return lines;
 	};
 
-	const formatProgress = (cwd: string): { text: string; data: GsdProgress | null } => {
+	const formatProgress = (
+		cwd: string,
+	): { text: string; data: GsdProgress | null } => {
 		const data = runJson<GsdProgress>("progress json", cwd);
 		if (!data)
-			return { text: "❌ No GSD project found. Run /gsd-new-project to initialise.", data: null };
+			return {
+				text: "❌ No GSD project found. Run /gsd-new-project to initialise.",
+				data: null,
+			};
 
 		const done = data.phases.filter((p) => p.status === "Complete").length;
 		const total = data.phases.length;
@@ -279,16 +286,21 @@ export default function (pi: ExtensionAPI) {
 		return { text: lines.join("\n"), data };
 	};
 
-	const formatStats = (cwd: string): { text: string; data: GsdStats | null } => {
+	const formatStats = (
+		cwd: string,
+	): { text: string; data: GsdStats | null } => {
 		const data = runJson<GsdStats>("stats json", cwd);
 		if (!data)
-			return { text: "❌ No GSD project found. Run /gsd-new-project to initialise.", data: null };
+			return {
+				text: "❌ No GSD project found. Run /gsd-new-project to initialise.",
+				data: null,
+			};
 
 		const reqPct =
 			data.requirements_total > 0
 				? Math.round(
-					(data.requirements_complete / data.requirements_total) * 100,
-				)
+						(data.requirements_complete / data.requirements_total) * 100,
+					)
 				: 0;
 
 		const lines = [
@@ -386,10 +398,15 @@ export default function (pi: ExtensionAPI) {
 	pi.registerCommand("gsd-health", {
 		description: "Check .planning/ integrity (instant)",
 		handler: async (args, ctx) => {
-			ctx.ui.notify(formatHealth(ctx.cwd, !!args?.includes("--repair")), "info");
+			ctx.ui.notify(
+				formatHealth(ctx.cwd, !!args?.includes("--repair")),
+				"info",
+			);
 		},
 		getArgumentCompletions: (prefix) => {
-			const options = [{ value: "--repair", label: "--repair  Auto-fix issues" }];
+			const options = [
+				{ value: "--repair", label: "--repair  Auto-fix issues" },
+			];
 			return options.filter((o) => o.value.startsWith(prefix));
 		},
 	});
@@ -445,7 +462,9 @@ export default function (pi: ExtensionAPI) {
 					`⏩  ${reason}`,
 					`→   ${action}`,
 					...(pending.length > 1
-						? [`    (${pending.length - 1} more phase${pending.length > 2 ? "s" : ""} pending after this)`]
+						? [
+								`    (${pending.length - 1} more phase${pending.length > 2 ? "s" : ""} pending after this)`,
+							]
 						: []),
 					`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
 				].join("\n"),
@@ -471,6 +490,8 @@ export default function (pi: ExtensionAPI) {
 					"  /gsd-validate-phase N   Validate completion",
 					"  /gsd-next               Auto-advance",
 					"  /gsd-autonomous         Run all phases",
+					"  /gsd-plan-milestone     Plan all phases at once",
+					"  /gsd-execute-milestone  Execute all phases with gates",
 					"",
 					"Quick:",
 					"  /gsd-quick <task>       Tracked ad-hoc task",
@@ -482,6 +503,7 @@ export default function (pi: ExtensionAPI) {
 					"  /gsd-progress           Progress + next steps",
 					"  /gsd-stats              Full statistics",
 					"  /gsd-health [--repair]  .planning/ integrity",
+					"  /gsd-milestone          Milestone status dashboard",
 					"  /gsd-help               This list",
 					"",
 					"Management:",
@@ -496,8 +518,73 @@ export default function (pi: ExtensionAPI) {
 		},
 	});
 
+	pi.registerCommand("gsd-milestone", {
+		description:
+			"Milestone status dashboard — plan vs execute routing (instant)",
+		handler: async (_args, ctx) => {
+			const progress = runJson<GsdProgress>("progress json", ctx.cwd);
+			if (!progress) {
+				ctx.ui.notify(
+					"❌ No GSD project found. Run /gsd-new-project to initialise.",
+					"error",
+				);
+				ctx.ui.setEditorText("/gsd-new-project");
+				return;
+			}
 
-		// ── tool_result: context usage monitor ───────────────────────────────────
+			const phases = progress.phases;
+			const total = phases.length;
+			const done = phases.filter((p) => p.status === "Complete").length;
+			const unplanned = phases.filter(
+				(p) => p.status !== "Complete" && p.plans === 0,
+			).length;
+			const planned = phases.filter(
+				(p) => p.status !== "Complete" && p.plans > 0,
+			).length;
+			const phasePct = total > 0 ? Math.round((done / total) * 100) : 0;
+
+			// Determine recommended next milestone-level action
+			let recommendation: string;
+			let action: string;
+			if (total === 0) {
+				recommendation = "No phases defined yet";
+				action = "/gsd-new-project";
+			} else if (done === total) {
+				recommendation = "All phases complete — ready to audit";
+				action = "/gsd-audit-milestone";
+			} else if (unplanned > 0 && planned === 0) {
+				recommendation = `${unplanned} unplanned phase${unplanned > 1 ? "s" : ""} — plan the milestone first`;
+				action = "/gsd-plan-milestone";
+			} else if (unplanned > 0) {
+				recommendation = `${planned} planned, ${unplanned} still unplanned — finish planning first`;
+				action = "/gsd-plan-milestone";
+			} else {
+				recommendation = `${planned} phase${planned > 1 ? "s" : ""} ready to execute`;
+				action = "/gsd-execute-milestone";
+			}
+
+			const lines = [
+				`━━ GSD Milestone ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
+				`🎯  ${progress.milestone_name} (${progress.milestone_version})`,
+				``,
+				`Phases  ${bar(phasePct)}  ${done}/${total} (${phasePct}%)`,
+				``,
+				`🟢 Complete:   ${done}`,
+				`🟡 Planned:    ${planned}`,
+				`🔴 Unplanned:  ${unplanned}`,
+				``,
+				`⚡  ${recommendation}`,
+				`→   ${action}`,
+				``,
+				`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
+			];
+
+			ctx.ui.notify(lines.join("\n"), "info");
+			ctx.ui.setEditorText(action);
+		},
+	});
+
+	// ── tool_result: context usage monitor ───────────────────────────────────
 	const WARNING_THRESHOLD = 35; // warn when remaining % ≤ 35
 	const CRITICAL_THRESHOLD = 25; // critical when remaining % ≤ 25
 	const DEBOUNCE_CALLS = 5; // minimum tool uses between repeated warnings
