@@ -312,8 +312,20 @@ function installPiExtension(projectRoot, pkgDir, force, callback) {
 		return;
 	}
 
-	if (!force && fs.existsSync(extDest)) {
-		log("skip", ".pi/extensions/gsd-hooks.ts  (already exists)");
+	// Always update the extension — it is owned by pi-gsd, not the user.
+	// Compare gsd-extension-version comments to detect staleness.
+	const extractVersion = (file) => {
+		try {
+			const match = fs.readFileSync(file, "utf8").match(/gsd-extension-version:\s*([\d.]+)/);
+			return match ? match[1] : null;
+		} catch { return null; }
+	};
+	const srcVersion = extractVersion(extSrc);
+	const destVersion = fs.existsSync(extDest) ? extractVersion(extDest) : null;
+	const needsUpdate = force || !destVersion || destVersion !== srcVersion;
+
+	if (!needsUpdate) {
+		log("skip", `.pi/extensions/gsd-hooks.ts  (up-to-date v${destVersion})`);
 		callback(false);
 	} else {
 		try {

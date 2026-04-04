@@ -1,6 +1,6 @@
 /**
  * gsd-hooks.ts - GSD pi Extension
- * gsd-extension-version: 1.30.0
+ * gsd-extension-version: 1.6.2
  *
  * Pi lifecycle extension for the Get Shit Done (GSD) workflow framework.
  * Provides three non-blocking hooks:
@@ -516,7 +516,6 @@ export default function (pi: ExtensionAPI) {
 			);
 		},
 	});
-
 
 	// ── tool_result: context usage monitor ───────────────────────────────────
 	const WARNING_THRESHOLD = 35; // warn when remaining % ≤ 35
