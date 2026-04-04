@@ -4,7 +4,7 @@
 
 [![npm version](https://img.shields.io/npm/v/pi-gsd.svg)](https://www.npmjs.com/package/pi-gsd)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![skills: 60](https://img.shields.io/badge/skills-60-orange.svg)](#skills)
+[![skills: 60](https://img.shields.io/badge/skills-55-orange.svg)](#skills)
 
 GSD is a structured software-delivery framework for AI coding agents. It wraps any AI coding session with a six-step phase lifecycle, 57 slash commands, 18 specialized subagents, background hooks, and model profiles - all backed by a git-committed `.planning/` directory that survives context resets.
 
@@ -38,7 +38,7 @@ After install, run your first GSD command:
 
 | Artifact   | Count | Description                                                       |
 | ---------- | ----: | ----------------------------------------------------------------- |
-| Skills     |    60 | pi skill definitions (`/gsd-*`) loaded automatically              |
+| Skills     |    55 | pi skill definitions (`/gsd-*`) loaded automatically              |
 | CLI binary |     1 | `pi-gsd-tools` - state management, scaffolding, model routing     |
 | Hooks      |     5 | Background hooks (context monitor, workflow guard, statusline, …) |
 
@@ -123,8 +123,8 @@ Switch profile: `/gsd-set-profile <profile>`
 |                          Workstreams |     ✔️     |   ✔️    | Full workstream isolation                                                                        |
 |                     4 model profiles |     ✔️     |   ✔️    | quality / balanced / budget / inherit                                                            |
 |                         18 subagents |     ✔️     |   ✔️    | Identical agent definitions                                                                      |
-|                        60 GSD skills |     ✔️     |   ✔️    | All commands available via pi prompt dispatcher (replaces skill system)                          |
-|        Different skills paths for pi |     ✔️     |   ⚡    | All 60 skills moved to `.pi/gsd/` to enable advanced pi-gsd-tools integration                    |
+|                        55 GSD skills |     ✔️     |   ✔️    | All commands available via pi prompt dispatcher (replaces skill system)                          |
+|        Different skills paths for pi |     ✔️     |   ⚡    | All 55 skills moved to `.pi/gsd/` to enable advanced pi-gsd-tools integration                    |
 |                  pi harness (`.pi/`) |     ❌     |   ✔️    | New - GSD installs into pi's config dir                                                          |
 |                Background hooks (pi) |     ❌     |   ✔️    | TypeScript extension (`gsd-hooks.ts`) installed via postinstall                                  |
 |         Pi session history ingestion |     ❌     |   ✔️    | `/gsd-profile-user` reads pi JSONL sessions from `~/.pi/agent/sessions/`                         |
@@ -138,7 +138,7 @@ Switch profile: `/gsd-set-profile <profile>`
 |                   Smarter `--repair` |     ❌     |   ✔️    | Schema defaults fill missing `config.json` fields; W011 STATE.md issues trigger regeneration     |
 |       Instant commands (no LLM cost) |     ❌     |   ✔️    | `/gsd-progress`, `/gsd-stats`, `/gsd-health`, `/gsd-help`, `/gsd-next` — zero LLM, editor pivot  |
 |             `/gsd-next` auto-advance |     ❌     |   ✔️    | Deterministic phase routing, pre-fills editor with the correct next command                      |
-|       Prompt-dispatch for all skills |     ❌     |   ✔️    | 57 pi prompt templates — clean autocomplete, arg hints, direct workflow dispatch                 |
+|       Prompt-dispatch for all skills |     ❌     |   ✔️    | 54 pi prompt templates — clean autocomplete, arg hints, direct workflow dispatch                 |
 |        `/gsd-plan-milestone` command |     ❌     |   ✔️    | Plan all unplanned phases — one mode question, scope pre-check per phase, context-safe checkpoint |
 |     `/gsd-execute-milestone` command |     ❌     |   ✔️    | Execute all phases + scope guardian + auto gap/debt retry loop (insert-phase) + audit→complete→cleanup |
 
