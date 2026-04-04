@@ -270,19 +270,21 @@ export default function (pi: ExtensionAPI) {
 		const total = data.phases.length;
 		const phasePct = total > 0 ? Math.round((done / total) * 100) : 0;
 		const planPct =
+			data.total_plans > 0
+				? Math.round((data.total_summaries / data.total_plans) * 100)
+				: 0;
 
-		const lines = [
-			`━━ GSD Progress ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
+		`━━ GSD Progress ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
 			`📋  ${data.milestone_name} (${data.milestone_version})`,
 			``,
 			`Phases  ${bar(phasePct)}  ${done}/${total} (${phasePct}%)`,
 			`Plans   ${bar(planPct)}  ${data.total_summaries}/${data.total_plans} (${planPct}%)`,
 			``,
 			`Next steps:`,
-			...nextSteps(data.phases),
+		...nextSteps(data.phases),
 			``,
 			`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-		];
+		]
 		return { text: lines.join("\n"), data };
 	};
 
