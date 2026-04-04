@@ -5,7 +5,7 @@
  * Runs automatically after `npm install pi-gsd`.
  * Copies the pi harness from this package's
  * \`.gsd/harnesses/pi/\` into the consumer project's \`.pi/gsd/\`
- * and installs the \`gsd-hooks.ts\` extension into \`.pi/extensions/\`.
+ * and installs the \`pi-gsd-hooks.ts\` extension into \`.pi/extensions/\`.
  *
  * Safe to re-run — files are skipped if already present (unless GSD_FORCE=1).
  */
@@ -219,7 +219,7 @@ function main() {
 		installed++;
 	}
 
-	// ── Pi extension (.pi/extensions/gsd-hooks.ts) ─────────────────────────────
+	// ── Pi extension (.pi/extensions/pi-gsd-hooks.ts) ─────────────────────────────
 	// Install the GSD pi lifecycle extension (session_start, tool_call, tool_result hooks).
 	// The extension is auto-discovered by pi from .pi/extensions/ - no manual wiring needed.
 	installPiExtension(PROJECT_ROOT, PKG_DIR, FORCE, (copied) => {
@@ -231,6 +231,7 @@ function main() {
 	// Prompts are served directly from the npm package (user scope).
 	// Local copies in .pi/prompts/ cause collision warnings on every pi update.
 	// Remove any gsd-*.md files previously installed there.
+	// Also remove the old gsd-hooks.ts if present (renamed to pi-gsd-hooks.ts).
 	const promptsDest = path.join(PROJECT_ROOT, ".pi", "prompts");
 	if (fs.existsSync(promptsDest)) {
 		const stale = fs
@@ -243,6 +244,14 @@ function main() {
 				`.pi/prompts  (removed ${stale.length} stale local gsd-*.md — served from package instead)`,
 			);
 		}
+	}
+	const oldExt = path.join(PROJECT_ROOT, ".pi", "extensions", "gsd-hooks.ts");
+	if (fs.existsSync(oldExt)) {
+		fs.rmSync(oldExt);
+		log(
+			"ok",
+			".pi/extensions/gsd-hooks.ts  (removed — renamed to pi-gsd-hooks.ts)",
+		);
 	}
 
 	console.log("");
@@ -303,29 +312,33 @@ function getPackageVersion() {
 function installPiExtension(projectRoot, pkgDir, force, callback) {
 	const piDir = path.join(projectRoot, ".pi");
 	const extDir = path.join(piDir, "extensions");
-	const extDest = path.join(extDir, "gsd-hooks.ts");
-	const extSrc = path.join(pkgDir, ".gsd", "extensions", "gsd-hooks.ts");
+	const extDest = path.join(extDir, "pi-gsd-hooks.ts");
+	const extSrc = path.join(pkgDir, ".gsd", "extensions", "pi-gsd-hooks.ts");
 
 	if (!fs.existsSync(extSrc)) {
-		log("warn", ".pi/extensions/gsd-hooks.ts  (source absent - skipped)");
+		log("warn", ".pi/extensions/pi-gsd-hooks.ts  (source absent - skipped)");
 		callback(false);
 		return;
 	}
 
 	// Always update the extension — it is owned by pi-gsd, not the user.
-	// Compare gsd-extension-version comments to detect staleness.
+	// Compare pi-gsd-extension-version comments to detect staleness.
 	const extractVersion = (file) => {
 		try {
-			const match = fs.readFileSync(file, "utf8").match(/gsd-extension-version:\s*([\d.]+)/);
+			const match = fs
+				.readFileSync(file, "utf8")
+				.match(/pi-gsd-extension-version:\s*([\d.]+)/);
 			return match ? match[1] : null;
-		} catch { return null; }
+		} catch {
+			return null;
+		}
 	};
 	const srcVersion = extractVersion(extSrc);
 	const destVersion = fs.existsSync(extDest) ? extractVersion(extDest) : null;
 	const needsUpdate = force || !destVersion || destVersion !== srcVersion;
 
 	if (!needsUpdate) {
-		log("skip", `.pi/extensions/gsd-hooks.ts  (up-to-date v${destVersion})`);
+		log("skip", `.pi/extensions/pi-gsd-hooks.ts  (up-to-date v${destVersion})`);
 		callback(false);
 	} else {
 		try {
@@ -333,13 +346,13 @@ function installPiExtension(projectRoot, pkgDir, force, callback) {
 			fs.copyFileSync(extSrc, extDest);
 			log(
 				"ok",
-				".pi/extensions/gsd-hooks.ts  (GSD lifecycle extension installed)",
+				".pi/extensions/pi-gsd-hooks.ts  (GSD lifecycle extension installed)",
 			);
 			callback(true);
 		} catch (e) {
 			log(
 				"warn",
-				".pi/extensions/gsd-hooks.ts  (install failed: " + e.message + ")",
+				".pi/extensions/pi-gsd-hooks.ts  (install failed: " + e.message + ")",
 			);
 			callback(false);
 			return;
@@ -364,9 +377,13 @@ function installPiExtension(projectRoot, pkgDir, force, callback) {
 			? settings.extensions
 			: [];
 
+		// Remove stale gsd-hooks.ts entry if present (renamed to pi-gsd-hooks.ts)
+		const oldExtPath = path.join(extDir, "gsd-hooks.ts");
+		const cleaned = extensions.filter((e) => e !== oldExtPath);
+
 		// Avoid duplicate entries
-		if (!extensions.includes(extDest)) {
-			settings.extensions = [...extensions, extDest];
+		if (!cleaned.includes(extDest)) {
+			settings.extensions = [...cleaned, extDest];
 			fs.mkdirSync(piDir, { recursive: true });
 			fs.writeFileSync(
 				settingsFile,
@@ -374,6 +391,11 @@ function installPiExtension(projectRoot, pkgDir, force, callback) {
 				"utf8",
 			);
 			log("ok", ".pi/settings.json  (extensions array updated)");
+		} else if (cleaned.length !== extensions.length) {
+			// Removed stale entry but extDest already present
+			settings.extensions = cleaned;
+			fs.writeFileSync(settingsFile, JSON.stringify(settings, null, "\t"), "utf8");
+			log("ok", ".pi/settings.json  (removed stale gsd-hooks.ts entry)");
 		}
 	} catch (e) {
 		log("warn", ".pi/settings.json  (could not update: " + e.message + ")");
