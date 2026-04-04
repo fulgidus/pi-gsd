@@ -133,14 +133,12 @@ Switch profile: `/gsd-set-profile <profile>`
 | `[-o\|--output] [toon\|json]` output |     ❌     |   ⚡    | Token-efficient toon renderer output (or json, if LLM absolutely needs it...)                        |
 | `[-p\|--pick] {JSONPath}` extraction |     ❌     |   ⚡    | Field extraction from CLI output                                                                     |
 |                    TypeScript source |     ❌     |   ⚡    | Full TS port of gsd-tools (~9k lines)                                                                |
-|             Compile-time type safety |     ❌     |   ⚡    | Fully typed - no `any`, only Zod-inferred types                                                      |
-|             Runtime validation (Zod) |     ❌     |   ⚡    | Schema-driven `validate health` with field-path errors                                               |
-|                   Smarter `--repair` |     ❌     |   ⚡    | Zod schema defaults fill all missing/invalid fields at once                                          |
-|       Instant commands (no LLM cost) |     ❌     |   ✔️    | `/gsd-progress`, `/gsd-stats`, `/gsd-health`, `/gsd-help` — formatted output + deterministic next steps, zero LLM |
-|       Prompt-dispatch for all skills |     ❌     |   ✔️    | 54 pi prompt templates — clean autocomplete, arg hints, direct workflow dispatch                   |
-
-<!-- |        Pi harness config entry |     ❌     |   ✔️    | `HARNESS_CONFIG` pi entry - generates `AGENTS.md` via `/gsd-profile-user`           | -->
-<!-- |          Toon output in skills |     ❌     |   ✔️    | `gsd-progress`, `gsd-stats`, `gsd-health` use `--output toon`                       | -->
+|             Compile-time type safety |     ❌     |   ⚠️    | Zod schemas defined; ~25 loose `any` casts remain in lib modules                                     |
+|             Runtime validation (Zod) |     ❌     |   ⚠️    | Zod schemas for all `.planning/` types; wired to `config.json` + `validate health` — full coverage in progress |
+|                   Smarter `--repair` |     ❌     |   ❌    | Schema-driven repair not yet implemented                                                              |
+|       Instant commands (no LLM cost) |     ❌     |   ✔️    | `/gsd-progress`, `/gsd-stats`, `/gsd-health`, `/gsd-help`, `/gsd-next` — zero LLM, editor pivot     |
+|              `/gsd-next` auto-advance |     ❌     |   ✔️    | Deterministic phase routing, pre-fills editor with the correct next command                          |
+|       Prompt-dispatch for all skills |     ❌     |   ✔️    | 54 pi prompt templates — clean autocomplete, arg hints, direct workflow dispatch                     |
 
 ---
 
