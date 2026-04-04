@@ -39,9 +39,6 @@ jobs:
           fi
           echo "Version verified: v${TAG}"
 
-      - name: Build harnesses
-        run: node scripts/build-harnesses.js --clean
-
       - name: Pack
         run: npm pack
 
