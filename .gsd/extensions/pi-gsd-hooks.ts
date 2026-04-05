@@ -95,7 +95,8 @@ export default function (pi: ExtensionAPI) {
 
 		// Fallback lookup: package harness root via this extension file's location
 		// <pkg>/.gsd/extensions/pi-gsd-hooks.ts → <pkg>/.gsd/harnesses/pi/get-shit-done
-		const pkgHarness = join(dirname(__filename), "..", "harnesses", "pi", "get-shit-done");
+		const extFile = typeof __filename !== "undefined" ? __filename : "";
+		const pkgHarness = extFile ? join(dirname(extFile), "..", "harnesses", "pi", "get-shit-done") : "";
 
 		const failed: string[] = [];
 		let transformed = text;
