@@ -101,17 +101,25 @@ export default function (pi: ExtensionAPI) {
 	// contents programmatically. Zero tool calls, provider-agnostic.
 	// Missing files → red error + action:"handled" skips the LLM entirely.
 	pi.on("input", async (event, ctx) => {
-		if (event.source === "extension") return { action: "continue" };
+		ctx.ui.notify(`[GSD:input] FIRED. source=${event.source} text.len=${event.text?.length ?? "undef"} text.start=${JSON.stringify((event.text ?? "").slice(0, 120))}`, "info");
+
+		if (event.source === "extension") {
+			ctx.ui.notify("[GSD:input] SKIP: source=extension", "info");
+			return { action: "continue" };
+		}
 
 		const text = event.text;
 		const fileRefPattern = /@(\.pi\/gsd\/[^\s]+|\.planning\/[^\s]+)/g;
 		const refs = [...text.matchAll(fileRefPattern)];
+		ctx.ui.notify(`[GSD:input] refs found: ${refs.length}. Matches: ${refs.map(m => m[0]).join(", ") || "NONE"}`, "info");
+
 		if (refs.length === 0) return { action: "continue" };
 
-		// Fallback lookup: package harness root via this extension file's location
-		// <pkg>/.gsd/extensions/pi-gsd-hooks.ts → <pkg>/.gsd/harnesses/pi/get-shit-done
 		const extFile = typeof __filename !== "undefined" ? __filename : "";
+		ctx.ui.notify(`[GSD:input] __filename=${extFile || "UNDEFINED"}`, "info");
 		const pkgHarness = extFile ? join(dirname(extFile), "..", "harnesses", "pi", "get-shit-done") : "";
+		ctx.ui.notify(`[GSD:input] pkgHarness=${pkgHarness || "EMPTY"} exists=${pkgHarness ? existsSync(pkgHarness) : false}`, "info");
+		ctx.ui.notify(`[GSD:input] cwd=${ctx.cwd}`, "info");
 
 		const failed: string[] = [];
 		let transformed = text;
@@ -120,25 +128,27 @@ export default function (pi: ExtensionAPI) {
 			const relPath = match[1];
 			const subPath = relPath.replace(/^\.pi\/gsd\//, "");
 
-			// Lookup order:
-			// 1. Project symlink:  <cwd>/.pi/gsd/<subPath>
-			// 2. Package harness:  <pkg>/.gsd/harnesses/pi/get-shit-done/<subPath>
 			const candidates = [
 				join(ctx.cwd, relPath),
 				...(relPath.startsWith(".pi/gsd/") ? [join(pkgHarness, subPath)] : []),
 			];
+			ctx.ui.notify(`[GSD:input] ref=${relPath} candidates=${JSON.stringify(candidates)} exists=${candidates.map(c => existsSync(c))}`, "info");
 
 			let fileContent: string | null = null;
 			for (const candidate of candidates) {
 				try {
 					if (existsSync(candidate)) {
 						fileContent = readFileSync(candidate, "utf8");
+						ctx.ui.notify(`[GSD:input] FOUND ${candidate} (${fileContent.length} bytes)`, "info");
 						break;
 					}
-				} catch { /* try next */ }
+				} catch (e) {
+					ctx.ui.notify(`[GSD:input] ERROR reading ${candidate}: ${e}`, "error");
+				}
 			}
 
 			if (fileContent === null) {
+				ctx.ui.notify(`[GSD:input] FAILED: ${relPath} — no candidate found`, "error");
 				failed.push(relPath);
 			} else {
 				transformed = transformed.replace(match[0], fileContent);
