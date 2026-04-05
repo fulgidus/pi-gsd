@@ -125,10 +125,7 @@ export default function (pi: ExtensionAPI) {
 			if (fileContent === null) {
 				failed.push(relPath);
 			} else {
-				transformed = transformed.replace(
-					match[0],
-					`<!-- @${relPath} -->\n${fileContent}\n<!-- /@${relPath} -->`,
-				);
+				transformed = transformed.replace(match[0], fileContent);
 			}
 		}
 
