@@ -87,12 +87,11 @@ export default function (pi: ExtensionAPI) {
 		if (event.source === "extension") return { action: "continue" };
 
 		const text = event.text;
-		try { ctx.ui.notify("[GSD:DBG] len=" + String(text?.length) + " text=" + String(text).slice(0, 300), "info"); } catch { ctx.ui.notify("[GSD:DBG] text log failed", "error"); }
-
 		const includePattern = /<gsd-include\s+path="([^"]+)"(?:\s+select="([^"]*)")?\s*\/>/g;
 		const includes = [...text.matchAll(includePattern)];
-		ctx.ui.notify(`[GSD:DBG] includes=${includes.length}`, "info");
+		ctx.ui.notify("[GSD] len=" + String(text?.length) + " inc=" + includes.length + " txt=[" + String(text).slice(0, 250) + "]", "info");
 		if (includes.length === 0) return { action: "continue" };
+
 
 		// Package harness fallback path
 		const extFile = typeof __filename !== "undefined" ? __filename : "";
