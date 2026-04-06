@@ -239,6 +239,16 @@ export default function (pi: ExtensionAPI) {
         const errors: string[] = [];
         const messages = event.messages;
 
+		// Capture raw arguments from ORIGINAL message before include resolution corrupts it
+		const rawArgsMap = new Map<number, string>();
+		messages.forEach((msg, i) => {
+			if (msg.role !== "user") return;
+			const text = typeof msg.content === "string" ? msg.content
+				: Array.isArray(msg.content) ? (msg.content as Array<{type:string;text?:string}>).filter(b => b.type === "text").map(b => b.text ?? "").join("\n")
+				: "";
+			rawArgsMap.set(i, extractRawArguments(text));
+		});
+
         for (const msg of messages) {
             if (msg.role !== "user") continue;
 
@@ -323,19 +333,19 @@ export default function (pi: ExtensionAPI) {
         };
 
         try {
-            for (const msg of messages) {
+            for (let msgIdx = 0; msgIdx < messages.length; msgIdx++) {
+                const msg = messages[msgIdx];
                 if (msg.role !== "user") continue;
+                const rawArgs = rawArgsMap.get(msgIdx) ?? "";
                 if (typeof msg.content === "string") {
                     if (!msg.content.includes("<gsd-")) continue;
                     const virtualPath = join(ctx.cwd, ".pi", "gsd", "workflows", "_message.md");
-                    const rawArgs = extractRawArguments(msg.content);
                     msg.content = processWxpTrustedContent(msg.content, virtualPath, wxpSecurity, ctx.cwd, pkgRoot2, rawArgs, (m, lv) => ctx.ui.notify(m, lv === "error" ? "error" : "info"));
                 } else if (Array.isArray(msg.content)) {
                     for (const block of msg.content) {
                         if (block.type !== "text" || !block.text) continue;
                         if (!block.text.includes("<gsd-")) continue;
                         const virtualPath = join(ctx.cwd, ".pi", "gsd", "workflows", "_message.md");
-                        const rawArgs = extractRawArguments(block.text);
                         block.text = processWxpTrustedContent(block.text, virtualPath, wxpSecurity, ctx.cwd, pkgRoot2, rawArgs, (m, lv) => ctx.ui.notify(m, lv === "error" ? "error" : "info"));
                     }
                 }
