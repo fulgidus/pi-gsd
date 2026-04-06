@@ -7,7 +7,6 @@
 <gsd-execute>
   <shell command="pi-gsd-tools">
     <args>
-      <arg string="pi-gsd-tools" />
       <arg string="init" />
       <arg string="progress" />
     </args>
@@ -44,7 +43,6 @@
   </if>
   <shell command="pi-gsd-tools">
     <args>
-      <arg string="pi-gsd-tools" />
       <arg string="state" />
       <arg string="json" />
       <arg string="--raw" />

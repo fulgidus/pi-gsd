@@ -12,7 +12,7 @@
   <shell command="pi-gsd-tools">
     <args>
       <arg string="init" />
-      <arg string="discuss-phase" />
+      <arg string="phase-op" />
       <arg name="phase" wrap='"' />
     </args>
     <outs>

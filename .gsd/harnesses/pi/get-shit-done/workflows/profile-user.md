@@ -7,7 +7,6 @@
 <gsd-execute>
   <shell command="pi-gsd-tools">
     <args>
-      <arg string="pi-gsd-tools" />
       <arg string="scan-sessions" />
       <arg string="--json" />
     </args>
@@ -18,7 +17,6 @@
   </shell>
   <shell command="pi-gsd-tools">
     <args>
-      <arg string="pi-gsd-tools" />
       <arg string="profile-sample" />
       <arg string="--json" />
     </args>
@@ -29,7 +27,6 @@
   </shell>
   <shell command="pi-gsd-tools">
     <args>
-      <arg string="pi-gsd-tools" />
       <arg string="state" />
       <arg string="json" />
       <arg string="--raw" />

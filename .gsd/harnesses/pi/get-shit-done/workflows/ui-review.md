@@ -8,7 +8,6 @@
 <gsd-execute>
   <shell command="pi-gsd-tools">
     <args>
-      <arg string="pi-gsd-tools" />
       <arg string="init" />
       <arg string="phase-op" />
     </args>
@@ -45,7 +44,6 @@
   </if>
   <shell command="pi-gsd-tools">
     <args>
-      <arg string="pi-gsd-tools" />
       <arg string="resolve-model" />
       <arg string="gsd-ui-auditor" />
       <arg string="--raw" />
@@ -57,7 +55,6 @@
   </shell>
   <shell command="pi-gsd-tools">
     <args>
-      <arg string="pi-gsd-tools" />
       <arg string="agent-skills" />
       <arg string="gsd-ui-reviewer" />
     </args>
