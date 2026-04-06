@@ -1,29 +1,101 @@
 <gsd-version v="1.12.4" />
 
-<purpose>
-Execute small, ad-hoc tasks with GSD guarantees (atomic commits, STATE.md tracking). Quick mode spawns gsd-planner (quick mode) + gsd-executor(s), tracks tasks in `.planning/quick/`, and updates STATE.md's "Quick Tasks Completed" table.
+<gsd-arguments>
+  <settings>
+    <keep-extra-args />
+  </settings>
+  <arg name="discuss" type="flag" flag="--discuss" optional />
+  <arg name="full" type="flag" flag="--full" optional />
+  <arg name="research" type="flag" flag="--research" optional />
+  <arg name="description" type="string" optional />
+</gsd-arguments>
 
-With `--discuss` flag: lightweight discussion phase before planning. Surfaces assumptions, clarifies gray areas, captures decisions in CONTEXT.md so the planner treats them as locked.
+<gsd-execute>
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="init" />
+      <arg string="quick" />
+      <arg name="description" wrap='"' />
+    </args>
+    <outs>
+      <out type="string" name="init" />
+    </outs>
+  </shell>
+  <if>
+    <condition>
+      <starts-with>
+        <left name="init" />
+        <right type="string" value="@file:" />
+      </starts-with>
+    </condition>
+    <then>
+      <string-op op="split">
+        <args>
+          <arg name="init" />
+          <arg type="string" value="@file:" />
+        </args>
+        <outs>
+          <out type="string" name="init-file" />
+        </outs>
+      </string-op>
+      <shell command="cat">
+        <args>
+          <arg name="init-file" wrap='"' />
+        </args>
+        <outs>
+          <out type="string" name="init" />
+        </outs>
+      </shell>
+    </then>
+  </if>
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="agent-skills" />
+      <arg string="gsd-planner" />
+    </args>
+    <outs>
+      <suppress-errors />
+      <out type="string" name="agent-skills-planner" />
+    </outs>
+  </shell>
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="agent-skills" />
+      <arg string="gsd-executor" />
+    </args>
+    <outs>
+      <suppress-errors />
+      <out type="string" name="agent-skills-executor" />
+    </outs>
+  </shell>
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="agent-skills" />
+      <arg string="gsd-plan-checker" />
+    </args>
+    <outs>
+      <suppress-errors />
+      <out type="string" name="agent-skills-checker" />
+    </outs>
+  </shell>
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="agent-skills" />
+      <arg string="gsd-verifier" />
+    </args>
+    <outs>
+      <suppress-errors />
+      <out type="string" name="agent-skills-verifier" />
+    </outs>
+  </shell>
+</gsd-execute>
 
-With `--full` flag: enables plan-checking (max 2 iterations) and post-execution verification for quality guarantees without full milestone ceremony.
+## Quick Task Context (pre-injected by WXP)
 
-With `--research` flag: spawns a focused research agent before planning. Investigates implementation approaches, library options, and pitfalls. Use when you're unsure how to approach a task.
+**Task:** <gsd-paste name="description" />
 
-Flags are composable: `--discuss --research --full` gives discussion + research + plan-checking + verification.
-</purpose>
-
-<required_reading>
-Read all files referenced by the invoking prompt's execution_context before starting.
-</required_reading>
-
-<available_agent_types>
-Valid GSD subagent types (use exact names - do not fall back to 'general-purpose'):
-- gsd-phase-researcher - Researches technical approaches for a phase
-- gsd-planner - Creates detailed plans from phase scope
-- gsd-plan-checker - Reviews plan quality before execution
-- gsd-executor - Executes plan tasks, commits, creates SUMMARY.md
-- gsd-verifier - Verifies phase completion, checks quality gates
-</available_agent_types>
+**Init Data:**
+<gsd-paste name="init" />
 
 <process>
 **Step 1: Parse arguments and get task description**

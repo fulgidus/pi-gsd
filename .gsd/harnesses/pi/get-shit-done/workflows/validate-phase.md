@@ -1,17 +1,92 @@
 <gsd-version v="1.12.4" />
 
-<purpose>
-Audit Nyquist validation gaps for a completed phase. Generate missing tests. Update VALIDATION.md.
-</purpose>
+<gsd-arguments>
+  <settings>
+    <keep-extra-args />
+  </settings>
+  <arg name="phase" type="number" />
+</gsd-arguments>
 
-<required_reading>
-@.pi/gsd/references/ui-brand.md
-</required_reading>
+<gsd-execute>
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="init" />
+      <arg string="phase-op" />
+      <arg name="phase" wrap='"' />
+    </args>
+    <outs>
+      <out type="string" name="init" />
+    </outs>
+  </shell>
+  <if>
+    <condition>
+      <starts-with>
+        <left name="init" />
+        <right type="string" value="@file:" />
+      </starts-with>
+    </condition>
+    <then>
+      <string-op op="split">
+        <args>
+          <arg name="init" />
+          <arg type="string" value="@file:" />
+        </args>
+        <outs>
+          <out type="string" name="init-file" />
+        </outs>
+      </string-op>
+      <shell command="cat">
+        <args>
+          <arg name="init-file" wrap='"' />
+        </args>
+        <outs>
+          <out type="string" name="init" />
+        </outs>
+      </shell>
+    </then>
+  </if>
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="agent-skills" />
+      <arg string="gsd-nyquist-auditor" />
+    </args>
+    <outs>
+      <suppress-errors />
+      <out type="string" name="agent-skills-auditor" />
+    </outs>
+  </shell>
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="resolve-model" />
+      <arg string="gsd-nyquist-auditor" />
+      <arg string="--raw" />
+    </args>
+    <outs>
+      <suppress-errors />
+      <out type="string" name="auditor-model" />
+    </outs>
+  </shell>
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="config-get" />
+      <arg string="workflow.nyquist_validation" />
+      <arg string="--raw" />
+    </args>
+    <outs>
+      <suppress-errors />
+      <out type="string" name="nyquist-cfg" />
+    </outs>
+  </shell>
+</gsd-execute>
 
-<available_agent_types>
-Valid GSD subagent types (use exact names - do not fall back to 'general-purpose'):
-- gsd-nyquist-auditor - Validates verification coverage
-</available_agent_types>
+## Initialization Context (pre-injected by WXP)
+
+**Phase:** <gsd-paste name="phase" />
+
+**Phase Init Data:**
+<gsd-paste name="init" />
+
+**Auditor Model:** <gsd-paste name="auditor-model" />
 
 <process>
 

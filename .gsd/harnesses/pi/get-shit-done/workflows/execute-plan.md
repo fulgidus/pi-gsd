@@ -1,20 +1,58 @@
 <gsd-version v="1.12.4" />
 
-<purpose>
-Execute a phase prompt (PLAN.md) and create the outcome summary (SUMMARY.md).
-</purpose>
+<gsd-arguments>
+  <settings>
+    <keep-extra-args />
+  </settings>
+  <arg name="phase" type="number" />
+</gsd-arguments>
 
-<required_reading>
-Read STATE.md before any operation to load project context.
-Read config.json for planning behavior settings.
+<gsd-execute>
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="init" />
+      <arg string="execute-phase" />
+      <arg name="phase" wrap='"' />
+    </args>
+    <outs>
+      <out type="string" name="init" />
+    </outs>
+  </shell>
+  <if>
+    <condition>
+      <starts-with>
+        <left name="init" />
+        <right type="string" value="@file:" />
+      </starts-with>
+    </condition>
+    <then>
+      <string-op op="split">
+        <args>
+          <arg name="init" />
+          <arg type="string" value="@file:" />
+        </args>
+        <outs>
+          <out type="string" name="init-file" />
+        </outs>
+      </string-op>
+      <shell command="cat">
+        <args>
+          <arg name="init-file" wrap='"' />
+        </args>
+        <outs>
+          <out type="string" name="init" />
+        </outs>
+      </shell>
+    </then>
+  </if>
+</gsd-execute>
 
-@.pi/gsd/references/git-integration.md
-</required_reading>
+## Execution Context (pre-injected by WXP)
 
-<available_agent_types>
-Valid GSD subagent types (use exact names - do not fall back to 'general-purpose'):
-- gsd-executor - Executes plan tasks, commits, creates SUMMARY.md
-</available_agent_types>
+**Phase:** <gsd-paste name="phase" />
+
+**Phase Init Data:**
+<gsd-paste name="init" />
 
 <process>
 

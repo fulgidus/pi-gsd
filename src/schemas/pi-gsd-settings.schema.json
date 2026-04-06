@@ -5,30 +5,54 @@
   "description": "Security and allowlist configuration for the pi-gsd WXP engine. Applies at global (~/.gsd/) or project (.pi/gsd/) scope; project settings override global.",
   "type": "object",
   "additionalProperties": false,
+  "definitions": {
+    "TrustedPathEntry": {
+      "type": "object",
+      "required": ["position", "path"],
+      "additionalProperties": false,
+      "properties": {
+        "position": {
+          "type": "string",
+          "enum": ["project", "pkg", "absolute"],
+          "description": "How to resolve the path: 'project' relative to project root, 'pkg' relative to pi-gsd package root, 'absolute' as-is."
+        },
+        "path": {
+          "type": "string",
+          "description": "The path (resolved according to 'position')."
+        }
+      },
+      "examples": [
+        { "position": "project", "path": ".pi/gsd" },
+        { "position": "pkg", "path": ".gsd/harnesses/pi/get-shit-done" },
+        { "position": "absolute", "path": "/home/user/shared-workflows" }
+      ]
+    }
+  },
   "properties": {
     "trustedPaths": {
       "type": "array",
-      "items": { "type": "string" },
-      "description": "Additional absolute paths trusted for WXP processing. Package and project harness paths are always trusted.",
+      "items": { "$ref": "#/definitions/TrustedPathEntry" },
+      "description": "Additional paths trusted for WXP processing. Package harness and project harness are always trusted by default.",
       "default": []
     },
     "untrustedPaths": {
       "type": "array",
-      "items": { "type": "string" },
-      "description": "Paths that are explicitly blocked from WXP processing, even if they match a trusted path. Takes precedence over trustedPaths.",
-      "default": []
+      "items": { "$ref": "#/definitions/TrustedPathEntry" },
+      "description": "Paths explicitly blocked from WXP processing. Overrides trustedPaths (including defaults). Use to ban a subdirectory of a trusted path.",
+      "default": [],
+      "examples": [[{ "position": "project", "path": ".planning" }]]
     },
     "shellAllowlist": {
       "type": "array",
       "items": { "type": "string" },
-      "description": "Additional command names (bare, no path) allowed in <shell> blocks. Extends the default allowlist: [pi-gsd-tools, git, node, cat, ls, echo, find].",
+      "description": "Additional bare command names allowed in <shell> blocks. Extends the default: [pi-gsd-tools, git, node, cat, ls, echo, find]. Cannot remove defaults — use shellBanlist for that.",
       "default": [],
-      "examples": [["jq", "curl"]]
+      "examples": [["jq"]]
     },
     "shellBanlist": {
       "type": "array",
       "items": { "type": "string" },
-      "description": "Command names explicitly blocked in <shell> blocks, even if present in shellAllowlist.",
+      "description": "Bare command names explicitly blocked in <shell> blocks. Overrides shellAllowlist and defaults.",
       "default": [],
       "examples": [["bash", "sh", "zsh"]]
     },
@@ -36,8 +60,21 @@
       "type": "number",
       "minimum": 1000,
       "maximum": 300000,
-      "description": "Timeout in milliseconds for <shell> block execution. Default: 30000 (30s).",
+      "description": "Timeout in milliseconds per <shell> command execution. Default: 30000 (30s).",
       "default": 30000
     }
-  }
+  },
+  "examples": [
+    {
+      "trustedPaths": [
+        { "position": "absolute", "path": "/home/user/shared-workflows" }
+      ],
+      "untrustedPaths": [
+        { "position": "project", "path": ".planning" }
+      ],
+      "shellAllowlist": ["jq"],
+      "shellBanlist": [],
+      "shellTimeoutMs": 30000
+    }
+  ]
 }

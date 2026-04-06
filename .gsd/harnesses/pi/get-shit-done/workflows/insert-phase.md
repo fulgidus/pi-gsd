@@ -1,12 +1,71 @@
 <gsd-version v="1.12.4" />
 
-<purpose>
-Insert a decimal phase for urgent work discovered mid-milestone between existing integer phases. Uses decimal numbering (72.1, 72.2, etc.) to preserve the logical sequence of planned phases while accommodating urgent insertions without renumbering the entire roadmap.
-</purpose>
+<gsd-arguments>
+  <settings>
+    <keep-extra-args />
+  </settings>
+  <arg name="after-phase" type="number" />
+  <arg name="description" type="string" optional />
+</gsd-arguments>
 
-<required_reading>
-Read all files referenced by the invoking prompt's execution_context before starting.
-</required_reading>
+<gsd-execute>
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="init" />
+      <arg string="phase-op" />
+      <arg name="after-phase" wrap='"' />
+    </args>
+    <outs>
+      <out type="string" name="init" />
+    </outs>
+  </shell>
+  <if>
+    <condition>
+      <starts-with>
+        <left name="init" />
+        <right type="string" value="@file:" />
+      </starts-with>
+    </condition>
+    <then>
+      <string-op op="split">
+        <args>
+          <arg name="init" />
+          <arg type="string" value="@file:" />
+        </args>
+        <outs>
+          <out type="string" name="init-file" />
+        </outs>
+      </string-op>
+      <shell command="cat">
+        <args>
+          <arg name="init-file" wrap='"' />
+        </args>
+        <outs>
+          <out type="string" name="init" />
+        </outs>
+      </shell>
+    </then>
+  </if>
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="state" />
+      <arg string="json" />
+      <arg string="--raw" />
+    </args>
+    <outs>
+      <out type="string" name="state" />
+    </outs>
+  </shell>
+</gsd-execute>
+
+## Context (pre-injected by WXP)
+
+**Insert after phase:** <gsd-paste name="after-phase" />
+
+**Description:** <gsd-paste name="description" />
+
+**Phase Init Data:**
+<gsd-paste name="init" />
 
 <process>
 

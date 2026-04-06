@@ -1,17 +1,77 @@
 <gsd-version v="1.12.4" />
 
-<purpose>
-Verify milestone achieved its definition of done by aggregating phase verifications, checking cross-phase integration, and assessing requirements coverage. Reads existing VERIFICATION.md files (phases already verified during execute-phase), aggregates tech debt and deferred gaps, then spawns integration checker for cross-phase wiring.
-</purpose>
+<gsd-arguments>
+  <settings>
+    <keep-extra-args />
+  </settings>
+</gsd-arguments>
 
-<required_reading>
-Read all files referenced by the invoking prompt's execution_context before starting.
-</required_reading>
+<gsd-execute>
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="init" />
+      <arg string="milestone-op" />
+    </args>
+    <outs>
+      <out type="string" name="init" />
+    </outs>
+  </shell>
+  <if>
+    <condition>
+      <starts-with>
+        <left name="init" />
+        <right type="string" value="@file:" />
+      </starts-with>
+    </condition>
+    <then>
+      <string-op op="split">
+        <args>
+          <arg name="init" />
+          <arg type="string" value="@file:" />
+        </args>
+        <outs>
+          <out type="string" name="init-file" />
+        </outs>
+      </string-op>
+      <shell command="cat">
+        <args>
+          <arg name="init-file" wrap='"' />
+        </args>
+        <outs>
+          <out type="string" name="init" />
+        </outs>
+      </shell>
+    </then>
+  </if>
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="agent-skills" />
+      <arg string="gsd-integration-checker" />
+    </args>
+    <outs>
+      <suppress-errors />
+      <out type="string" name="agent-skills-checker" />
+    </outs>
+  </shell>
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="resolve-model" />
+      <arg string="gsd-integration-checker" />
+      <arg string="--raw" />
+    </args>
+    <outs>
+      <suppress-errors />
+      <out type="string" name="integration-checker-model" />
+    </outs>
+  </shell>
+</gsd-execute>
 
-<available_agent_types>
-Valid GSD subagent types (use exact names - do not fall back to 'general-purpose'):
-- gsd-integration-checker - Checks cross-phase integration
-</available_agent_types>
+## Milestone Audit Context (pre-injected by WXP)
+
+**Milestone Init Data:**
+<gsd-paste name="init" />
+
+**Integration Checker Model:** <gsd-paste name="integration-checker-model" />
 
 <process>
 

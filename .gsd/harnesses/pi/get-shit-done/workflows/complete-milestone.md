@@ -1,41 +1,44 @@
 <gsd-version v="1.12.4" />
 
-<purpose>
+<gsd-arguments>
+  <settings>
+    <keep-extra-args />
+  </settings>
+  <arg name="version" type="string" optional />
+</gsd-arguments>
 
-Mark a shipped version (v1.0, v1.1, v2.0) as complete. Creates historical record in MILESTONES.md, performs full PROJECT.md evolution review, reorganizes ROADMAP.md with milestone groupings, and tags the release in git.
+<gsd-execute>
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="roadmap" />
+      <arg string="analyze" />
+      <arg string="--raw" />
+    </args>
+    <outs>
+      <out type="string" name="roadmap" />
+    </outs>
+  </shell>
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="state" />
+      <arg string="json" />
+      <arg string="--raw" />
+    </args>
+    <outs>
+      <out type="string" name="state" />
+    </outs>
+  </shell>
+</gsd-execute>
 
-</purpose>
+## Milestone Context (pre-injected by WXP)
 
-<required_reading>
+**Version to complete:** <gsd-paste name="version" />
 
-1. templates/milestone.md
-2. templates/milestone-archive.md
-3. `.planning/ROADMAP.md`
-4. `.planning/REQUIREMENTS.md`
-5. `.planning/PROJECT.md`
+**Roadmap:**
+<gsd-paste name="roadmap" />
 
-</required_reading>
-
-<archival_behavior>
-
-When a milestone completes:
-
-1. Extract full milestone details to `.planning/milestones/v[X.Y]-ROADMAP.md`
-2. Archive requirements to `.planning/milestones/v[X.Y]-REQUIREMENTS.md`
-3. Update ROADMAP.md - replace milestone details with one-line summary
-4. Delete REQUIREMENTS.md (fresh one for next milestone)
-5. Perform full PROJECT.md evolution review
-6. Offer to create next milestone inline
-7. Archive UI artifacts (`*-UI-SPEC.md`, `*-UI-REVIEW.md`) alongside other phase documents
-8. Clean up `.planning/ui-reviews/` screenshot files (binary assets, never archived)
-
-**Context Efficiency:** Archives keep ROADMAP.md constant-size and REQUIREMENTS.md milestone-scoped.
-
-**ROADMAP archive** uses `templates/milestone-archive.md` - includes milestone header (status, phases, date), full phase details, milestone summary (decisions, issues, tech debt).
-
-**REQUIREMENTS archive** contains all requirements marked complete with outcomes, traceability table with final status, notes on changed requirements.
-
-</archival_behavior>
+**State:**
+<gsd-paste name="state" />
 
 <process>
 

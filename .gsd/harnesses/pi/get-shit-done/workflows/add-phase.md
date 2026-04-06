@@ -1,12 +1,68 @@
 <gsd-version v="1.12.4" />
 
-<purpose>
-Add a new integer phase to the end of the current milestone in the roadmap. Automatically calculates next phase number, creates phase directory, and updates roadmap structure.
-</purpose>
+<gsd-arguments>
+  <settings>
+    <keep-extra-args />
+  </settings>
+  <arg name="description" type="string" optional />
+</gsd-arguments>
 
-<required_reading>
-Read all files referenced by the invoking prompt's execution_context before starting.
-</required_reading>
+<gsd-execute>
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="init" />
+      <arg string="phase-op" />
+      <arg string="0" />
+    </args>
+    <outs>
+      <out type="string" name="init" />
+    </outs>
+  </shell>
+  <if>
+    <condition>
+      <starts-with>
+        <left name="init" />
+        <right type="string" value="@file:" />
+      </starts-with>
+    </condition>
+    <then>
+      <string-op op="split">
+        <args>
+          <arg name="init" />
+          <arg type="string" value="@file:" />
+        </args>
+        <outs>
+          <out type="string" name="init-file" />
+        </outs>
+      </string-op>
+      <shell command="cat">
+        <args>
+          <arg name="init-file" wrap='"' />
+        </args>
+        <outs>
+          <out type="string" name="init" />
+        </outs>
+      </shell>
+    </then>
+  </if>
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="state" />
+      <arg string="json" />
+      <arg string="--raw" />
+    </args>
+    <outs>
+      <out type="string" name="state" />
+    </outs>
+  </shell>
+</gsd-execute>
+
+## Context (pre-injected by WXP)
+
+**Description:** <gsd-paste name="description" />
+
+**Project State:**
+<gsd-paste name="state" />
 
 <process>
 

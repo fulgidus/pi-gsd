@@ -1,30 +1,89 @@
 <gsd-version v="1.12.4" />
 
-<purpose>
-Validate built features through conversational testing with persistent state. Creates UAT.md that tracks test progress, survives /clear, and feeds gaps into /gsd-plan-phase --gaps.
+<gsd-arguments>
+  <settings>
+    <keep-extra-args />
+  </settings>
+  <arg name="phase" type="number" optional />
+  <arg name="plan" type="flag" flag="--plan" optional />
+</gsd-arguments>
 
-User tests, the agent records. One test at a time. Plain text responses.
-</purpose>
+<gsd-execute>
+  <if>
+    <condition>
+      <equals>
+        <left name="phase" />
+        <right type="string" value="" />
+      </equals>
+    </condition>
+    <else>
+      <shell command="pi-gsd-tools">
+        <args>
+          <arg string="init" />
+          <arg string="verify-work" />
+          <arg name="phase" wrap='"' />
+        </args>
+        <outs>
+          <out type="string" name="init" />
+        </outs>
+      </shell>
+  <if>
+    <condition>
+      <starts-with>
+        <left name="init" />
+        <right type="string" value="@file:" />
+      </starts-with>
+    </condition>
+    <then>
+      <string-op op="split">
+        <args>
+          <arg name="init" />
+          <arg type="string" value="@file:" />
+        </args>
+        <outs>
+          <out type="string" name="init-file" />
+        </outs>
+      </string-op>
+      <shell command="cat">
+        <args>
+          <arg name="init-file" wrap='"' />
+        </args>
+        <outs>
+          <out type="string" name="init" />
+        </outs>
+      </shell>
+    </then>
+  </if>
+      <shell command="pi-gsd-tools">
+        <args>
+          <arg string="agent-skills" />
+          <arg string="gsd-planner" />
+        </args>
+        <outs>
+          <suppress-errors />
+          <out type="string" name="agent-skills-planner" />
+        </outs>
+      </shell>
+      <shell command="pi-gsd-tools">
+        <args>
+          <arg string="agent-skills" />
+          <arg string="gsd-plan-checker" />
+        </args>
+        <outs>
+          <suppress-errors />
+          <out type="string" name="agent-skills-checker" />
+        </outs>
+      </shell>
+    </else>
+  </if>
+</gsd-execute>
 
-<available_agent_types>
-Valid GSD subagent types (use exact names - do not fall back to 'general-purpose'):
-- gsd-planner - Creates detailed plans from phase scope
-- gsd-plan-checker - Reviews plan quality before execution
-</available_agent_types>
+## Initialization Context (pre-injected by WXP)
 
-<philosophy>
-**Show expected, ask if reality matches.**
+**Phase:** <gsd-paste name="phase" />
 
-the agent presents what SHOULD happen. User confirms or describes what's different.
-- "yes" / "y" / "next" / empty → pass
-- Anything else → logged as issue, severity inferred
-
-No Pass/Fail buttons. No severity questions. Just: "Here's what should happen. Does it?"
-</philosophy>
-
-<template>
-@.pi/gsd/templates/UAT.md
-</template>
+**Phase Init Data:**
+<gsd-paste name="init" />
 
 <process>
 
