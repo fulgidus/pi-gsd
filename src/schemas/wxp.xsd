@@ -202,19 +202,11 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:element name="equals"      type="ConditionExprType"/>
-  <xs:element name="starts-with" type="ConditionExprType"/>
 
-  <!-- ═══════════════════════════════════════════════════════════════════════
-       <condition> — wraps the condition expression inside <if>
-       ═══════════════════════════════════════════════════════════════════════ -->
 
   <xs:element name="condition">
     <xs:complexType>
-      <xs:choice>
-        <xs:element ref="equals"/>
-        <xs:element ref="starts-with"/>
-      </xs:choice>
+      <xs:group ref="ConditionExprGroup"/>
     </xs:complexType>
   </xs:element>
 
@@ -280,7 +272,154 @@
   </xs:element>
 
   <!-- ═══════════════════════════════════════════════════════════════════════
-       ExecutableOperations group — children allowed inside <gsd-execute>, <then>, <else>
+       <display> — deterministic notification (PRD §3.x)
+       ═══════════════════════════════════════════════════════════════════════ -->
+
+  <xs:element name="display">
+    <xs:annotation>
+      <xs:documentation>
+        Emits a ctx.ui.notify() at WXP processing time.
+        msg supports {varname} and {var.prop} dot-notation interpolation.
+        Does NOT inject into document text — UI notification only.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="msg" type="xs:string" use="required">
+        <xs:annotation>
+          <xs:documentation>Template string. {varname} and {obj.prop} interpolated from variable store.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="level" use="optional" default="info">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="info"/>
+            <xs:enumeration value="warning"/>
+            <xs:enumeration value="error"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       <json-parse> — parse JSON variable into scalar or array
+       ═══════════════════════════════════════════════════════════════════════ -->
+
+  <xs:element name="json-parse">
+    <xs:annotation>
+      <xs:documentation>
+        Parses the JSON string in `src` variable.
+        path: optional dot-path selector ("$.key" or "$.key.sub").
+        out: name of output variable (scalar string or array for &lt;for-each&gt;).
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="src" type="xs:string" use="required"/>
+      <xs:attribute name="path" type="xs:string" use="optional"/>
+      <xs:attribute name="out" type="xs:string" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       <where> — filter clause inside <for-each>
+       ═══════════════════════════════════════════════════════════════════════ -->
+
+  <xs:element name="where">
+    <xs:complexType>
+      <xs:group ref="ConditionExprGroup"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       <sort-by> — sort clause inside <for-each>
+       ═══════════════════════════════════════════════════════════════════════ -->
+
+  <xs:element name="sort-by">
+    <xs:complexType>
+      <xs:attribute name="key" type="xs:string" use="required">
+        <xs:annotation>
+          <xs:documentation>Property key to sort by, supports dot-notation (e.g. "phase.number").</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="type" use="optional" default="string">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="string"/>
+            <xs:enumeration value="number"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="order" use="optional" default="asc">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="asc"/>
+            <xs:enumeration value="desc"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       <for-each> — iteration over array variables
+       ═══════════════════════════════════════════════════════════════════════ -->
+
+  <xs:element name="for-each">
+    <xs:annotation>
+      <xs:documentation>
+        Iterates an array variable (populated by &lt;json-parse&gt; or &lt;string-op op="split"&gt;).
+        Each item is set as `item` variable during iteration (JSON string for objects).
+        Optional &lt;where&gt; pre-filters; optional &lt;sort-by&gt; sorts before iteration.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="where" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="sort-by" minOccurs="0" maxOccurs="1"/>
+        <xs:group ref="ExecutableOperations" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="var" type="xs:string" use="required">
+        <xs:annotation><xs:documentation>Name of the array variable to iterate.</xs:documentation></xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="item" type="xs:string" use="required">
+        <xs:annotation><xs:documentation>Variable name assigned to each item during iteration.</xs:documentation></xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       Condition expression group — all valid condition operators
+       ═══════════════════════════════════════════════════════════════════════ -->
+
+  <xs:group name="ConditionExprGroup">
+    <xs:choice>
+      <xs:element name="equals"      type="ConditionExprType"/>
+      <xs:element name="not-equals"  type="ConditionExprType"/>
+      <xs:element name="starts-with" type="ConditionExprType"/>
+      <xs:element name="contains"    type="ConditionExprType"/>
+      <xs:element name="less-than"              type="ConditionExprType"/>
+      <xs:element name="greater-than"           type="ConditionExprType"/>
+      <xs:element name="less-than-or-equal"     type="ConditionExprType"/>
+      <xs:element name="greater-than-or-equal"  type="ConditionExprType"/>
+      <xs:element name="and"         type="LogicalCondType"/>
+      <xs:element name="or"          type="LogicalCondType"/>
+    </xs:choice>
+  </xs:group>
+
+  <!-- Logical condition: <and>/<or> contain child condition expressions -->
+  <xs:complexType name="LogicalCondType">
+    <xs:annotation>
+      <xs:documentation>
+        &lt;and&gt;: all children must be true.
+        &lt;or&gt;: at least one child must be true.
+        Children are condition expressions — supports nesting.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:group ref="ConditionExprGroup" minOccurs="1" maxOccurs="unbounded"/>
+  </xs:complexType>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       Updated ExecutableOperations group — includes new elements
        ═══════════════════════════════════════════════════════════════════════ -->
 
   <xs:group name="ExecutableOperations">
@@ -288,6 +427,9 @@
       <xs:element ref="shell"/>
       <xs:element ref="if"/>
       <xs:element ref="string-op"/>
+      <xs:element ref="json-parse"/>
+      <xs:element ref="for-each"/>
+      <xs:element ref="display"/>
     </xs:choice>
   </xs:group>
 

@@ -66,10 +66,7 @@ Read all files referenced by the invoking prompt's execution_context before star
 
 Extract workspace name from $ARGUMENTS.
 
-```bash
-INIT=$(pi-gsd-tools init remove-workspace "$WORKSPACE_NAME")
-if [[ "$INIT" == @file:* ]]; then INIT=$(cat "${INIT#@file:}"); fi
-```
+<!-- Context pre-injected above via WXP — variables available via <gsd-paste name="..."> -->
 
 Parse JSON for: `workspace_name`, `workspace_path`, `has_manifest`, `strategy`, `repos`, `repo_count`, `dirty_repos`, `has_dirty_repos`.
 

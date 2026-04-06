@@ -90,12 +90,7 @@
 <step name="initialize" priority="first">
 If $ARGUMENTS contains a phase number, load context:
 
-```bash
-INIT=$(pi-gsd-tools init verify-work "${PHASE_ARG}")
-if [[ "$INIT" == @file:* ]]; then INIT=$(cat "${INIT#@file:}"); fi
-AGENT_SKILLS_PLANNER=$(pi-gsd-tools agent-skills gsd-planner 2>/dev/null)
-AGENT_SKILLS_CHECKER=$(pi-gsd-tools agent-skills gsd-checker 2>/dev/null)
-```
+<!-- Context pre-injected above via WXP — variables available via <gsd-paste name="..."> -->
 
 Parse JSON for: `planner_model`, `checker_model`, `commit_docs`, `phase_found`, `phase_dir`, `phase_number`, `phase_name`, `has_verification`, `uat_path`.
 </step>

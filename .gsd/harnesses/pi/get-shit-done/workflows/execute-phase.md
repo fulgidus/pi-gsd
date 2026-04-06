@@ -60,26 +60,6 @@
       <out type="string" name="agent-skills" />
     </outs>
   </shell>
-  <if>
-    <condition>
-      <equals>
-        <left name="auto-chain-active" />
-        <right type="boolean" value="false" />
-      </equals>
-    </condition>
-    <then>
-      <shell command="pi-gsd-tools">
-        <args>
-          <arg string="config-set" />
-          <arg string="workflow._auto_chain_active" />
-          <arg name="auto-chain-active" />
-        </args>
-        <outs>
-          <suppress-errors />
-        </outs>
-      </shell>
-    </then>
-  </if>
 </gsd-execute>
 
 ## Execution Context (pre-injected)

@@ -69,11 +69,7 @@ Documents are reference material for the agent when planning/executing. Always i
 <step name="init_context" priority="first">
 Load codebase mapping context:
 
-```bash
-INIT=$(pi-gsd-tools init map-codebase)
-if [[ "$INIT" == @file:* ]]; then INIT=$(cat "${INIT#@file:}"); fi
-AGENT_SKILLS_MAPPER=$(pi-gsd-tools agent-skills gsd-codebase-mapper 2>/dev/null)
-```
+<!-- Context pre-injected above via WXP — variables available via <gsd-paste name="..."> -->
 
 Extract from init JSON: `mapper_model`, `commit_docs`, `codebase_dir`, `existing_maps`, `has_maps`, `codebase_dir_exists`.
 </step>

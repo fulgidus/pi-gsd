@@ -77,10 +77,7 @@ Read all files referenced by the invoking prompt's execution_context before star
 <step name="init_context">
 Load todo context:
 
-```bash
-INIT=$(pi-gsd-tools init todos)
-if [[ "$INIT" == @file:* ]]; then INIT=$(cat "${INIT#@file:}"); fi
-```
+<!-- Context pre-injected above via WXP — variables available via <gsd-paste name="..."> -->
 
 Extract from init JSON: `todo_count`, `todos`, `pending_dir`.
 

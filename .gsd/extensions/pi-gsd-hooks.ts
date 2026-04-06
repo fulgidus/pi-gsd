@@ -329,14 +329,14 @@ function resolveGsdInclude(
 					if (!msg.content.includes("<gsd-")) continue;
 					const virtualPath = join(ctx.cwd, ".pi", "gsd", "workflows", "_message.md");
 					const rawArgs = extractRawArguments(msg.content);
-					msg.content = processWxpTrustedContent(msg.content, virtualPath, wxpSecurity, ctx.cwd, pkgRoot2, rawArgs);
+					msg.content = processWxpTrustedContent(msg.content, virtualPath, wxpSecurity, ctx.cwd, pkgRoot2, rawArgs, (m, lv) => ctx.ui.notify(m, lv === "error" ? "error" : "info"));
 				} else if (Array.isArray(msg.content)) {
 					for (const block of msg.content) {
 						if (block.type !== "text" || !block.text) continue;
 						if (!block.text.includes("<gsd-")) continue;
 						const virtualPath = join(ctx.cwd, ".pi", "gsd", "workflows", "_message.md");
 						const rawArgs = extractRawArguments(block.text);
-						block.text = processWxpTrustedContent(block.text, virtualPath, wxpSecurity, ctx.cwd, pkgRoot2, rawArgs);
+						block.text = processWxpTrustedContent(block.text, virtualPath, wxpSecurity, ctx.cwd, pkgRoot2, rawArgs, (m, lv) => ctx.ui.notify(m, lv === "error" ? "error" : "info"));
 					}
 				}
 			}

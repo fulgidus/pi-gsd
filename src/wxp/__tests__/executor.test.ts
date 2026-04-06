@@ -7,14 +7,19 @@ vi.mock("node:child_process", () => ({
 
 import { executeBlock, WxpExecutionError } from "../executor.js";
 import { createVariableStore } from "../variables.js";
-import type { ExecuteBlock, WxpSecurityConfig } from "../../schemas/wxp.zod.js";
+import type { ExecuteBlock, WxpExecContext } from "../../schemas/wxp.zod.js";
 
-const cfg: WxpSecurityConfig = {
-  trustedPaths: [],
-  untrustedPaths: [],
-  shellAllowlist: ["git", "pi-gsd-tools", "node", "cat", "ls", "echo", "find"],
-  shellBanlist: [],
-  shellTimeoutMs: 30_000,
+const cfg: WxpExecContext = {
+  config: {
+    trustedPaths: [],
+    untrustedPaths: [],
+    shellAllowlist: ["git", "pi-gsd-tools", "node", "cat", "ls", "echo", "find"],
+    shellBanlist: [],
+    shellTimeoutMs: 30_000,
+  },
+  projectRoot: "/project",
+  pkgRoot: "/pkg",
+  onDisplay: () => {},
 };
 
 describe("executeBlock", () => {

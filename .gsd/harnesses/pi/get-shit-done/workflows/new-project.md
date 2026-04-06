@@ -98,13 +98,7 @@ The document should describe what you want to build.
 
 **MANDATORY FIRST STEP - Execute these checks before ANY user interaction:**
 
-```bash
-INIT=$(pi-gsd-tools init new-project)
-if [[ "$INIT" == @file:* ]]; then INIT=$(cat "${INIT#@file:}"); fi
-AGENT_SKILLS_RESEARCHER=$(pi-gsd-tools agent-skills gsd-project-researcher 2>/dev/null)
-AGENT_SKILLS_SYNTHESIZER=$(pi-gsd-tools agent-skills gsd-synthesizer 2>/dev/null)
-AGENT_SKILLS_ROADMAPPER=$(pi-gsd-tools agent-skills gsd-roadmapper 2>/dev/null)
-```
+<!-- Context pre-injected above via WXP — variables available via <gsd-paste name="..."> -->
 
 Parse JSON for: `researcher_model`, `synthesizer_model`, `roadmapper_model`, `commit_docs`, `project_exists`, `has_codebase_map`, `planning_exists`, `has_existing_code`, `has_package_file`, `is_brownfield`, `needs_codebase_map`, `has_git`, `project_path`.
 

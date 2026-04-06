@@ -40,6 +40,15 @@
       <out type="string" name="progress" />
     </outs>
   </shell>
+  <!-- SET _auto_chain_active when milestone execution chain starts -->
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="config-set" />
+      <arg string="workflow._auto_chain_active" />
+      <arg string="true" />
+    </args>
+    <outs><suppress-errors /></outs>
+  </shell>
 </gsd-execute>
 
 ## Execution Context (pre-injected)

@@ -77,11 +77,7 @@
 
 ## 0. Initialize Milestone Context
 
-```bash
-INIT=$(pi-gsd-tools init milestone-op)
-if [[ "$INIT" == @file:* ]]; then INIT=$(cat "${INIT#@file:}"); fi
-AGENT_SKILLS_CHECKER=$(pi-gsd-tools agent-skills gsd-integration-checker 2>/dev/null)
-```
+<!-- Context pre-injected above via WXP — variables available via <gsd-paste name="..."> -->
 
 Extract from init JSON: `milestone_version`, `milestone_name`, `phase_count`, `completed_phases`, `commit_docs`.
 

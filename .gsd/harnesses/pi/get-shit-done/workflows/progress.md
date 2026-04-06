@@ -62,10 +62,7 @@ Read all files referenced by the invoking prompt's execution_context before star
 <step name="init_context">
 **Load progress context (paths only):**
 
-```bash
-INIT=$(pi-gsd-tools init progress)
-if [[ "$INIT" == @file:* ]]; then INIT=$(cat "${INIT#@file:}"); fi
-```
+<!-- Context pre-injected above via WXP — variables available via <gsd-paste name="..."> -->
 
 Extract from init JSON: `project_exists`, `roadmap_exists`, `state_exists`, `phases`, `current_phase`, `next_phase`, `milestone_version`, `completed_count`, `phase_count`, `paused_at`, `state_path`, `roadmap_path`, `project_path`, `config_path`.
 

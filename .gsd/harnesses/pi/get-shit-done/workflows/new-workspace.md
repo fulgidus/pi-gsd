@@ -66,10 +66,7 @@ Read all files referenced by the invoking prompt's execution_context before star
 
 **MANDATORY FIRST STEP - Execute init command:**
 
-```bash
-INIT=$(pi-gsd-tools init new-workspace)
-if [[ "$INIT" == @file:* ]]; then INIT=$(cat "${INIT#@file:}"); fi
-```
+<!-- Context pre-injected above via WXP — variables available via <gsd-paste name="..."> -->
 
 Parse JSON for: `default_workspace_base`, `child_repos`, `child_repo_count`, `worktree_available`, `is_git_repo`, `cwd_repo_name`, `project_root`.
 

@@ -66,6 +66,15 @@
       </shell>
     </then>
   </if>
+  <!-- SET _auto_chain_active when chain starts — cleared by chain completion/pause, not by absence of --auto -->
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="config-set" />
+      <arg string="workflow._auto_chain_active" />
+      <arg string="true" />
+    </args>
+    <outs><suppress-errors /></outs>
+  </shell>
 </gsd-execute>
 
 ## Context (pre-injected)
@@ -99,19 +108,7 @@ Read all files referenced by the invoking prompt's execution_context before star
 
 Parse `$ARGUMENTS` for `--from N` flag:
 
-```bash
-FROM_PHASE=""
-if echo "$ARGUMENTS" | grep -qE '\-\-from\s+[0-9]'; then
-  FROM_PHASE=$(echo "$ARGUMENTS" | grep -oE '\-\-from\s+[0-9]+\.?[0-9]*' | awk '{print $2}')
-fi
-```
-
-Bootstrap via milestone-level init:
-
-```bash
-INIT=$(pi-gsd-tools init milestone-op)
-if [[ "$INIT" == @file:* ]]; then INIT=$(cat "${INIT#@file:}"); fi
-```
+<!-- Context pre-injected above via WXP — variables available via <gsd-paste name="..."> -->
 
 Parse JSON for: `milestone_version`, `milestone_name`, `phase_count`, `completed_phases`, `roadmap_exists`, `state_exists`, `commit_docs`.
 
@@ -139,74 +136,7 @@ If `FROM_PHASE` is set, display: `Starting from phase ${FROM_PHASE}`
 
 Run phase discovery:
 
-```bash
-ROADMAP=$(pi-gsd-tools roadmap analyze)
-```
-
-Parse the JSON `phases` array.
-
-**Filter to incomplete phases:** Keep only phases where `disk_status !== "complete"` OR `roadmap_complete === false`.
-
-**Apply `--from N` filter:** If `FROM_PHASE` was provided, additionally filter out phases where `number < FROM_PHASE` (use numeric comparison - handles decimal phases like "5.1").
-
-**Sort by `number`** in numeric ascending order.
-
-**If no incomplete phases remain:**
-
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- GSD ► AUTONOMOUS ▸ COMPLETE 🎉
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
- All phases complete! Nothing left to do.
-```
-
-Exit cleanly.
-
-**Display phase plan:**
-
-```
-## Phase Plan
-
-| #   | Phase                               | Status      |
-| --- | ----------------------------------- | ----------- |
-| 5   | Skill Scaffolding & Phase Discovery | In Progress |
-| 6   | Smart Discuss                       | Not Started |
-| 7   | Auto-Chain Refinements              | Not Started |
-| 8   | Lifecycle Orchestration             | Not Started |
-```
-
-**Fetch details for each phase:**
-
-```bash
-DETAIL=$(pi-gsd-tools roadmap get-phase ${PHASE_NUM})
-```
-
-Extract `phase_name`, `goal`, `success_criteria` from each. Store for use in execute_phase and transition messages.
-
-</step>
-
-<step name="execute_phase">
-
-## 3. Execute Phase
-
-For the current phase, display the progress banner:
-
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- GSD ► AUTONOMOUS ▸ Phase {N}/{T}: {Name} [████░░░░] {P}%
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-Where N = current phase number (from the ROADMAP, e.g., 6), T = total milestone phases (from `phase_count` parsed in initialize step, e.g., 8), P = percentage of all milestone phases completed so far. Calculate P as: (number of phases with `disk_status` "complete" from the latest `roadmap analyze` / T × 100). Use █ for filled and ░ for empty segments in the progress bar (8 characters wide).
-
-**3a. Smart Discuss**
-
-Check if CONTEXT.md already exists for this phase:
-
-```bash
-PHASE_STATE=$(pi-gsd-tools init phase-op ${PHASE_NUM})
-```
+<!-- Context pre-injected above via WXP — variables available via <gsd-paste name="..."> -->
 
 Parse `has_context` from JSON.
 
@@ -220,83 +150,7 @@ Proceed to 3b.
 
 **If has_context is false:** Check if discuss is disabled via settings:
 
-```bash
-SKIP_DISCUSS=$(pi-gsd-tools config-get workflow.skip_discuss 2>/dev/null || echo "false")
-```
-
-**If SKIP_DISCUSS is `true`:** Skip discuss entirely - the ROADMAP phase description is the spec. Display:
-
-```
-Phase ${PHASE_NUM}: Discuss skipped (workflow.skip_discuss=true) - using ROADMAP phase goal as spec.
-```
-
-Write a minimal CONTEXT.md so downstream plan-phase has valid input. Get phase details:
-
-```bash
-DETAIL=$(pi-gsd-tools roadmap get-phase ${PHASE_NUM})
-```
-
-Extract `goal` and `requirements` from JSON. Write `${phase_dir}/${padded_phase}-CONTEXT.md` with:
-
-```markdown
-# Phase {PHASE_NUM}: {Phase Name} - Context
-
-**Gathered:** {date}
-**Status:** Ready for planning
-**Mode:** Auto-generated (discuss skipped via workflow.skip_discuss)
-
-<domain>
-## Phase Boundary
-
-{goal from ROADMAP phase description}
-
-</domain>
-
-<decisions>
-## Implementation Decisions
-
-### the agent's Discretion
-All implementation choices are at the agent's discretion - discuss phase was skipped per user setting. Use ROADMAP phase goal, success criteria, and codebase conventions to guide decisions.
-
-</decisions>
-
-<code_context>
-## Existing Code Insights
-
-Codebase context will be gathered during plan-phase research.
-
-</code_context>
-
-<specifics>
-## Specific Ideas
-
-No specific requirements - discuss phase skipped. Refer to ROADMAP phase description and success criteria.
-
-</specifics>
-
-<deferred>
-## Deferred Ideas
-
-None - discuss phase skipped.
-
-</deferred>
-```
-
-Commit the minimal context:
-
-```bash
-pi-gsd-tools commit "docs(${PADDED_PHASE}): auto-generated context (discuss skipped)" --files "${phase_dir}/${padded_phase}-CONTEXT.md"
-```
-
-Proceed to 3b.
-
-**If SKIP_DISCUSS is `false` (or unset):** Execute the smart_discuss step for this phase.
-
-After smart_discuss completes, verify context was written:
-
-```bash
-PHASE_STATE=$(pi-gsd-tools init phase-op ${PHASE_NUM})
-```
+<!-- Context pre-injected above via WXP — variables available via <gsd-paste name="..."> -->
 
 Check `has_context`. If false → go to handle_blocker: "Smart discuss for phase ${PHASE_NUM} did not produce CONTEXT.md."
 
@@ -304,68 +158,7 @@ Check `has_context`. If false → go to handle_blocker: "Smart discuss for phase
 
 Check if this phase has frontend indicators and whether a UI-SPEC already exists:
 
-```bash
-PHASE_SECTION=$(pi-gsd-tools roadmap get-phase ${PHASE_NUM} 2>/dev/null)
-echo "$PHASE_SECTION" | grep -iE "UI|interface|frontend|component|layout|page|screen|view|form|dashboard|widget" > /dev/null 2>&1
-HAS_UI=$?
-UI_SPEC_FILE=$(ls "${PHASE_DIR}"/*-UI-SPEC.md 2>/dev/null | head -1)
-```
-
-Check if UI phase workflow is enabled:
-
-```bash
-UI_PHASE_CFG=$(pi-gsd-tools config-get workflow.ui_phase 2>/dev/null || echo "true")
-```
-
-**If `HAS_UI` is 0 (frontend indicators found) AND `UI_SPEC_FILE` is empty (no UI-SPEC exists) AND `UI_PHASE_CFG` is not `false`:**
-
-Display:
-
-```
-Phase ${PHASE_NUM}: Frontend phase detected - generating UI design contract...
-```
-
-```
-Skill(skill="gsd-ui-phase", args="${PHASE_NUM}")
-```
-
-Verify UI-SPEC was created:
-
-```bash
-UI_SPEC_FILE=$(ls "${PHASE_DIR}"/*-UI-SPEC.md 2>/dev/null | head -1)
-```
-
-**If `UI_SPEC_FILE` is still empty after ui-phase:** Display warning `Phase ${PHASE_NUM}: UI-SPEC generation did not produce output - continuing without design contract.` and proceed to 3b.
-
-**If `HAS_UI` is 1 (no frontend indicators) OR `UI_SPEC_FILE` is not empty (UI-SPEC already exists) OR `UI_PHASE_CFG` is `false`:** Skip silently to 3b.
-
-**3b. Plan**
-
-```
-Skill(skill="gsd-plan-phase", args="${PHASE_NUM}")
-```
-
-Verify plan produced output - re-run `init phase-op` and check `has_plans`. If false → go to handle_blocker: "Plan phase ${PHASE_NUM} did not produce any plans."
-
-**3c. Execute**
-
-```
-Skill(skill="gsd-execute-phase", args="${PHASE_NUM} --no-transition")
-```
-
-**3d. Post-Execution Routing**
-
-After execute-phase returns, read the verification result:
-
-```bash
-VERIFY_STATUS=$(grep "^status:" "${PHASE_DIR}"/*-VERIFICATION.md 2>/dev/null | head -1 | cut -d: -f2 | tr -d ' ')
-```
-
-Where `PHASE_DIR` comes from the `init phase-op` call already made in step 3a. If the variable is not in scope, re-fetch:
-
-```bash
-PHASE_STATE=$(pi-gsd-tools init phase-op ${PHASE_NUM})
-```
+<!-- Context pre-injected above via WXP — variables available via <gsd-paste name="..."> -->
 
 Parse `phase_dir` from the JSON.
 
@@ -426,72 +219,7 @@ Skill(skill="gsd-execute-phase", args="${PHASE_NUM} --no-transition")
 ```
 
 Re-read verification status:
-```bash
-VERIFY_STATUS=$(grep "^status:" "${PHASE_DIR}"/*-VERIFICATION.md 2>/dev/null | head -1 | cut -d: -f2 | tr -d ' ')
-```
-
-If `passed` or `human_needed`: Route normally (continue or ask user as above).
-
-If still `gaps_found` after this retry: Display "Gaps persist after closure attempt." and ask via AskUserQuestion:
-- **question:** "Gap closure did not fully resolve issues. How to proceed?"
-- **options:** "Continue anyway" / "Stop autonomous mode"
-
-On "Continue anyway": Proceed to iterate step.
-On "Stop autonomous mode": Go to handle_blocker.
-
-This limits gap closure to 1 automatic retry to prevent infinite loops.
-
-On **"Continue without fixing"**: Display `Phase ${PHASE_NUM} ⏭ Gaps deferred` and proceed to iterate step.
-
-On **"Stop autonomous mode"**: Go to handle_blocker with "User stopped - gaps remain in phase ${PHASE_NUM}".
-
-**3d.5. UI Review (Frontend Phases)**
-
-> Run after any successful execution routing (passed, human_needed accepted, or gaps deferred/accepted) - before proceeding to the iterate step.
-
-Check if this phase had a UI-SPEC (created in step 3a.5 or pre-existing):
-
-```bash
-UI_SPEC_FILE=$(ls "${PHASE_DIR}"/*-UI-SPEC.md 2>/dev/null | head -1)
-```
-
-Check if UI review is enabled:
-
-```bash
-UI_REVIEW_CFG=$(pi-gsd-tools config-get workflow.ui_review 2>/dev/null || echo "true")
-```
-
-**If `UI_SPEC_FILE` is not empty AND `UI_REVIEW_CFG` is not `false`:**
-
-Display:
-
-```
-Phase ${PHASE_NUM}: Frontend phase with UI-SPEC - running UI review audit...
-```
-
-```
-Skill(skill="gsd-ui-review", args="${PHASE_NUM}")
-```
-
-Display the review result summary (score from UI-REVIEW.md if produced). Continue to iterate step regardless of score - UI review is advisory, not blocking.
-
-**If `UI_SPEC_FILE` is empty OR `UI_REVIEW_CFG` is `false`:** Skip silently to iterate step.
-
-</step>
-
-<step name="smart_discuss">
-
-## Smart Discuss
-
-Run smart discuss for the current phase. Proposes grey area answers in batch tables - the user accepts or overrides per area. Produces identical CONTEXT.md output to regular discuss-phase.
-
-> **Note:** Smart discuss is an autonomous-optimized variant of the `gsd-discuss-phase` skill. It produces identical CONTEXT.md output but uses batch table proposals instead of sequential questioning. The original `discuss-phase` skill remains unchanged (per CTRL-03). Future milestones may extract this to a separate skill file.
-
-**Inputs:** `PHASE_NUM` from execute_phase. Run init to get phase paths:
-
-```bash
-PHASE_STATE=$(pi-gsd-tools init phase-op ${PHASE_NUM})
-```
+<!-- Context pre-injected above via WXP — variables available via <gsd-paste name="..."> -->
 
 Parse from JSON: `phase_dir`, `phase_slug`, `padded_phase`, `phase_name`.
 

@@ -26,6 +26,15 @@
       <out type="string" name="timestamp" />
     </outs>
   </shell>
+  <!-- CLEAR _auto_chain_active — chain ends here -->
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="config-set" />
+      <arg string="workflow._auto_chain_active" />
+      <arg string="false" />
+    </args>
+    <outs><suppress-errors /></outs>
+  </shell>
 </gsd-execute>
 
 ## Context (pre-injected)

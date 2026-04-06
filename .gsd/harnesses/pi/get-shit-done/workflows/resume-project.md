@@ -84,10 +84,7 @@ Instantly restore full project context so "Where were we?" has an immediate, com
 <step name="initialize">
 Load all context in one call:
 
-```bash
-INIT=$(pi-gsd-tools init resume)
-if [[ "$INIT" == @file:* ]]; then INIT=$(cat "${INIT#@file:}"); fi
-```
+<!-- Context pre-injected above via WXP — variables available via <gsd-paste name="..."> -->
 
 Parse JSON for: `state_exists`, `roadmap_exists`, `project_exists`, `planning_exists`, `has_interrupted_agent`, `interrupted_agent_id`, `commit_docs`.
 

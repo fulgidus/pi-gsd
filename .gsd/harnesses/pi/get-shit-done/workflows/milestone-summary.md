@@ -72,54 +72,7 @@ Designed for team onboarding - a new contributor can read the output and underst
 
 ## Step 1: Resolve Version
 
-```bash
-VERSION="$ARGUMENTS"
-```
-
-If `$ARGUMENTS` is empty:
-1. Check `.planning/STATE.md` for current milestone version
-2. Check `.planning/milestones/` for the latest archived version
-3. If neither found, check if `.planning/ROADMAP.md` exists (project may be mid-milestone)
-4. If nothing found: error "No milestone found. Run /gsd-new-project or /gsd-new-milestone first."
-
-Set `VERSION` to the resolved version (e.g., "1.0").
-
-## Step 2: Locate Artifacts
-
-Determine whether the milestone is **archived** or **current**:
-
-**Archived milestone** (`.planning/milestones/v{VERSION}-ROADMAP.md` exists):
-```
-ROADMAP_PATH=".planning/milestones/v${VERSION}-ROADMAP.md"
-REQUIREMENTS_PATH=".planning/milestones/v${VERSION}-REQUIREMENTS.md"
-AUDIT_PATH=".planning/milestones/v${VERSION}-MILESTONE-AUDIT.md"
-```
-
-**Current/in-progress milestone** (no archive yet):
-```
-ROADMAP_PATH=".planning/ROADMAP.md"
-REQUIREMENTS_PATH=".planning/REQUIREMENTS.md"
-AUDIT_PATH=".planning/v${VERSION}-MILESTONE-AUDIT.md"
-```
-
-Note: The audit file moves to `.planning/milestones/` on archive (per `complete-milestone` workflow). Check both locations as a fallback.
-
-**Always available:**
-```
-PROJECT_PATH=".planning/PROJECT.md"
-RETRO_PATH=".planning/RETROSPECTIVE.md"
-STATE_PATH=".planning/STATE.md"
-```
-
-Read all files that exist. Missing files are fine - the summary adapts to what's available.
-
-## Step 3: Discover Phase Artifacts
-
-Find all phase directories:
-
-```bash
-pi-gsd-tools init progress
-```
+<!-- Context pre-injected above via WXP — variables available via <gsd-paste name="..."> -->
 
 This returns phase metadata. For each phase in the milestone scope:
 

@@ -60,10 +60,7 @@ Read all files referenced by the invoking prompt's execution_context before star
 
 ## 1. Setup
 
-```bash
-INIT=$(pi-gsd-tools init list-workspaces)
-if [[ "$INIT" == @file:* ]]; then INIT=$(cat "${INIT#@file:}"); fi
-```
+<!-- Context pre-injected above via WXP — variables available via <gsd-paste name="..."> -->
 
 Parse JSON for: `workspace_base`, `workspaces`, `workspace_count`.
 

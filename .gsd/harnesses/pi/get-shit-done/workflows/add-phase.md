@@ -86,10 +86,7 @@ Exit.
 <step name="init_context">
 Load phase operation context:
 
-```bash
-INIT=$(pi-gsd-tools init phase-op "0")
-if [[ "$INIT" == @file:* ]]; then INIT=$(cat "${INIT#@file:}"); fi
-```
+<!-- Context pre-injected above via WXP — variables available via <gsd-paste name="..."> -->
 
 Check `roadmap_exists` from init JSON. If false:
 ```

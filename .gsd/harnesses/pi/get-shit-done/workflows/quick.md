@@ -189,14 +189,7 @@ If `$FULL_MODE` only:
 
 **Step 2: Initialize**
 
-```bash
-INIT=$(pi-gsd-tools init quick "$DESCRIPTION")
-if [[ "$INIT" == @file:* ]]; then INIT=$(cat "${INIT#@file:}"); fi
-AGENT_SKILLS_PLANNER=$(pi-gsd-tools agent-skills gsd-planner 2>/dev/null)
-AGENT_SKILLS_EXECUTOR=$(pi-gsd-tools agent-skills gsd-executor 2>/dev/null)
-AGENT_SKILLS_CHECKER=$(pi-gsd-tools agent-skills gsd-checker 2>/dev/null)
-AGENT_SKILLS_VERIFIER=$(pi-gsd-tools agent-skills gsd-verifier 2>/dev/null)
-```
+<!-- Context pre-injected above via WXP — variables available via <gsd-paste name="..."> -->
 
 Parse JSON for: `planner_model`, `executor_model`, `checker_model`, `verifier_model`, `commit_docs`, `branch_name`, `quick_id`, `slug`, `date`, `timestamp`, `quick_dir`, `task_dir`, `roadmap_exists`, `planning_exists`.
 

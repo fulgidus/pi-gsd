@@ -173,11 +173,7 @@ Text mode applies to ALL workflows in the session, not just discuss-phase.
 <step name="initialize" priority="first">
 Phase number from argument (required).
 
-```bash
-INIT=$(pi-gsd-tools init phase-op "${PHASE}")
-if [[ "$INIT" == @file:* ]]; then INIT=$(cat "${INIT#@file:}"); fi
-AGENT_SKILLS_ADVISOR=$(pi-gsd-tools agent-skills gsd-advisor 2>/dev/null)
-```
+<!-- Context pre-injected above via WXP — variables available via <gsd-paste name="..."> -->
 
 Parse JSON for: `commit_docs`, `phase_found`, `phase_dir`, `phase_number`, `phase_name`, `phase_slug`, `padded_phase`, `has_research`, `has_context`, `has_plans`, `has_verification`, `plan_count`, `roadmap_exists`, `planning_exists`.
 

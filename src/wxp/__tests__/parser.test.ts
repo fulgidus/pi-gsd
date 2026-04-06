@@ -161,9 +161,9 @@ describe("buildOperation — if node with PRD condition structure", () => {
       expect(ifOp.type).toBe("if");
       if (ifOp.type === "if") {
         expect(ifOp.condition.op).toBe("equals");
-        expect(ifOp.condition.left.name).toBe("auto-chain-active");
-        expect(ifOp.condition.right.type).toBe("boolean");
-        expect(ifOp.condition.right.value).toBe("false");
+        expect((ifOp.condition as { left: { name: string } }).left.name).toBe("auto-chain-active");
+        expect((ifOp.condition as { right: { type: string } }).right.type).toBe("boolean");
+        expect((ifOp.condition as { right: { value: string } }).right.value).toBe("false");
         expect(ifOp.then).toHaveLength(1);
         expect(ifOp.then[0].type).toBe("shell");
         if (ifOp.then[0].type === "shell") {

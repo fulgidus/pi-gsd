@@ -37,11 +37,7 @@ Read all files referenced by the invoking prompt's execution_context before star
 <step name="ensure_and_load_config">
 Ensure config exists and load current state:
 
-```bash
-pi-gsd-tools config-ensure-section
-INIT=$(pi-gsd-tools state load)
-if [[ "$INIT" == @file:* ]]; then INIT=$(cat "${INIT#@file:}"); fi
-```
+<!-- Context pre-injected above via WXP — variables available via <gsd-paste name="..."> -->
 
 Creates `.planning/config.json` with defaults if missing and loads current config values.
 </step>

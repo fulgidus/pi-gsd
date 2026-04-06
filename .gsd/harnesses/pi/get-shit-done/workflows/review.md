@@ -78,42 +78,7 @@ A plan that survives review from 2-3 independent AI systems is more robust.
 <step name="detect_clis">
 Check which AI CLIs are available on the system:
 
-```bash
-# Check each CLI
-command -v gemini >/dev/null 2>&1 && echo "gemini:available" || echo "gemini:missing"
-command -v claude >/dev/null 2>&1 && echo "claude:available" || echo "claude:missing"
-command -v codex >/dev/null 2>&1 && echo "codex:available" || echo "codex:missing"
-```
-
-Parse flags from `$ARGUMENTS`:
-- `--gemini` → include Gemini
-- `--claude` → include the agent
-- `--codex` → include Codex
-- `--all` → include all available
-- No flags → include all available
-
-If no CLIs are available:
-```
-No external AI CLIs found. Install at least one:
-- gemini: https://github.com/google-gemini/gemini-cli
-- codex: https://github.com/openai/codex
-- claude: https://github.com/anthropics/claude-code
-
-Then run /gsd-review again.
-```
-Exit.
-
-If only one CLI is the current runtime (e.g. running inside the agent), skip it for the review
-to ensure independence. At least one DIFFERENT CLI must be available.
-</step>
-
-<step name="gather_context">
-Collect phase artifacts for the review prompt:
-
-```bash
-INIT=$(pi-gsd-tools init phase-op "${PHASE_ARG}")
-if [[ "$INIT" == @file:* ]]; then INIT=$(cat "${INIT#@file:}"); fi
-```
+<!-- Context pre-injected above via WXP — variables available via <gsd-paste name="..."> -->
 
 Read from init: `phase_dir`, `phase_number`, `padded_phase`.
 
