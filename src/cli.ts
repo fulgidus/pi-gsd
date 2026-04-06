@@ -212,12 +212,19 @@ function findCommandKey(
 async function main(): Promise<void> {
   const argv = process.argv.slice(2);
 
-  // --help at top level
+  // --version / -v
+  if (argv[0] === "--version" || argv[0] === "-v") {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { version } = require("../package.json") as { version: string };
+    process.stdout.write(`pi-gsd-tools v${version}\n`);
+    return;
+  }
+
+  // --help / -h
   if (argv[0] === "--help" || argv[0] === "-h") {
     printHelp();
     return;
   }
-
   // Strip --cwd
   let cwd = process.cwd();
   {
