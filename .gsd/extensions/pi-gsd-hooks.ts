@@ -91,6 +91,41 @@ function copyHarness(
 	return { symlinksReplaced, filesCopied };
 }
 
+/**
+ * Extract the raw arguments string from a message that was produced by pi template expansion.
+ * Pi replaces $ARGUMENTS in prompt templates with the user's typed text.
+ * After <gsd-include> resolution, $ARGUMENTS text appears as trailing plain text
+ * at the end of the message — everything after the last WXP/include tag block.
+ *
+ * Example message after pi expansion + include resolution:
+ *   [workflow content with <gsd-execute> blocks...]
+ *   16 --auto
+ *
+ * Returns: "16 --auto"
+ */
+function extractRawArguments(content: string): string {
+	// Find the last <...> block (WXP tag or include) position
+	const lastTagEnd = (() => {
+		const tagPattern = /<\/(?:gsd-[a-zA-Z0-9_-]+|shell|if|then|else|condition|args|outs|string-op|settings)>/g;
+		let lastEnd = 0;
+		let m: RegExpExecArray | null;
+		while ((m = tagPattern.exec(content)) !== null) {
+			lastEnd = m.index + m[0].length;
+		}
+		return lastEnd;
+	})();
+
+	// Everything after the last closing tag is the trailing plain text ($ARGUMENTS expansion)
+	const trailing = content.slice(lastTagEnd).trim();
+
+	// Only return if it looks like user arguments (not a full document block)
+	// Reject if it contains markdown headings or is very long (probably included file content)
+	if (trailing.length === 0 || trailing.length > 500 || trailing.includes("\n\n\n")) {
+		return "";
+	}
+	return trailing;
+}
+
 export default function (pi: ExtensionAPI) {
 /** Resolve a single <gsd-include> match: file lookup + selector extraction. */
 function resolveGsdInclude(
@@ -293,13 +328,15 @@ function resolveGsdInclude(
 				if (typeof msg.content === "string") {
 					if (!msg.content.includes("<gsd-")) continue;
 					const virtualPath = join(ctx.cwd, ".pi", "gsd", "workflows", "_message.md");
-					msg.content = processWxpTrustedContent(msg.content, virtualPath, wxpSecurity, ctx.cwd, pkgRoot2);
+					const rawArgs = extractRawArguments(msg.content);
+					msg.content = processWxpTrustedContent(msg.content, virtualPath, wxpSecurity, ctx.cwd, pkgRoot2, rawArgs);
 				} else if (Array.isArray(msg.content)) {
 					for (const block of msg.content) {
 						if (block.type !== "text" || !block.text) continue;
 						if (!block.text.includes("<gsd-")) continue;
 						const virtualPath = join(ctx.cwd, ".pi", "gsd", "workflows", "_message.md");
-						block.text = processWxpTrustedContent(block.text, virtualPath, wxpSecurity, ctx.cwd, pkgRoot2);
+						const rawArgs = extractRawArguments(block.text);
+						block.text = processWxpTrustedContent(block.text, virtualPath, wxpSecurity, ctx.cwd, pkgRoot2, rawArgs);
 					}
 				}
 			}

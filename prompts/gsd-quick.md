@@ -2,6 +2,6 @@
 description: Quick tracked task. Args: task (string, greedy) | Flags: --no-commit
 arguments: "Usage: /gsd-quick <task>"
 ---
-<gsd-include path=".pi/gsd/workflows/quick.md" />
+<gsd-include path=".pi/gsd/workflows/quick.md" include-arguments />
 
 $ARGUMENTS

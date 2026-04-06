@@ -2,6 +2,6 @@
 description: Capture forward-looking idea with trigger. Args: idea (string, greedy)
 arguments: "Usage: /gsd-plant-seed <idea>"
 ---
-<gsd-include path=".pi/gsd/workflows/plant-seed.md" />
+<gsd-include path=".pi/gsd/workflows/plant-seed.md" include-arguments />
 
 $ARGUMENTS
