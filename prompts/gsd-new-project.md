@@ -1,6 +1,5 @@
 ---
 description: Initialize new project. Flags: --auto, --skip-research
-arguments: "Usage: /gsd-new-project"
 ---
 <gsd-include path=".pi/gsd/workflows/new-project.md" include-arguments />
 <gsd-include path=".pi/gsd/references/questioning.md" />

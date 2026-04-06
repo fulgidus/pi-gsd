@@ -1,6 +1,5 @@
 ---
 description: Run all remaining phases. Flags: --from N (start phase), --to N (end phase)
-arguments: "Usage: /gsd-autonomous"
 ---
 <gsd-include path=".pi/gsd/workflows/autonomous.md" include-arguments />
 <gsd-include path=".pi/gsd/references/ui-brand.md" select="tag:core" />

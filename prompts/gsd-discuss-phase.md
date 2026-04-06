@@ -1,6 +1,5 @@
 ---
-description: Gather phase context. Args: phase (number) | Flags: --auto
-arguments: "Usage: /gsd-discuss-phase <phase>"
+description: Gather phase context. Args: phase (number) — Flags: --auto
 ---
 <gsd-include path=".pi/gsd/workflows/discuss-phase.md" include-arguments />
 <gsd-include path=".pi/gsd/workflows/discuss-phase-assumptions.md" include-arguments />
