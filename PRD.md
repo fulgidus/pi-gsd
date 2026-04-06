@@ -1,4 +1,4 @@
-# PRD: WXP — Workflow XML Preprocessor
+# PRD: WXP - Workflow XML Preprocessor
 
 > **Version:** 1.0 draft
 > **Author:** pi-gsd contributors
@@ -11,7 +11,7 @@
 
 pi-gsd workflow files currently embed raw bash commands that the LLM must execute via tool calls. This wastes tokens (the LLM runs `pi-gsd-tools init execute-phase "16"` as a bash command, parses the output, then continues), is provider-dependent (different LLMs handle bash differently), and creates a security surface (the LLM executes arbitrary shell commands).
 
-The `<gsd-include>` system (v1.12) solved file injection but not command execution. Workflow files still instruct the LLM to run CLI commands for setup, state queries, and conditional logic — all of which can and should be handled programmatically before the LLM sees the text.
+The `<gsd-include>` system (v1.12) solved file injection but not command execution. Workflow files still instruct the LLM to run CLI commands for setup, state queries, and conditional logic - all of which can and should be handled programmatically before the LLM sees the text whenever possible.
 
 Additionally:
 - `pi-gsd-tools` uses commander.js with loose typing and manual arg parsing
@@ -32,22 +32,24 @@ WXP parses XML directives embedded in workflow files, executes them programmatic
 User types /gsd-execute-phase 16
   │
   ├─ pi expands prompt template
-  │   → <gsd-include path="..." /> + $ARGUMENTS
+  │   → `<gsd-include path="..." />` (+ $ARGUMENTS if `<gsd-include path="..." include-arguments />`) (or `<gsd-include path="..."></gsd-include>` with <gsd-arguments> block (args can be easily renamed for whatever supported args from the target file `<arg name="my-internal-var" as="phase" />`))
   │
   ├─ context event fires
   │   │
   │   ├─ Phase 1: <gsd-include> resolution (existing)
+  │   │   → if variable naming collision detected, disambiguate with owner prefix (e.g. `execute-phase:config-json`) and update references accordingly
   │   │   → file contents injected inline
   │   │
-  │   ├─ Phase 2: <gsd-arguments> parsing
+  │   ├─ Phase 2: <gsd-arguments> parsing (when needed)
   │   │   → $ARGUMENTS split into typed named variables
   │   │
   │   ├─ Phase 3: <gsd-execute> blocks
   │   │   → shell commands run, conditionals evaluated
-  │   │   → results stored in variable namespace
+  │   │   → results stored in variable namespace each time
   │   │
   │   ├─ Phase 4: <gsd-paste> replacement
   │   │   → variable values injected into text
+  │   │   → if variables are missing thrown error (no undefined pastes, no LLM fallback)
   │   │
   │   └─ Phase 5: cleanup
   │       → all WXP XML tags stripped from final text
@@ -62,14 +64,21 @@ User types /gsd-execute-phase 16
 
 ### 3.1 `<gsd-include>`
 
-**Status:** Implemented (v1.12). Stays as-is.
+**Status:** Implemented (v1.12). Needs new flag.
 
+Existing supported examples:
 ```xml
 <gsd-include path=".pi/gsd/workflows/execute-phase.md" />
 <gsd-include path=".pi/gsd/references/ui-brand.md" select="tag:core" />
 <gsd-include path=".pi/gsd/references/ui-brand.md" select="heading:Anti-Patterns" />
 <gsd-include path=".pi/gsd/references/ui-brand.md" select="lines:1-50" />
 ```
+New flag:
+```xml
+<gsd-include path="..." include-arguments />
+<gsd-include path="..." select="..." include-arguments />
+```
+or `include-arguments="true"` if XML doesn't support boolean attributes.
 
 **Selectors:** `tag:NAME`, `heading:TEXT`, `lines:N-M`
 **Valid chains:** `tag|heading`, `tag|lines`, `heading|tag`, `heading|lines`
@@ -84,7 +93,7 @@ Defines the typed argument schema for the workflow. Appears once per file, at th
 <gsd-arguments>
   <settings>
     <keep-extra-args />     <!-- or <strict-args /> -->
-    <delimiters>
+    <delimiters> <!-- totally optionsl for multiple strings -->
       <delimiter type="string" value="\n" />
     </delimiters>
   </settings>
@@ -99,9 +108,51 @@ Defines the typed argument schema for the workflow. Appears once per file, at th
 - `optional`: absence is not an error; variable is `null`
 
 **Settings:**
-- `<keep-extra-args />`: extra positional args stored in `_extra` variable
+- `<keep-extra-args />`: extra positional args stored in `_extra` variable (array of strings)
 - `<strict-args />`: extra args → error
-- `<delimiters>`: how to split $ARGUMENTS (default: whitespace)
+- `<delimiters>`: how to split $ARGUMENTS before positional parsing (default: whitespace)
+
+**Parsing algorithm (two-pass):**
+
+```
+Input: $ARGUMENTS = '16 --auto --gaps-only fix the login bug'
+Schema: <arg name="phase" type="number" />
+        <arg name="auto" type="flag" flag="--auto" optional />
+        <arg name="gaps-only" type="flag" flag="--gaps-only" optional />
+        <arg name="user-text" type="string" optional />
+
+Pass 1 — Flag extraction:
+  Scan $ARGUMENTS for all declared flag patterns.
+  For type="flag": extract --name, set variable to true. Remove from string.
+  For type="flag" with value (future): extract --name <value>, set variable. Remove both.
+  Flags not declared in schema are left in the string untouched.
+
+  After pass 1:
+    auto = true
+    gaps-only = true
+    remaining = '16 fix the login bug'
+
+Pass 2 — Positional assignment (left-to-right):
+  Split remaining string by delimiters (default: whitespace).
+  For each non-flag arg in declaration order:
+    - type="number": consume next token, parse as number. NaN → error.
+    - type="string" (not last): consume next token as-is.
+    - type="string" (last declared arg): consume ALL remaining tokens,
+      re-joined with space. This is the "greedy last string" rule.
+    - type="boolean": consume next token, parse as true/false.
+
+  After pass 2:
+    phase = 16
+    user-text = 'fix the login bug'
+
+  If tokens remain after all args consumed:
+    - <keep-extra-args />: store in _extra[]
+    - <strict-args />: error
+    - neither: silently discard
+
+  Missing required args → error.
+  Missing optional args → null.
+```
 
 ### 3.3 `<gsd-execute>`
 
@@ -115,8 +166,8 @@ Contains programmatic operations. Can appear multiple times. Executes top-to-bot
       <arg string="execute-phase" />
       <arg name="phase" wrap='"' />
     </args>
-    <outs>
-      <out type="string" name="init" />
+    <outs><!-- optional -->
+      <out type="string" name="init" /><!-- can be multiples -->
     </outs>
   </shell>
 </gsd-execute>
@@ -180,8 +231,8 @@ String manipulation.
     <arg name="init" />
     <arg type="string" value="@file:" />
   </args>
-  <outs>
-    <out type="string" name="init-file" />
+  <outs><!-- mandatory -->
+    <out type="string" name="init-file" /><!-- can be multiples -->
   </outs>
 </string-op>
 ```
@@ -203,6 +254,80 @@ Injects a variable's value into the text.
 - Must appear AFTER the `<gsd-execute>` that populates the variable.
 - Undefined variable → abort with error.
 - The tag is replaced with the variable's string value.
+
+### 3.5 Processing Model: The Resolution Loop
+
+WXP tags can appear conditionally (a `<gsd-include>` inside an `<if>` block), and included files may themselves contain `<gsd-execute>` blocks. The engine handles this with a resolution loop:
+
+```
+loop:
+  1. Scan text for unprocessed <gsd-include> tags (not marked done="true")
+  2. For each: resolve file, apply selector, inject content
+     Mark the original tag: <gsd-include ... done="true" />
+  3. Scan for <gsd-arguments> blocks → parse, populate variables
+     Mark: <gsd-arguments done="true">
+  4. Scan for <gsd-execute> blocks (not done) → execute top-to-bottom
+     Mark each: <gsd-execute done="true">
+  5. Scan for <gsd-paste> → replace with variable values
+     Mark: <gsd-paste ... done="true" />
+  6. If any NEW unprocessed tags were introduced (from included files
+     or conditional branches): goto loop
+  7. Final gate: scan for any WXP tag NOT marked done="true".
+     If found → error: "Unresolved WXP tag: <tag...>"
+  8. Strip ALL WXP tags (including done markers) from final text.
+```
+
+This handles:
+- Conditional includes: `<if>` evaluated in step 4, reveals a `<gsd-include>` → picked up in next loop iteration
+- Nested includes: included file has its own `<gsd-execute>` → processed in next iteration
+- The `done="true"` marker prevents double-processing
+
+### 3.6 `<gsd-include>` Self-Closing vs Children Syntax
+
+`<gsd-include>` supports two forms:
+
+**Self-closing (existing):**
+```xml
+<gsd-include path=".pi/gsd/workflows/execute-phase.md" />
+<gsd-include path=".pi/gsd/workflows/execute-phase.md" include-arguments />
+```
+
+**With children (new, for arg remapping):**
+```xml
+<gsd-include path=".pi/gsd/workflows/execute-phase.md">
+  <gsd-arguments>
+    <arg name="my-local-phase" as="phase" />
+    <arg name="my-flag" as="auto-chain-active" />
+  </gsd-arguments>
+</gsd-include>
+```
+
+The `as="target-name"` attribute maps a variable from the caller's namespace to the included file's expected arg name. This allows the same workflow to be included from different contexts with different variable names.
+
+The parser must handle both `<gsd-include ... />` (self-closing) and `<gsd-include ...>...</gsd-include>` (with children).
+
+### 3.7 Variable Collision Detection
+
+When multiple included files define variables with the same name:
+
+1. **Owner prefix** derived from the included file's stem: `execute-phase.md` → owner `execute-phase`
+2. On collision, BOTH variables are prefixed: `init` → `execute-phase:init` and `plan-phase:init`
+3. All `<gsd-paste name="init" />` references in the respective files are updated to use the prefixed name
+4. If the same file is included multiple times, a progressive number is appended: `execute-phase:init`, `execute-phase-2:init`
+5. Variables defined in the root prompt template (not inside any include) have no prefix and take priority
+
+### 3.8 Failure Behaviour
+
+On ANY failure during WXP processing:
+- **Total crash.** No partial injection. No fallback to LLM.
+- Error notification (red) with full state dump:
+  - Which tag failed and why
+  - Current variable namespace (all names + values)
+  - Which `<gsd-execute>` blocks completed vs pending
+  - Which `<gsd-include>` files were resolved vs pending
+- The `context` event returns `{ messages: [] }` to block the LLM call
+
+Partial execution is never delivered to the LLM. All or nothing.
 
 ---
 
@@ -239,7 +364,7 @@ WXP tags are only processed in files loaded from:
 2. **Project harness:** `<project>/.pi/gsd/` (copied from package, user-customisable)
 3. **Override config:** `<project>/.pi/gsd/pi-gsd-settings.json` `trustedPaths` array
 
-Files from `.planning/` are NEVER processed for WXP tags. The LLM can write to `.planning/` — if it could embed `<gsd-execute>` blocks there, it could execute arbitrary code via the engine.
+Files from `.planning/` are NEVER processed for WXP tags. The LLM can write to `.planning/` - if it could embed `<gsd-execute>` blocks there, it could execute arbitrary code via the engine.
 
 ### 5.2 Shell Command Allowlist
 
@@ -252,17 +377,20 @@ node
 cat
 ls
 echo
+find
 ```
 
 Any other executable → abort with error. No exceptions. Configurable via `pi-gsd-settings.json` `shellAllowlist` array (can only ADD, never remove the defaults).
 
 ### 5.3 No Piped Input
 
-`<shell>` commands receive arguments only via `<args>`. No stdin piping, no heredocs, no shell metacharacters. The engine calls `execFileSync(command, args)` — never `execSync(string)`.
+`pi-gsd-tools` validates arguments as hard as possible
 
 ### 5.4 Timeout
 
-30-second hard timeout per `<shell>` command. Configurable via `pi-gsd-settings.json` `shellTimeoutMs`.
+- 30-second hard timeout per `<shell>` command.
+- Configurable via `pi-gsd-settings.json` `shellTimeoutMs`.
+- **v1.1:** `wait` and `async` attributes for long-running commands (deferred from v1).
 
 ---
 
@@ -274,11 +402,12 @@ On `session_start`, the extension:
 1. Checks if `<project>/.pi/gsd/` exists
 2. If not: copies ALL files from `<pkg>/.gsd/harnesses/pi/get-shit-done/` into `<project>/.pi/gsd/`
 3. If yes: compares file list. Copies MISSING files only. Never overwrites.
-4. Version check: if `<pkg>` version is newer than last install, prompts:
-   `"pi-gsd updated to vX.Y.Z. Update workflow files? (y/n/diff)"`
+4. Version check: if in the project file there is a `<gsd-version v="X.Y.Z" />` is less than the package one, prompts:
+   `"pi-gsd updated to vX.Y.Z. Some of the workflow files are outdated. Update workflow files? (y/n/pick/diff)"`
    - `y`: overwrites all harness files
    - `n`: keeps existing, records skip
-   - `diff`: shows changed files, user picks per-file
+   - `pick`: allows the user to select specific files to update (any unchanged files are preserved because they may contain customizations, but a diff is created for the user to review)
+   - `diff`: creates a diff file in the root of the project for the user to review and manually apply changes if needed
 
 ### 6.2 Remove Symlink Logic
 
@@ -316,6 +445,7 @@ pi-gsd-tools
 ├── scaffold
 ├── commit
 ├── generate-model-profiles-md
+├── wxp             (might as well put it here since it's a CLI entrypoint for WXP operations, maybe some crazy user will want to interact with it directly one day...)
 └── ...
 ```
 
@@ -387,7 +517,10 @@ src/
 7. Implement `<gsd-paste>` replacement
 8. XSD 1.1 schema + Zod runtime schemas
 9. Wire into `context` event after `<gsd-include>` phase
-10. Unit tests for each module
+10. Tests: vitest for all modules
+    - Unit: parser, arguments, variables, conditions, string-ops, security, shell (mocked), paste
+    - Integration: full pipeline from raw text with `<gsd-include>` + `<gsd-execute>` + `<gsd-paste>` → clean output
+    - Edge cases: nested includes, conditional includes, variable collisions, partial failure crash dumps
 
 ### Phase 2: oclif migration (breaking: CLI interface)
 1. Add oclif dependency
@@ -400,6 +533,7 @@ src/
 1. Convert `execute-phase.md` as the pilot (highest-value workflow)
 2. Convert remaining high-traffic workflows: `plan-phase.md`, `discuss-phase.md`, `new-project.md`
 3. Convert remaining workflows incrementally
+4. All workflows are converted to use WXP and oclif commands and versioned
 
 ### Phase 4: Type cleanup
 1. Eliminate all `any` across codebase
@@ -422,7 +556,7 @@ src/
 - [ ] Zod schemas enforce runtime type safety
 - [ ] Zero `any` in codebase
 - [ ] `pi-gsd-tools` runs via oclif with typed commands
-- [ ] Harness files are copied (not symlinked), user-customisable, version-tracked
+- [ ] Harness files are copied (not symlinked), user-customisable, version-tracked (update can be inhibited adding `do-not-update` eg: `<gsd-version v="X.Y.Z" do-not-update />`)
 - [ ] No shell command executes without allowlist approval
 - [ ] No `.planning/` file is ever processed for WXP tags
 
@@ -433,5 +567,5 @@ src/
 - GUI/TUI for WXP debugging (use notifications)
 - `<for-each>`, `<regex>`, `<json-parse>`, `<map>`, `<reduce>` (v2)
 - `<string-op>` operations beyond `split` (v2)
-- Remote file includes (URLs in `<gsd-include>`)
+- Remote file includes (URLs in `<gsd-include>`) is strictly forbidden
 - Plugin system for custom WXP tags
