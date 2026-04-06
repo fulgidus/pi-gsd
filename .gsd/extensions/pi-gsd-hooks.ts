@@ -18,19 +18,18 @@
 
 import { execSync } from "node:child_process";
 import {
+	copyFileSync,
 	existsSync,
 	lstatSync,
 	mkdirSync,
 	readFileSync,
-	rmSync,
-	statSync,
-	symlinkSync,
+	readdirSync,
 	writeFileSync,
 } from "node:fs";
 import { homedir } from "node:os";
-import { dirname, join } from "node:path";
+import { dirname, join, relative } from "node:path";
 import type { ContextUsage, ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { processWxpTrustedContent, WxpProcessingError } from "../../src/wxp/index.js";
+import { processWxpTrustedContent, WxpProcessingError, readWorkflowVersionTag } from "../../src/wxp/index.js";
 import { DEFAULT_SHELL_ALLOWLIST } from "../../src/wxp/security.js";
 import type { WxpSecurityConfig } from "../../src/wxp/schema.js";
 
@@ -40,45 +39,57 @@ import type { WxpSecurityConfig } from "../../src/wxp/schema.js";
  * if already present. Never overwrites a real directory (user may have
  * customised it).
  */
-const ensureHarnessSymlink = (cwd: string): void => {
-	try {
-		const dest = join(cwd, ".pi", "gsd");
-		// If dest exists, verify it's a valid symlink with files inside.
-		// A stale real directory (from old build or worktree) must be replaced.
-		if (existsSync(dest)) {
-			try {
-				const stat = statSync(dest);
-				if (stat.isSymbolicLink?.() || lstatSync(dest).isSymbolicLink()) return; // valid symlink, done
-				// Real directory — check if it has the expected files
-				if (existsSync(join(dest, "workflows", "execute-phase.md"))) return; // looks complete
-				// Stale/incomplete directory — remove and replace with symlink
-				rmSync(dest, { recursive: true, force: true });
-			} catch {
-				return; // can't inspect, leave it
+
+/**
+ * Copy-on-first-run harness distribution (HRN-01, HRN-03).
+ * - Detects symlinks and replaces with real file copies.
+ * - Copies missing files; never overwrites existing real files.
+ * - Silent on any failure (non-blocking).
+ */
+function copyHarness(
+	src: string,
+	dest: string,
+): { symlinksReplaced: number; filesCopied: number } {
+	let symlinksReplaced = 0;
+	let filesCopied = 0;
+
+	const walk = (srcDir: string, destDir: string): void => {
+		mkdirSync(destDir, { recursive: true });
+		const entries = readdirSync(srcDir, { withFileTypes: true });
+		for (const entry of entries) {
+			const srcPath = join(srcDir, entry.name);
+			const destPath = join(destDir, entry.name);
+			if (entry.isDirectory()) {
+				walk(srcPath, destPath);
+				continue;
 			}
+			if (existsSync(destPath)) {
+				try {
+					const st = lstatSync(destPath);
+					if (st.isSymbolicLink()) {
+						// Replace symlink with real copy (HRN-03)
+						try {
+							// unlinkSync removes the symlink without following it
+							const { unlinkSync } = require("node:fs") as typeof import("node:fs");
+							unlinkSync(destPath);
+						} catch { /* ignore */ }
+						copyFileSync(srcPath, destPath);
+						symlinksReplaced++;
+					}
+					// Real file exists → skip (HRN-01: never overwrite)
+				} catch { /* ignore */ }
+				continue;
+			}
+			try {
+				copyFileSync(srcPath, destPath);
+				filesCopied++;
+			} catch { /* ignore */ }
 		}
+	};
 
-		// Walk up from this extension file to the package root:
-		// <pkg>/.gsd/extensions/pi-gsd-hooks.ts → <pkg>
-		const extFile = typeof __filename !== "undefined" ? __filename : "";
-		const pkgRoot = join(dirname(extFile), "..", "..");
-		const harnessSrc = join(
-			pkgRoot,
-			".gsd",
-			"harnesses",
-			"pi",
-			"get-shit-done",
-		);
-
-		if (!existsSync(harnessSrc)) return; // package incomplete — skip silently
-
-		mkdirSync(join(cwd, ".pi"), { recursive: true });
-		symlinkSync(harnessSrc, dest, "dir");
-	} catch {
-		/* silent — never block session startup */
-	}
-};
-
+	walk(src, dest);
+	return { symlinksReplaced, filesCopied };
+}
 
 export default function (pi: ExtensionAPI) {
 /** Resolve a single <gsd-include> match: file lookup + selector extraction. */
@@ -231,10 +242,32 @@ function resolveGsdInclude(
 		}
 
 		// ── WXP post-processing: run after <gsd-include> resolution (WXP-14) ──
+		// Load global + project settings (HRN-06, HRN-07)
+		const loadSettings = (settingsPath: string): Partial<WxpSecurityConfig> => {
+			try {
+				if (existsSync(settingsPath)) {
+					return JSON.parse(readFileSync(settingsPath, "utf8")) as Partial<WxpSecurityConfig>;
+				}
+			} catch { /* ignore */ }
+			return {};
+		};
+		const globalSettings = loadSettings(join(homedir(), ".gsd", "pi-gsd-settings.json"));
+		const projectSettings = loadSettings(join(ctx.cwd, ".pi", "gsd", "pi-gsd-settings.json"));
+		// Merge: project overrides global; both can extend the default allowlist
+		const mergedAllowlist = [
+			...DEFAULT_SHELL_ALLOWLIST,
+			...(globalSettings.shellAllowlist ?? []),
+			...(projectSettings.shellAllowlist ?? []),
+		];
 		const wxpSecurity: WxpSecurityConfig = {
-			trustedPaths: [pkgHarness, join(ctx.cwd, ".pi", "gsd")].filter(existsSync),
-			shellAllowlist: [...DEFAULT_SHELL_ALLOWLIST],
-			shellTimeoutMs: 30_000,
+			trustedPaths: [
+				...(globalSettings.trustedPaths ?? []),
+				...(projectSettings.trustedPaths ?? []),
+				pkgHarness,
+				join(ctx.cwd, ".pi", "gsd"),
+			].filter(existsSync),
+			shellAllowlist: [...new Set(mergedAllowlist)],
+			shellTimeoutMs: projectSettings.shellTimeoutMs ?? globalSettings.shellTimeoutMs ?? 30_000,
 		};
 
 		try {
@@ -269,10 +302,49 @@ function resolveGsdInclude(
 
 	// ── session_start: GSD update check ──────────────────────────────────────
 	pi.on("session_start", async (_event, ctx) => {
-		// Ensure harness files are reachable via .pi/gsd/ symlink
-		ensureHarnessSymlink(ctx.cwd);
+		// Copy-on-first-run harness distribution (HRN-01, HRN-03)
+		try {
+			const extFile = typeof __filename !== "undefined" ? __filename : "";
+			const pkgRoot = join(dirname(extFile), "..", "..");
+			const pkgHarness = join(pkgRoot, ".gsd", "harnesses", "pi", "get-shit-done");
+			const projectHarness = join(ctx.cwd, ".pi", "gsd");
+			if (existsSync(pkgHarness)) {
+				const { symlinksReplaced } = copyHarness(pkgHarness, projectHarness);
+				if (symlinksReplaced > 0) {
+					ctx.ui.notify(
+						`ℹ️ GSD: Replaced ${symlinksReplaced} symlink(s) in .pi/gsd/ with real file copies.`,
+						"info",
+					);
+				}
 
-
+				// Version-aware update detection (HRN-02)
+				try {
+					const pkgJsonPath = join(pkgRoot, "package.json");
+					if (existsSync(pkgJsonPath)) {
+						const pkgVersion = (JSON.parse(readFileSync(pkgJsonPath, "utf8")) as { version?: string }).version ?? "0.0.0";
+						const outdated: string[] = [];
+						// Check a sample of key workflow files for version drift
+						const sampleFiles = ["workflows/execute-phase.md", "workflows/plan-phase.md"];
+						for (const rel of sampleFiles) {
+							const projFile = join(projectHarness, rel);
+							if (!existsSync(projFile)) continue;
+							const content = readFileSync(projFile, "utf8");
+							const vtag = readWorkflowVersionTag(content);
+							if (!vtag || vtag.doNotUpdate) continue;
+							if (vtag.version !== pkgVersion) outdated.push(rel);
+						}
+						if (outdated.length > 0) {
+							ctx.ui.notify(
+								`ℹ️ GSD harness update available (package v${pkgVersion}).\n` +
+								`Outdated files: ${outdated.join(", ")}\n` +
+								`Run: pi-gsd-tools harness update [y|n|pick|diff]`,
+								"info",
+							);
+						}
+					}
+				} catch { /* silent */ }
+			}
+		} catch { /* silent */ }
 		try {
 			const cacheDir = join(homedir(), ".pi", "cache");
 			const cacheFile = join(cacheDir, "gsd-update-check.json");

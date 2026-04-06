@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://pi-gsd.dev/schemas/pi-gsd-settings.schema.json",
+  "title": "pi-gsd Settings",
+  "description": "Security and allowlist configuration for the pi-gsd WXP engine. Applies at global (~/.gsd/) or project (.pi/gsd/) scope; project settings override global.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "trustedPaths": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Additional absolute paths trusted for WXP processing. Package and project harness paths are always trusted.",
+      "default": []
+    },
+    "untrustedPaths": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Paths that are explicitly blocked from WXP processing, even if they match a trusted path. Takes precedence over trustedPaths.",
+      "default": []
+    },
+    "shellAllowlist": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Additional command names (bare, no path) allowed in <shell> blocks. Extends the default allowlist: [pi-gsd-tools, git, node, cat, ls, echo, find].",
+      "default": [],
+      "examples": [["jq", "curl"]]
+    },
+    "shellBanlist": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Command names explicitly blocked in <shell> blocks, even if present in shellAllowlist.",
+      "default": [],
+      "examples": [["bash", "sh", "zsh"]]
+    },
+    "shellTimeoutMs": {
+      "type": "number",
+      "minimum": 1000,
+      "maximum": 300000,
+      "description": "Timeout in milliseconds for <shell> block execution. Default: 30000 (30s).",
+      "default": 30000
+    }
+  }
+}
