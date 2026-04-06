@@ -1205,147 +1205,113 @@ export function cmdStateReconcile(cwd: string, raw: boolean): void {
 	let totalPlans = 0;
 	let totalSummaries = 0;
 	let phasesComplete = 0;
-	let phasesTotal = phaseDirs.length;
+	const phasesTotal = phaseDirs.length;
 	const reconciled: string[] = [];
+	const today = new Date().toISOString().split("T")[0];
 
-	const roadmapPath = pp.roadmap;
-	let roadmapContent = fs.existsSync(roadmapPath)
-		? fs.readFileSync(roadmapPath, "utf-8")
-		: "";
+	// ── Pass 1: scan disk truth for each phase ────────────────────────────────
+	interface PhaseInfo {
+		dir: string;
+		dirPath: string;
+		phaseNum: string;
+		numVal: number;
+		plans: number;
+		summaries: number;
+		hasContext: boolean;
+		complete: boolean;
+	}
+	const phases: PhaseInfo[] = [];
 
 	for (const dir of phaseDirs) {
 		const dirPath = path.join(pp.phases, dir);
 		const files = fs.readdirSync(dirPath);
-		const plans = files.filter((f) => f.match(/-PLAN\.md$/i));
-		const summaries = files.filter((f) => f.match(/-SUMMARY\.md$/i));
-		totalPlans += plans.length;
-		totalSummaries += summaries.length;
-
-		const allDone = plans.length > 0 && summaries.length >= plans.length;
+		const plans = files.filter((f: string) => f.match(/-PLAN\.md$/i)).length;
+		const summaries = files.filter((f: string) => f.match(/-SUMMARY\.md$/i)).length;
+		const hasContext = files.some((f: string) => f.match(/CONTEXT\.md$/i));
 		const phaseNum = dir.match(/^(\d+(?:\.\d+)?)/)?.[1] ?? dir.split("-")[0];
+		const complete = plans > 0 && summaries >= plans;
 
-		// Check if already marked complete in ROADMAP.md
-		const isMarkedComplete =
-			roadmapContent.includes(`[x] Phase ${phaseNum}`) ||
-			roadmapContent.includes(`[x] **Phase ${phaseNum}`) ||
-			new RegExp(`\\|\\s*${phaseNum}\\.?\\s.*\\|.*Complete`, "i").test(roadmapContent);
+		totalPlans += plans;
+		totalSummaries += summaries;
+		if (complete) phasesComplete++;
 
-		if (allDone) {
-			phasesComplete++;
-			if (!isMarkedComplete && roadmapContent) {
-				// Mark it complete in roadmap
-				const today = new Date().toISOString().split("T")[0];
-				const checkboxPattern = new RegExp(
-					`(-\\s*\\[)[ ](\\]\\s*.*Phase\\s+${phaseNum}[:\\s][^\\n]*)`,
-					"i",
-				);
-				const tablePattern = new RegExp(
-					`(\\|\\s*${phaseNum}\\.?\\s.*\\|[^|]*\\|[^|]*\\|[^|]*)\\b(?:Pending|In Progress|Planning|Executing|Verifying)\\b`,
-					"i",
-				);
-				if (checkboxPattern.test(roadmapContent)) {
-					roadmapContent = roadmapContent.replace(
-						checkboxPattern,
-						`$1x$2 (completed ${today})`,
-					);
-					reconciled.push(`Phase ${phaseNum}: marked complete (${summaries.length}/${plans.length} plans)`);
-				} else if (tablePattern.test(roadmapContent)) {
-					roadmapContent = roadmapContent.replace(
-						tablePattern,
-						`$1Complete`,
-					);
-					reconciled.push(`Phase ${phaseNum}: marked complete in table (${summaries.length}/${plans.length} plans)`);
-				}
-			}
-		}
+		phases.push({ dir, dirPath, phaseNum, numVal: parseFloat(phaseNum), plans, summaries, hasContext, complete });
 	}
 
+	// ── Pass 2: detect absorbed phases (0 plans, later phase complete) ─────────
+	for (const phase of phases) {
+		if (phase.plans > 0 || phase.complete) continue;
+		const laterComplete = phases.some((p) => p.numVal > phase.numVal && p.complete);
+		if (!laterComplete) continue;
 
-	// Second pass: detect absorbed/superseded phases
-	// Pattern: phase has 0 plans but a LATER phase is complete → phase was absorbed
-	// Auto-create absorbed PLAN+SUMMARY stub so disk_status = complete
-	const phaseCompletionMap = new Map<string, boolean>();
-	for (const dir of phaseDirs) {
-		const dirPath = path.join(pp.phases, dir);
-		const files = fs.readdirSync(dirPath);
-		const plans = files.filter((f: string) => f.match(/-PLAN\.md$/i));
-		const summaries = files.filter((f: string) => f.match(/-SUMMARY\.md$/i));
-		const phaseNum = dir.match(/^(\d+(?:\.\d+)?)/)?.[1] ?? dir.split("-")[0];
-		phaseCompletionMap.set(phaseNum, plans.length > 0 && summaries.length >= plans.length);
-	}
-
-	for (const dir of phaseDirs) {
-		const dirPath = path.join(pp.phases, dir);
-		const files = fs.readdirSync(dirPath);
-		const plans = files.filter((f: string) => f.match(/-PLAN\.md$/i));
-		const phaseNum = dir.match(/^(\d+(?:\.\d+)?)/)?.[1] ?? dir.split("-")[0];
-		const num = parseFloat(phaseNum);
-
-		if (plans.length > 0) continue; // Has plans — handled by first pass
-		if (phaseCompletionMap.get(phaseNum)) continue; // Already complete
-
-		// Check if ANY later phase is complete
-		const laterPhaseComplete = [...phaseCompletionMap.entries()].some(
-			([k, complete]) => complete && parseFloat(k) > num,
-		);
-		if (!laterPhaseComplete) continue;
-
-		// This phase was absorbed — create stub files
-		const padded = phaseNum.replace(".", "-");
-		const planFile = path.join(dirPath, `${padded}-01-PLAN.md`);
-		const summaryFile = path.join(dirPath, `${padded}-01-SUMMARY.md`);
-		const today = new Date().toISOString().split("T")[0];
+		// Auto-create absorbed PLAN + SUMMARY stubs
+		const padded = phase.phaseNum.replace(".", "-");
+		const planFile = path.join(phase.dirPath, `${padded}-01-PLAN.md`);
+		const summaryFile = path.join(phase.dirPath, `${padded}-01-SUMMARY.md`);
 
 		if (!fs.existsSync(planFile)) {
 			fs.writeFileSync(planFile, [
-				"---",
-				`plan: "${padded}-01"`,
-				`phase: "${phaseNum}"`,
-				"status: complete",
-				`absorbed: true`,
-				"---",
-				"",
-				`# Plan ${padded}-01 — [ABSORBED]`,
-				"",
-				"Phase absorbed into a later phase. All deliverables completed there.",
-				"",
+				"---", `plan: "${padded}-01"`, `phase: "${phase.phaseNum}"`,
+				"status: complete", "absorbed: true", "---", "",
+				`# Plan ${padded}-01 — [ABSORBED]`, "",
+				"Phase absorbed into a later phase. All deliverables completed there.", "",
 			].join("\n"), "utf-8");
 		}
 		if (!fs.existsSync(summaryFile)) {
 			fs.writeFileSync(summaryFile, [
-				"---",
-				`plan: "${padded}-01"`,
-				`phase: "${phaseNum}"`,
-				"status: complete",
-				"absorbed: true",
-				`completed_at: "${today}"`,
-				"---",
-				"",
-				`# Summary ${padded}-01 — Phase ${phaseNum} Absorbed`,
-				"",
-				"Phase deliverables were completed as part of a later phase execution.",
-				"",
+				"---", `plan: "${padded}-01"`, `phase: "${phase.phaseNum}"`,
+				"status: complete", "absorbed: true", `completed_at: "${today}"`, "---", "",
+				`# Summary ${padded}-01 — Phase ${phase.phaseNum} Absorbed`, "",
+				"Phase deliverables completed as part of a later phase execution.", "",
 			].join("\n"), "utf-8");
 		}
-		totalPlans += 1;
-		totalSummaries += 1;
+		totalPlans++;
+		totalSummaries++;
 		phasesComplete++;
-		reconciled.push(`Phase ${phaseNum}: auto-created absorbed PLAN+SUMMARY (0 plans, later phase complete)`);
+		phase.complete = true;
+		reconciled.push(`Phase ${phase.phaseNum}: absorbed (0 plans, later phase complete) — created stubs`);
 	}
 
-	// Write updated roadmap if changed
-	if (reconciled.length > 0 && roadmapContent) {
-		fs.writeFileSync(roadmapPath, roadmapContent, "utf-8");
+	// ── Pass 3: update ROADMAP.md to match disk truth ──────────────────────────
+	// Disk = source of truth. Roadmap = output. We WRITE it, not READ it.
+	if (fs.existsSync(pp.roadmap)) {
+		let roadmap = fs.readFileSync(pp.roadmap, "utf-8");
+		let changed = false;
+
+		for (const phase of phases) {
+			if (!phase.complete) continue;
+			const esc = phase.phaseNum.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+			// Try checkbox: - [ ] ... Phase N ... → - [x] ... Phase N ...
+			const cbRe = new RegExp(`(-\\s*\\[)[ ](\\]\\s*(?:\\*\\*)?\\s*Phase\\s+${esc}[^\\n]*)`, "i");
+			if (cbRe.test(roadmap)) {
+				roadmap = roadmap.replace(cbRe, `$1x$2`);
+				changed = true;
+				continue;
+			}
+
+			// Try table row: | N | ... | Pending/Planning/Executing/... | → Complete
+			const tblRe = new RegExp(
+				`(\\|\\s*${esc}\\.?\\s+[^|]*(?:\\|[^|]*)*\\|[^|]*)\\b(?:Pending|In Progress|Planning|Executing|Verifying|Discussed|Researched|Empty)\\b`,
+				"i",
+			);
+			if (tblRe.test(roadmap)) {
+				roadmap = roadmap.replace(tblRe, "$1Complete");
+				changed = true;
+			}
+		}
+
+		if (changed) {
+			fs.writeFileSync(pp.roadmap, roadmap, "utf-8");
+			reconciled.push("ROADMAP.md updated to match disk completion status");
+		}
 	}
 
-	// Update STATE.md progress
+	// ── Pass 4: update STATE.md progress ────────────────────────────────────────
 	let stateContent = fs.readFileSync(pp.state, "utf-8");
-	const percent =
-		totalPlans > 0 ? Math.min(100, Math.round((totalSummaries / totalPlans) * 100)) : 0;
-	const barWidth = 10;
-	const filled = Math.round((percent / 100) * barWidth);
-	const bar = "█".repeat(filled) + "░".repeat(barWidth - filled);
-	const progressStr = `[${bar}] ${percent}%`;
+	const percent = totalPlans > 0 ? Math.min(100, Math.round((totalSummaries / totalPlans) * 100)) : 0;
+	const filled = Math.round((percent / 100) * 10);
+	const progressStr = `[${"█".repeat(filled)}${"░".repeat(10 - filled)}] ${percent}%`;
 	const boldPat = /(\*\*Progress:\*\*\s*).*/i;
 	const plainPat = /^(Progress:\s*).*/im;
 	if (boldPat.test(stateContent)) {
@@ -1353,8 +1319,6 @@ export function cmdStateReconcile(cwd: string, raw: boolean): void {
 	} else if (plainPat.test(stateContent)) {
 		stateContent = stateContent.replace(plainPat, (_m, p) => `${p}${progressStr}`);
 	}
-
-	// Update completed phases count in frontmatter
 	writeStateMd(pp.state, stateContent, cwd);
 
 	output(
@@ -1369,7 +1333,7 @@ export function cmdStateReconcile(cwd: string, raw: boolean): void {
 		},
 		raw,
 		reconciled.length > 0
-			? `Reconciled ${reconciled.length} phase(s): ${reconciled.join("; ")}`
-			: `State is consistent (${phasesComplete}/${phasesTotal} phases, ${totalSummaries}/${totalPlans} plans)`,
+			? `Reconciled: ${reconciled.join("; ")}`
+			: `State consistent (${phasesComplete}/${phasesTotal} phases, ${totalSummaries}/${totalPlans} plans)`,
 	);
 }
