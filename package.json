@@ -68,8 +68,8 @@
 		]
 	},
 	"dependencies": {
+		"@oclif/core": "^4.10.5",
 		"@toon-format/toon": "^2.1.0",
-		"commander": "^13.0.0",
 		"jsonpath-plus": "^10.4.0",
 		"zod": "^3.25.76"
 	},
