@@ -53,6 +53,15 @@ function copyHarness(
     let symlinksReplaced = 0;
     let filesCopied = 0;
 
+    // If top-level dest is a symlink (old design), nuke it and start fresh
+    try {
+        if (existsSync(dest) && lstatSync(dest).isSymbolicLink()) {
+            const { unlinkSync } = require("node:fs") as typeof import("node:fs");
+            unlinkSync(dest);
+            symlinksReplaced++;
+        }
+    } catch { /* ignore */ }
+
     const walk = (srcDir: string, destDir: string): void => {
         mkdirSync(destDir, { recursive: true });
         const entries = readdirSync(srcDir, { withFileTypes: true });

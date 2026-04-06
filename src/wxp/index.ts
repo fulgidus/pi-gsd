@@ -113,14 +113,8 @@ function runLoop(
         const incPath = tag.node.attrs["path"];
         if (!incPath) continue;
 
-        // Resolve: try project root first, fall back to package harness
-        const subPath = incPath.replace(/^\.pi\/gsd\//, "");
-        const candidates = [
-          path.resolve(projectRoot, incPath),
-          path.resolve(pkgRoot, ".gsd", "harnesses", "pi", "get-shit-done", subPath),
-        ];
-        const abs = candidates.find((c) => fs.existsSync(c));
-        if (!abs) throw new Error(`Include not found: ${incPath} (tried project + package harness)`);
+        const abs = path.resolve(projectRoot, incPath);
+        if (!fs.existsSync(abs)) throw new Error(`Include not found: ${incPath}`);
 
         const check = checkTrustedPath(abs, config, projectRoot, pkgRoot);
         if (!check.ok) throw new Error(`Include rejected: ${check.reason}`);
