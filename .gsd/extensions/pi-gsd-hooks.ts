@@ -104,9 +104,10 @@ function copyHarness(
  * Returns: "16 --auto"
  */
 function extractRawArguments(content: string): string {
-    // Find the last <...> block (WXP tag or include) position
+    // Find the last XML tag (closing OR self-closing) position
     const lastTagEnd = (() => {
-        const tagPattern = /<\/(?:gsd-[a-zA-Z0-9_-]+|shell|if|then|else|condition|args|outs|string-op|settings)>/g;
+        // Matches </tag> AND <tag ... /> (self-closing)
+        const tagPattern = /<(?:\/[a-zA-Z0-9_:-]+|[a-zA-Z0-9_:-]+[^>]*\/)\s*>/g;
         let lastEnd = 0;
         let m: RegExpExecArray | null;
         while ((m = tagPattern.exec(content)) !== null) {
@@ -115,11 +116,7 @@ function extractRawArguments(content: string): string {
         return lastEnd;
     })();
 
-    // Everything after the last closing tag is the trailing plain text ($ARGUMENTS expansion)
     const trailing = content.slice(lastTagEnd).trim();
-
-    // Only return if it looks like user arguments (not a full document block)
-    // Reject if it contains markdown headings or is very long (probably included file content)
     if (trailing.length === 0 || trailing.length > 500 || trailing.includes("\n\n\n")) {
         return "";
     }
