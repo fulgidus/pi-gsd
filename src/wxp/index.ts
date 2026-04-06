@@ -113,7 +113,7 @@ function runLoop(
         const incPath = tag.node.attrs["path"];
         if (!incPath) continue;
 
-        const abs   = path.resolve(path.dirname(filePath), incPath);
+        const abs   = path.resolve(projectRoot, incPath);
         const check = checkTrustedPath(abs, config, projectRoot, pkgRoot);
         if (!check.ok) throw new Error(`Include rejected: ${check.reason}`);
 
