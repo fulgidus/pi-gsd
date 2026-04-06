@@ -1,3 +1,30 @@
+<gsd-version v="1.12.4" />
+
+<gsd-arguments>
+  <positional name="PHASE" />
+  <flag name="auto" boolean />
+  <flag name="no-transition" boolean />
+  <flag name="ws" />
+</gsd-arguments>
+
+<gsd-execute>
+  <shell command="pi-gsd-tools" result="PHASE_DATA">init execute-phase ${PHASE}</shell>
+  <shell command="pi-gsd-tools" result="STATE_JSON">state json --raw</shell>
+  <shell command="pi-gsd-tools" result="ROADMAP_PHASE">roadmap get-phase ${PHASE}</shell>
+</gsd-execute>
+
+## Execution Context (pre-injected by WXP)
+
+**Phase:** <gsd-paste name="PHASE" />
+
+**Project State:**
+<gsd-paste name="STATE_JSON" />
+
+**Phase Roadmap:**
+<gsd-paste name="ROADMAP_PHASE" />
+
+---
+
 <purpose>
 Execute all plans in a phase using wave-based parallel execution. Orchestrator stays lean - delegates plan execution to subagents.
 </purpose>
@@ -58,15 +85,10 @@ If `--wave` is absent, preserve the current behavior of executing all incomplete
 </step>
 
 <step name="initialize" priority="first">
-Load all context in one call:
-
-```bash
-INIT=$(pi-gsd-tools init execute-phase "${PHASE_ARG}")
-if [[ "$INIT" == @file:* ]]; then INIT=$(cat "${INIT#@file:}"); fi
-AGENT_SKILLS=$(pi-gsd-tools agent-skills gsd-executor 2>/dev/null)
-```
-
-Parse JSON for: `executor_model`, `verifier_model`, `commit_docs`, `parallelization`, `branching_strategy`, `branch_name`, `phase_found`, `phase_dir`, `phase_number`, `phase_name`, `phase_slug`, `plans`, `incomplete_plans`, `plan_count`, `incomplete_count`, `state_exists`, `roadmap_exists`, `phase_req_ids`.
+Context is pre-injected above via WXP. Parse `PHASE_DATA` for: `executor_model`, `verifier_model`,
+`commit_docs`, `parallelization`, `branching_strategy`, `branch_name`, `phase_found`, `phase_dir`,
+`phase_number`, `phase_name`, `phase_slug`, `plans`, `incomplete_plans`, `plan_count`,
+`incomplete_count`, `state_exists`, `roadmap_exists`, `phase_req_ids`.
 
 **If `phase_found` is false:** Error - phase directory not found.
 **If `plan_count` is 0:** Error - no plans found in phase.
