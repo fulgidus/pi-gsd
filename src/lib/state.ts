@@ -1260,6 +1260,79 @@ export function cmdStateReconcile(cwd: string, raw: boolean): void {
 		}
 	}
 
+
+	// Second pass: detect absorbed/superseded phases
+	// Pattern: phase has 0 plans but a LATER phase is complete → phase was absorbed
+	// Auto-create absorbed PLAN+SUMMARY stub so disk_status = complete
+	const phaseCompletionMap = new Map<string, boolean>();
+	for (const dir of phaseDirs) {
+		const dirPath = path.join(pp.phases, dir);
+		const files = fs.readdirSync(dirPath);
+		const plans = files.filter((f: string) => f.match(/-PLAN\.md$/i));
+		const summaries = files.filter((f: string) => f.match(/-SUMMARY\.md$/i));
+		const phaseNum = dir.match(/^(\d+(?:\.\d+)?)/)?.[1] ?? dir.split("-")[0];
+		phaseCompletionMap.set(phaseNum, plans.length > 0 && summaries.length >= plans.length);
+	}
+
+	for (const dir of phaseDirs) {
+		const dirPath = path.join(pp.phases, dir);
+		const files = fs.readdirSync(dirPath);
+		const plans = files.filter((f: string) => f.match(/-PLAN\.md$/i));
+		const phaseNum = dir.match(/^(\d+(?:\.\d+)?)/)?.[1] ?? dir.split("-")[0];
+		const num = parseFloat(phaseNum);
+
+		if (plans.length > 0) continue; // Has plans — handled by first pass
+		if (phaseCompletionMap.get(phaseNum)) continue; // Already complete
+
+		// Check if ANY later phase is complete
+		const laterPhaseComplete = [...phaseCompletionMap.entries()].some(
+			([k, complete]) => complete && parseFloat(k) > num,
+		);
+		if (!laterPhaseComplete) continue;
+
+		// This phase was absorbed — create stub files
+		const padded = phaseNum.replace(".", "-");
+		const planFile = path.join(dirPath, `${padded}-01-PLAN.md`);
+		const summaryFile = path.join(dirPath, `${padded}-01-SUMMARY.md`);
+		const today = new Date().toISOString().split("T")[0];
+
+		if (!fs.existsSync(planFile)) {
+			fs.writeFileSync(planFile, [
+				"---",
+				`plan: "${padded}-01"`,
+				`phase: "${phaseNum}"`,
+				"status: complete",
+				`absorbed: true`,
+				"---",
+				"",
+				`# Plan ${padded}-01 — [ABSORBED]`,
+				"",
+				"Phase absorbed into a later phase. All deliverables completed there.",
+				"",
+			].join("\n"), "utf-8");
+		}
+		if (!fs.existsSync(summaryFile)) {
+			fs.writeFileSync(summaryFile, [
+				"---",
+				`plan: "${padded}-01"`,
+				`phase: "${phaseNum}"`,
+				"status: complete",
+				"absorbed: true",
+				`completed_at: "${today}"`,
+				"---",
+				"",
+				`# Summary ${padded}-01 — Phase ${phaseNum} Absorbed`,
+				"",
+				"Phase deliverables were completed as part of a later phase execution.",
+				"",
+			].join("\n"), "utf-8");
+		}
+		totalPlans += 1;
+		totalSummaries += 1;
+		phasesComplete++;
+		reconciled.push(`Phase ${phaseNum}: auto-created absorbed PLAN+SUMMARY (0 plans, later phase complete)`);
+	}
+
 	// Write updated roadmap if changed
 	if (reconciled.length > 0 && roadmapContent) {
 		fs.writeFileSync(roadmapPath, roadmapContent, "utf-8");
