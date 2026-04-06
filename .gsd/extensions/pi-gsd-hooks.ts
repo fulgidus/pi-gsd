@@ -30,6 +30,9 @@ import {
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 import type { ContextUsage, ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import { processWxpTrustedContent, WxpProcessingError } from "../../src/wxp/index.js";
+import { DEFAULT_SHELL_ALLOWLIST } from "../../src/wxp/security.js";
+import type { WxpSecurityConfig } from "../../src/wxp/schema.js";
 
 /**
  * Ensures .pi/gsd/ in the project is a symlink to the harness files
@@ -225,6 +228,40 @@ function resolveGsdInclude(
 		if (errors.length > 0) {
 			ctx.ui.notify("\u274c GSD include failed:\n" + errors.map((e) => "  \u2022 " + e).join("\n"), "error");
 			return { messages: [] }; // block LLM call
+		}
+
+		// ── WXP post-processing: run after <gsd-include> resolution (WXP-14) ──
+		const wxpSecurity: WxpSecurityConfig = {
+			trustedPaths: [pkgHarness, join(ctx.cwd, ".pi", "gsd")].filter(existsSync),
+			shellAllowlist: [...DEFAULT_SHELL_ALLOWLIST],
+			shellTimeoutMs: 30_000,
+		};
+
+		try {
+			for (const msg of messages) {
+				if (msg.role !== "user") continue;
+				if (typeof msg.content === "string") {
+					if (!msg.content.includes("<gsd-")) continue;
+					// Use a virtual trusted path so the path-check passes
+					const virtualPath = join(ctx.cwd, ".pi", "gsd", "workflows", "_message.md");
+					msg.content = processWxpTrustedContent(msg.content, virtualPath, wxpSecurity);
+				} else if (Array.isArray(msg.content)) {
+					for (const block of msg.content) {
+						if (block.type !== "text" || !block.text) continue;
+						if (!block.text.includes("<gsd-")) continue;
+						const virtualPath = join(ctx.cwd, ".pi", "gsd", "workflows", "_message.md");
+						block.text = processWxpTrustedContent(block.text, virtualPath, wxpSecurity);
+					}
+				}
+			}
+		} catch (wxpErr) {
+			if (wxpErr instanceof WxpProcessingError) {
+				ctx.ui.notify(wxpErr.message, "error");
+				return { messages: [] }; // WXP-09: no partial content reaches LLM
+			}
+			// Non-WXP error: log but don't block
+			const errMsg = wxpErr instanceof Error ? wxpErr.message : String(wxpErr);
+			ctx.ui.notify(`GSD WXP: unexpected context error: ${errMsg}`, "info");
 		}
 
 		return { messages };

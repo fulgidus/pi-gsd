@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           version="1.0">
+
+  <!--
+    WXP Canonical Schema — pi-gsd v1.0
+    Covers all WXP tag names, nesting rules, attribute types, and content models.
+    Used as authoritative reference for the WXP engine (WXP-12).
+  -->
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       Top-level document structure
+       ═══════════════════════════════════════════════════════════════════════ -->
+
+  <!--
+    A WXP-enabled markdown document may contain any combination of these
+    top-level WXP elements, interspersed with arbitrary markdown text.
+    Elements inside ``` fenced code blocks are excluded from processing.
+  -->
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       <gsd-version> — version tag
+       ═══════════════════════════════════════════════════════════════════════ -->
+
+  <xs:element name="gsd-version">
+    <xs:annotation>
+      <xs:documentation>
+        Identifies the pi-gsd version that produced this workflow file.
+        do-not-update prevents the harness copy-on-first-run from overwriting it (WFL-05).
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="v" type="xs:string" use="required">
+        <xs:annotation>
+          <xs:documentation>Semantic version string, e.g. "1.0.0"</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="do-not-update" type="xs:string" use="optional">
+        <xs:annotation>
+          <xs:documentation>
+            Presence of this attribute (any value) opts the file out of auto-updates.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       <gsd-include> — file inclusion (INC-01, INC-02, INC-03)
+       ═══════════════════════════════════════════════════════════════════════ -->
+
+  <xs:element name="gsd-include">
+    <xs:annotation>
+      <xs:documentation>
+        Inline another workflow file at this position.
+        include-arguments: appends $ARGUMENTS after the included content (INC-01).
+        Child gsd-arguments: maps caller variables into the included file's namespace (INC-02).
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="gsd-arguments" type="IncludeArgumentsMappingType" minOccurs="0" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute name="path" type="xs:string" use="required">
+        <xs:annotation>
+          <xs:documentation>Relative path to the file to include (from the including file).</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="include-arguments" type="xs:string" use="optional">
+        <xs:annotation>
+          <xs:documentation>Presence appends $ARGUMENTS inline after the included file content.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="IncludeArgumentsMappingType">
+    <xs:sequence>
+      <xs:element name="arg" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="name" type="xs:string" use="required">
+            <xs:annotation>
+              <xs:documentation>Caller variable name to read from.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="as" type="xs:string" use="required">
+            <xs:annotation>
+              <xs:documentation>Target variable name in the included file's namespace.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       <gsd-arguments> — argument declaration block (WXP-02)
+       ═══════════════════════════════════════════════════════════════════════ -->
+
+  <xs:element name="gsd-arguments">
+    <xs:annotation>
+      <xs:documentation>
+        Declares how $ARGUMENTS is parsed for this workflow file.
+        Two-pass algorithm: flags extracted first (anywhere), then positionals left-to-right.
+        Last positional with greedy attribute consumes all remaining tokens.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="positional">
+          <xs:complexType>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+            <xs:attribute name="greedy" type="xs:string" use="optional">
+              <xs:annotation>
+                <xs:documentation>Presence makes this positional greedy (consume all remaining tokens).</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="flag">
+          <xs:complexType>
+            <xs:attribute name="name" type="xs:string" use="required"/>
+            <xs:attribute name="boolean" type="xs:string" use="optional">
+              <xs:annotation>
+                <xs:documentation>Presence makes this a boolean flag (true/false, no value argument).</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       <gsd-execute> — executable block container (WXP-03, WXP-04, WXP-05)
+       ═══════════════════════════════════════════════════════════════════════ -->
+
+  <xs:element name="gsd-execute">
+    <xs:annotation>
+      <xs:documentation>
+        Container for WXP operations that are executed before the LLM receives the document.
+        Children: shell, if, string-op. Nesting of if blocks is supported.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:group ref="ExecutableOperations" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:group name="ExecutableOperations">
+    <xs:choice>
+      <xs:element name="shell" type="ShellType"/>
+      <xs:element name="if" type="IfType"/>
+      <xs:element name="string-op" type="StringOpType"/>
+    </xs:choice>
+  </xs:group>
+
+  <!-- shell — execFileSync with allowlist enforcement (WXP-03, WXP-11) -->
+  <xs:complexType name="ShellType">
+    <xs:annotation>
+      <xs:documentation>
+        Execute an allowlisted command via execFileSync (30s timeout).
+        Stdout is trimmed and stored in the named variable.
+        The command must be in the WXP shell allowlist; non-allowlisted commands abort processing.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="command" type="xs:string" use="required">
+          <xs:annotation>
+            <xs:documentation>Bare command name (e.g. "pi-gsd-tools", "git"). Must be allowlisted.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="result" type="xs:string" use="required">
+          <xs:annotation>
+            <xs:documentation>Variable name to store stdout in. Used by subsequent &lt;gsd-paste name="..."&gt;.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <!-- if — conditional block (WXP-04) -->
+  <xs:complexType name="IfType">
+    <xs:annotation>
+      <xs:documentation>
+        Conditional execution block. Children execute only when the condition is true.
+        Supports equals and starts-with conditions on variable values.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:choice>
+        <xs:element name="equals">
+          <xs:complexType>
+            <xs:attribute name="value" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="starts-with">
+          <xs:complexType>
+            <xs:attribute name="value" type="xs:string" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+      <xs:group ref="ExecutableOperations" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="var" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>Variable name to evaluate the condition against.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <!-- string-op — string operations (WXP-05) -->
+  <xs:complexType name="StringOpType">
+    <xs:annotation>
+      <xs:documentation>
+        String operation on a variable. v1 supports only op="split".
+        Split divides the variable value by delimiter and stores parts joined by newline.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="op" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="split"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="var" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>Source variable name to read.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="delimiter" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>Delimiter string to split on.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="result" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>Target variable name to store the newline-joined result.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       <gsd-paste> — variable paste (WXP-06)
+       ═══════════════════════════════════════════════════════════════════════ -->
+
+  <xs:element name="gsd-paste">
+    <xs:annotation>
+      <xs:documentation>
+        Inline paste of a variable value. Replaced with the variable's string value.
+        If the variable is undefined, processing aborts immediately (no partial output).
+        Tags inside fenced code blocks are never replaced.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required">
+        <xs:annotation>
+          <xs:documentation>Variable name to paste. Must be defined in the variable store.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

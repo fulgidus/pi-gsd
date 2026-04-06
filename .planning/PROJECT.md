@@ -2,7 +2,7 @@
 
 ## What This Is
 
-pi-gsd is a TypeScript port of the GSD (Get Shit Done) v1.30.0 planning framework for the pi coding agent. It ships as an npm package that installs a complete AI-native project-planning system — 57 slash-command skills, a `pi-gsd-tools` CLI, background hooks, and per-harness workflow files — directly into any pi (and optionally Claude Code, Gemini CLI, Cursor, Windsurf, OpenCode, Codex, Copilot) project on `npm install`.
+pi-gsd is a TypeScript port of the GSD (Get Shit Done) v1.30.0 planning framework for the pi coding agent. It ships as an npm package that installs a complete AI-native project-planning system — 57 slash-command skills, a `pi-gsd-tools` CLI, background hooks, and harness workflow files — directly into any pi project on `pi install npm:pi-gsd`.
 
 The core loop: `new-project → discuss-phase → plan-phase → execute-phase → verify-work → validate-phase → next phase`.
 
@@ -30,7 +30,7 @@ Workflow files execute programmatically before the LLM ever sees them — zero s
 - ✓ `pi-gsd-tools` CLI binary with state/roadmap/phase/milestone/verify/scaffold/commit commands - existing
 - ✓ 57 GSD slash-command skills installed to pi automatically - existing
 - ✓ `<gsd-include>` tag resolution (file injection, selectors: tag/heading/lines) - existing (v1.12)
-- ✓ Per-harness skill and hook distribution via postinstall (pi, Claude Code, Gemini CLI, Cursor, Windsurf, OpenCode, Codex, Copilot) - existing
+- ✓ Pi skill and hook distribution via postinstall
 - ✓ `.planning/` git-committed state directory (PROJECT, ROADMAP, STATE, REQUIREMENTS, phases/) - existing
 - ✓ Zod runtime schemas for all `.planning/` structures - existing
 - ✓ Model profiles (quality/balanced/budget/inherit) - existing
@@ -63,10 +63,10 @@ Workflow files execute programmatically before the LLM ever sees them — zero s
 - [ ] All remaining workflows converted incrementally
 - [ ] Zero `any` across `src/`, `.gsd/extensions/`, `src/wxp/`
 - [ ] `FrontmatterObject` → proper recursive YAML value type
-- [ ] Harness copy-on-first-run on `session_start` (missing files only, never overwrites)
+- [ ] Workflows, prompt-templates, etc. copy-on-first-run on `session_start` (missing files only, never overwrites)
 - [ ] Version-aware update prompts (`y / n / pick / diff`)
 - [ ] Removal of `ensureHarnessSymlink()` and all symlink logic
-- [ ] `<gsd-version v="X.Y.Z" />` and `do-not-update` flag support in harness files
+- [ ] `<gsd-version v="X.Y.Z" />` and `do-not-update` flag support in workflow files
 - [ ] `pi-gsd-settings.json` schema: trustedPaths, untrustedPaths, shellAllowlist, shellBanlist, shellTimeoutMs
 
 ### Out of Scope
@@ -99,17 +99,17 @@ Workflow files execute programmatically before the LLM ever sees them — zero s
 
 ## Key Decisions
 
-| Decision | Rationale | Outcome |
-| --- | --- | --- |
-| WXP runs in pi `context` event, after `<gsd-include>` | Preprocessing before LLM sees messages; no new hook points needed | - Pending |
-| Total-crash failure mode (no partial injection) | Partial injection could mislead the LLM with half-computed data; better to block the call | - Pending |
-| `.planning/` files are never WXP-processed | LLM writes there; processing those files = arbitrary code execution via prompt injection | - Pending |
-| Shell allowlist is additive (can add, never remove defaults) | Prevents user config from expanding attack surface beyond known tools | - Pending |
-| oclif replaces commander.js (breaking CLI change) | commander.js has loose typing and manual arg parsing; oclif provides typed flags/args via decorators; `pi-gsd-tools` is consumed internally by workflow XML, so API break is acceptable | - Pending |
-| Harness: copy-on-first-run, never overwrite existing | Stable across worktrees; user-customisable; version-aware update prompts for deliberate upgrades | - Pending |
-| `execute-phase.md` as WXP pilot workflow | Highest-value workflow (runs on every phase); validates the full pipeline end-to-end before converting others | - Pending |
-| XSD 1.1 + Zod dual validation | XSD for IDE support and documentation; Zod for runtime type safety and TypeScript inference | - Pending |
-| vitest for all WXP tests | Lightweight, TypeScript-native, no separate config needed; consistent with existing tsup build | - Pending |
+| Decision                                                     | Rationale                                                                                                                                                                               | Outcome   |
+| ------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
+| WXP runs in pi `context` event, after `<gsd-include>`        | Preprocessing before LLM sees messages; no new hook points needed                                                                                                                       | - Pending |
+| Total-crash failure mode (no partial injection)              | Partial injection could mislead the LLM with half-computed data; better to block the call                                                                                               | - Pending |
+| `.planning/` files are never WXP-processed                   | LLM writes there; processing those files = arbitrary code execution via prompt injection                                                                                                | - Pending |
+| Shell allowlist is additive (can add, never remove defaults) | Prevents user config from expanding attack surface beyond known tools                                                                                                                   | - Pending |
+| oclif replaces commander.js (breaking CLI change)            | commander.js has loose typing and manual arg parsing; oclif provides typed flags/args via decorators; `pi-gsd-tools` is consumed internally by workflow XML, so API break is acceptable | - Pending |
+| Harness: copy-on-first-run, never overwrite existing         | Stable across worktrees; user-customisable; version-aware update prompts for deliberate upgrades                                                                                        | - Pending |
+| `execute-phase.md` as WXP pilot workflow                     | Highest-value workflow (runs on every phase); validates the full pipeline end-to-end before converting others                                                                           | - Pending |
+| XSD 1.1 + Zod dual validation                                | XSD for IDE support and documentation; Zod for runtime type safety and TypeScript inference                                                                                             | - Pending |
+| vitest for all WXP tests                                     | Lightweight, TypeScript-native, no separate config needed; consistent with existing tsup build                                                                                          | - Pending |
 
 ## Evolution
 
