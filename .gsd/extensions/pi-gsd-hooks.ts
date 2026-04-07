@@ -624,7 +624,11 @@ export default function (pi: ExtensionAPI) {
                 "  → /gsd-complete-milestone   Archive and start next",
             ];
         }
-        const next = pending[0];
+        // Prioritise in-progress > planned > not started
+        const next =
+            pending.find((p) => p.status === "In Progress") ??
+            pending.find((p) => p.status === "Planned") ??
+            pending[0];
         const n = next.number;
         const lines: string[] = [`  ⏳ Phase ${n}: ${cap(next.name)}`];
         if (next.plans === 0) {
@@ -761,7 +765,11 @@ export default function (pi: ExtensionAPI) {
     const nextCommand = (phases: GsdPhase[]): string | null => {
         const pending = phases.filter((p) => p.status !== "Complete");
         if (pending.length === 0) return "/gsd-audit-milestone";
-        const next = pending[0];
+        // Prioritise in-progress > planned > not started
+        const next =
+            pending.find((p) => p.status === "In Progress") ??
+            pending.find((p) => p.status === "Planned") ??
+            pending[0];
         const n = next.number;
         if (next.plans === 0) return `/gsd-discuss-phase ${n}`;
         if (next.summaries < next.plans) return `/gsd-execute-phase ${n}`;

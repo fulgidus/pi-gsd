@@ -9,6 +9,17 @@
   <shell command="pi-gsd-tools">
     <args>
       <arg string="state" />
+      <arg string="reconcile" />
+      <arg string="--raw" />
+    </args>
+    <outs>
+      <suppress-errors />
+      <out type="string" name="reconcile-result" />
+    </outs>
+  </shell>
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="state" />
       <arg string="load" />
       <arg string="--raw" />
     </args>

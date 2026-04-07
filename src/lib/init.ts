@@ -26,6 +26,7 @@ import {
     stripShippedMilestones,
     toPosixPath,
 } from "./core.js";
+import { reconcileState } from "./state.js";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -68,6 +69,9 @@ export function cmdInitExecutePhase(
     raw: boolean,
 ): void {
     if (!phase) gsdError("phase required for init execute-phase");
+    // Reconcile STATE.md with disk truth before execution init.
+    reconcileState(cwd);
+
     const config = loadConfig(cwd);
     let phaseInfo = findPhaseInternal(cwd, phase!);
     const milestone = getMilestoneInfo(cwd);
@@ -221,6 +225,11 @@ export function cmdInitQuick(
 }
 
 export function cmdInitResume(cwd: string, raw: boolean): void {
+    // Reconcile STATE.md with disk truth before gathering resume context.
+    // This ensures the agent sees accurate phase/plan/status fields even if
+    // a prior session ended without updating STATE.md properly.
+    reconcileState(cwd);
+
     const config = loadConfig(cwd);
     const milestone = getMilestoneInfo(cwd);
     const stateExists = fs.existsSync(planningPaths(cwd).state);
@@ -366,6 +375,9 @@ export function cmdInitMapCodebase(cwd: string, raw: boolean): void {
 }
 
 export function cmdInitProgress(cwd: string, raw: boolean): void {
+    // Reconcile STATE.md with disk truth before reporting progress.
+    reconcileState(cwd);
+
     const config = loadConfig(cwd);
     const milestone = getMilestoneInfo(cwd);
     const isDirInMilestone = getMilestonePhaseFilter(cwd);
