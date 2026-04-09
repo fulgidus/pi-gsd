@@ -1,5 +1,75 @@
 <gsd-version v="1.12.4" />
 
+<gsd-arguments>
+  <settings>
+    <keep-extra-args />
+  </settings>
+  <arg name="phase" type="number" />
+</gsd-arguments>
+
+<gsd-execute>
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="init" />
+      <arg string="phase-op" />
+      <arg name="phase" wrap='"' />
+    </args>
+    <outs>
+      <out type="string" name="init" />
+    </outs>
+  </shell>
+  <if>
+    <condition>
+      <starts-with>
+        <left name="init" />
+        <right type="string" value="@file:" />
+      </starts-with>
+    </condition>
+    <then>
+      <string-op op="split">
+        <args>
+          <arg name="init" />
+          <arg type="string" value="@file:" />
+        </args>
+        <outs>
+          <out type="string" name="init-file" />
+        </outs>
+      </string-op>
+      <shell command="cat">
+        <args>
+          <arg name="init-file" wrap='"' />
+        </args>
+        <outs>
+          <out type="string" name="init" />
+        </outs>
+      </shell>
+    </then>
+  </if>
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="state" />
+      <arg string="json" />
+      <arg string="--raw" />
+    </args>
+    <outs>
+      <suppress-errors />
+      <out type="string" name="state" />
+    </outs>
+  </shell>
+</gsd-execute>
+
+## Context (pre-injected by WXP)
+
+**Phase:** <gsd-paste name="phase" />
+
+**Phase Data:**
+<gsd-paste name="init" />
+
+**State:**
+<gsd-paste name="state" />
+
+---
+
 <purpose>
 Surface the agent's assumptions about a phase before planning, enabling users to correct misconceptions early.
 
@@ -9,12 +79,16 @@ Key difference from discuss-phase: This is ANALYSIS of what the agent thinks, no
 <process>
 
 <step name="validate_phase" priority="first">
-Phase number: $ARGUMENTS (required)
+<!-- Phase number, phase data and state are pre-injected above via WXP -->
 
-**If argument missing:**
+Parse `init` JSON for: `phase_found`, `phase_number`, `phase_name`, `phase_slug`, `goal`, `phase_dir`.
+
+**If `phase_found` is false:**
 
 ```
-Error: Phase number required.
+Error: Phase {phase} not found in roadmap.
+
+Available phases: [list from roadmap]
 
 Usage: /gsd-list-phase-assumptions [phase-number]
 Example: /gsd-list-phase-assumptions 3
@@ -22,33 +96,7 @@ Example: /gsd-list-phase-assumptions 3
 
 Exit workflow.
 
-**If argument provided:**
-Validate phase exists in roadmap:
-
-```bash
-cat .planning/ROADMAP.md | grep -i "Phase ${PHASE}"
-```
-
-**If phase not found:**
-
-```
-Error: Phase ${PHASE} not found in roadmap.
-
-Available phases:
-[list phases from roadmap]
-```
-
-Exit workflow.
-
-**If phase found:**
-Parse phase details from roadmap:
-
-- Phase number
-- Phase name
-- Phase description/goal
-- Any scope details mentioned
-
-Continue to analyze_phase.
+**If `phase_found` is true:** Continue to analyze_phase.
 </step>
 
 <step name="analyze_phase">

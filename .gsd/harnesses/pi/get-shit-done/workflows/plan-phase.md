@@ -6,6 +6,10 @@
   </settings>
   <arg name="auto-chain-active" type="flag" flag="--auto" optional />
   <arg name="skip-research" type="flag" flag="--skip-research" optional />
+  <arg name="gaps" type="flag" flag="--gaps" optional />
+  <arg name="skip-verify" type="flag" flag="--skip-verify" optional />
+  <arg name="reviews" type="flag" flag="--reviews" optional />
+  <arg name="text" type="flag" flag="--text" optional />
   <arg name="phase" type="number" />
 </gsd-arguments>
 
