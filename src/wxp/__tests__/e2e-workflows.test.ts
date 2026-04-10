@@ -25,6 +25,8 @@ const VALID_TOP_COMMANDS = new Set([
   "scan-sessions", "profile-sample", "profile-questionnaire",
   "write-profile", "generate-dev-preferences", "generate-claude-profile",
   "generate-claude-md", "generate-model-profiles-md",
+  // added by prompt-audit enhancement (v2.0.22)
+  "phase-plan-index", "verify",
 ]);
 
 function getWorkflowFiles(): string[] {
@@ -166,6 +168,70 @@ describe("Prompt template YAML validation", () => {
           }
         } catch { /* workflow not found, skip */ }
       }
+    }
+  });
+
+  it("all prompts that have a matching workflow file use <gsd-include>", () => {
+    for (const file of files) {
+      const promptName = basename(file, ".md"); // e.g. "gsd-plan-phase"
+      const wfName = promptName.replace(/^gsd-/, "") + ".md"; // e.g. "plan-phase.md"
+      let wfExists = false;
+      try {
+        readFileSync(join(WORKFLOWS_DIR, wfName), "utf8");
+        wfExists = true;
+      } catch { /* no matching workflow */ }
+      if (!wfExists) continue;
+
+      const content = readFileSync(join(PROMPTS_DIR, file), "utf8");
+      expect(
+        content.includes("<gsd-include"),
+        `${file}: has matching workflow ${wfName} but does not use <gsd-include>`,
+      ).toBe(true);
+    }
+  });
+});
+
+// ── WXP pre-injection coverage ───────────────────────────────────────────────
+
+describe("WXP pre-injection coverage", () => {
+  const files = getWorkflowFiles();
+  if (files.length === 0) { it.skip("no workflow files", () => {}); return; }
+
+  // Workflows that are intentionally simple / inline (no pre-injection needed)
+  // Includes internal sub-workflows (called from parent prompts with context already provided)
+  const INTENTIONALLY_SIMPLE = new Set(["fast", "note", "pr-branch", "update", "discovery-phase", "node-repair", "help"]);
+
+  it("workflows with a <process> section have WXP pre-injection (gsd-execute or gsd-arguments)", () => {
+    for (const file of files) {
+      const name = basename(file, ".md");
+      if (INTENTIONALLY_SIMPLE.has(name)) continue;
+      const content = readFileSync(join(WORKFLOWS_DIR, file), "utf8");
+      if (!content.includes("<process>")) continue; // skip non-process workflows
+      const hasWxp = content.includes("<gsd-execute>") || content.includes("<gsd-arguments>");
+      expect(hasWxp, `${file}: has <process> but no WXP pre-injection block`).toBe(true);
+    }
+  });
+});
+
+// ── Declared-flags completeness ───────────────────────────────────────────────
+
+describe("WXP argument schema completeness", () => {
+  const files = getWorkflowFiles();
+  if (files.length === 0) { it.skip("no workflow files", () => {}); return; }
+
+  it("plan-phase.md declares all documented flags", () => {
+    const content = readFileSync(join(WORKFLOWS_DIR, "plan-phase.md"), "utf8");
+    const expectedFlags = ["--auto", "--skip-research", "--gaps", "--skip-verify", "--reviews", "--text"];
+    for (const flag of expectedFlags) {
+      expect(content.includes(`flag="${flag}"`), `plan-phase.md missing flag declaration: ${flag}`).toBe(true);
+    }
+  });
+
+  it("execute-phase.md declares all documented flags", () => {
+    const content = readFileSync(join(WORKFLOWS_DIR, "execute-phase.md"), "utf8");
+    const expectedFlags = ["--auto", "--no-transition", "--gaps-only", "--interactive"];
+    for (const flag of expectedFlags) {
+      expect(content.includes(`flag="${flag}"`), `execute-phase.md missing flag declaration: ${flag}`).toBe(true);
     }
   });
 });

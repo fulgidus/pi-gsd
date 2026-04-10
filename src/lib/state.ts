@@ -7,6 +7,7 @@
 import fs from "fs";
 import path from "path";
 import {
+	comparePhaseNum,
 	escapeRegex,
 	getMilestoneInfo,
 	getMilestonePhaseFilter,
@@ -1177,21 +1178,25 @@ export function cmdSignalResume(cwd: string, raw: boolean): void {
 // ─── State reconciliation ────────────────────────────────────────────────────
 
 /**
- * Reconcile STATE.md with disk truth.
- * Scans all phase directories, counts plans/summaries, marks phases complete
- * when all plans have summaries. Updates progress counters in STATE.md.
- *
- * Called automatically before any state-dependent operation.
+ * Internal reconcile: syncs STATE.md body fields with disk truth.
+ * Returns reconciliation result without producing CLI output.
+ * Safe to call from init functions before they gather context.
  */
-export function cmdStateReconcile(cwd: string, raw: boolean): void {
+export function reconcileState(cwd: string): {
+	reconciled: boolean;
+	changes: string[];
+	phases_complete: number;
+	phases_total: number;
+	plans_complete: number;
+	plans_total: number;
+	percent: number;
+} {
 	const pp = planningPaths(cwd);
 	if (!fs.existsSync(pp.state)) {
-		output({ reconciled: false, reason: "no STATE.md" }, raw, "false");
-		return;
+		return { reconciled: false, changes: [], phases_complete: 0, phases_total: 0, plans_complete: 0, plans_total: 0, percent: 0 };
 	}
 	if (!fs.existsSync(pp.phases)) {
-		output({ reconciled: false, reason: "no phases dir" }, raw, "false");
-		return;
+		return { reconciled: false, changes: [], phases_complete: 0, phases_total: 0, plans_complete: 0, plans_total: 0, percent: 0 };
 	}
 
 	const isDirInMilestone = getMilestonePhaseFilter(cwd);
@@ -1206,10 +1211,9 @@ export function cmdStateReconcile(cwd: string, raw: boolean): void {
 	let totalSummaries = 0;
 	let phasesComplete = 0;
 	const phasesTotal = phaseDirs.length;
-	const reconciled: string[] = [];
+	const changes: string[] = [];
 	const today = new Date().toISOString().split("T")[0];
 
-	// ── Pass 1: scan disk truth for each phase ────────────────────────────────
 	interface PhaseInfo {
 		dir: string;
 		dirPath: string;
@@ -1238,13 +1242,12 @@ export function cmdStateReconcile(cwd: string, raw: boolean): void {
 		phases.push({ dir, dirPath, phaseNum, numVal: parseFloat(phaseNum), plans, summaries, hasContext, complete });
 	}
 
-	// ── Pass 2: detect absorbed phases (0 plans, later phase complete) ─────────
+	// Detect absorbed phases (0 plans, later phase complete)
 	for (const phase of phases) {
 		if (phase.plans > 0 || phase.complete) continue;
 		const laterComplete = phases.some((p) => p.numVal > phase.numVal && p.complete);
 		if (!laterComplete) continue;
 
-		// Auto-create absorbed PLAN + SUMMARY stubs
 		const padded = phase.phaseNum.replace(".", "-");
 		const planFile = path.join(phase.dirPath, `${padded}-01-PLAN.md`);
 		const summaryFile = path.join(phase.dirPath, `${padded}-01-SUMMARY.md`);
@@ -1253,7 +1256,7 @@ export function cmdStateReconcile(cwd: string, raw: boolean): void {
 			fs.writeFileSync(planFile, [
 				"---", `plan: "${padded}-01"`, `phase: "${phase.phaseNum}"`,
 				"status: complete", "absorbed: true", "---", "",
-				`# Plan ${padded}-01 — [ABSORBED]`, "",
+				`# Plan ${padded}-01 \u2014 [ABSORBED]`, "",
 				"Phase absorbed into a later phase. All deliverables completed there.", "",
 			].join("\n"), "utf-8");
 		}
@@ -1261,7 +1264,7 @@ export function cmdStateReconcile(cwd: string, raw: boolean): void {
 			fs.writeFileSync(summaryFile, [
 				"---", `plan: "${padded}-01"`, `phase: "${phase.phaseNum}"`,
 				"status: complete", "absorbed: true", `completed_at: "${today}"`, "---", "",
-				`# Summary ${padded}-01 — Phase ${phase.phaseNum} Absorbed`, "",
+				`# Summary ${padded}-01 \u2014 Phase ${phase.phaseNum} Absorbed`, "",
 				"Phase deliverables completed as part of a later phase execution.", "",
 			].join("\n"), "utf-8");
 		}
@@ -1269,11 +1272,10 @@ export function cmdStateReconcile(cwd: string, raw: boolean): void {
 		totalSummaries++;
 		phasesComplete++;
 		phase.complete = true;
-		reconciled.push(`Phase ${phase.phaseNum}: absorbed (0 plans, later phase complete) — created stubs`);
+		changes.push(`Phase ${phase.phaseNum}: absorbed (0 plans, later phase complete) \u2014 created stubs`);
 	}
 
-	// ── Pass 3: update ROADMAP.md to match disk truth ──────────────────────────
-	// Disk = source of truth. Roadmap = output. We WRITE it, not READ it.
+	// Update ROADMAP.md to match disk truth
 	if (fs.existsSync(pp.roadmap)) {
 		let roadmap = fs.readFileSync(pp.roadmap, "utf-8");
 		let changed = false;
@@ -1282,7 +1284,6 @@ export function cmdStateReconcile(cwd: string, raw: boolean): void {
 			if (!phase.complete) continue;
 			const esc = phase.phaseNum.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-			// Try checkbox: - [ ] ... Phase N ... → - [x] ... Phase N ...
 			const cbRe = new RegExp(`(-\\s*\\[)[ ](\\]\\s*(?:\\*\\*)?\\s*Phase\\s+${esc}[^\\n]*)`, "i");
 			if (cbRe.test(roadmap)) {
 				roadmap = roadmap.replace(cbRe, `$1x$2`);
@@ -1290,7 +1291,6 @@ export function cmdStateReconcile(cwd: string, raw: boolean): void {
 				continue;
 			}
 
-			// Try table row: | N | ... | Pending/Planning/Executing/... | → Complete
 			const tblRe = new RegExp(
 				`(\\|\\s*${esc}\\.?\\s+[^|]*(?:\\|[^|]*)*\\|[^|]*)\\b(?:Pending|In Progress|Planning|Executing|Verifying|Discussed|Researched|Empty)\\b`,
 				"i",
@@ -1303,37 +1303,151 @@ export function cmdStateReconcile(cwd: string, raw: boolean): void {
 
 		if (changed) {
 			fs.writeFileSync(pp.roadmap, roadmap, "utf-8");
-			reconciled.push("ROADMAP.md updated to match disk completion status");
+			changes.push("ROADMAP.md updated to match disk completion status");
 		}
 	}
 
-	// ── Pass 4: update STATE.md progress ────────────────────────────────────────
+	// Update STATE.md progress AND body text fields
 	let stateContent = fs.readFileSync(pp.state, "utf-8");
 	const percent = totalPlans > 0 ? Math.min(100, Math.round((totalSummaries / totalPlans) * 100)) : 0;
 	const filled = Math.round((percent / 100) * 10);
-	const progressStr = `[${"█".repeat(filled)}${"░".repeat(10 - filled)}] ${percent}%`;
+	const progressStr = `${"\u2588".repeat(filled)}${"\u2591".repeat(10 - filled)}] ${percent}%`;
 	const boldPat = /(\*\*Progress:\*\*\s*).*/i;
 	const plainPat = /^(Progress:\s*).*/im;
 	if (boldPat.test(stateContent)) {
-		stateContent = stateContent.replace(boldPat, (_m, p) => `${p}${progressStr}`);
+		stateContent = stateContent.replace(boldPat, (_m, p) => `${p}[${progressStr}`);
 	} else if (plainPat.test(stateContent)) {
-		stateContent = stateContent.replace(plainPat, (_m, p) => `${p}${progressStr}`);
+		stateContent = stateContent.replace(plainPat, (_m, p) => `${p}[${progressStr}`);
 	}
+
+	// Reconcile Current Phase / Status / Plan body fields from disk truth
+	const sortedPhases = [...phases].sort((a, b) => comparePhaseNum(a.phaseNum, b.phaseNum));
+	const firstIncomplete = sortedPhases.find((p) => p.plans > 0 && p.summaries < p.plans);
+	const firstUnplanned = sortedPhases.find((p) => p.plans === 0 && !p.complete);
+	const allComplete = sortedPhases.length > 0 && sortedPhases.every((p) => p.complete);
+
+	let diskCurrentPhase: typeof sortedPhases[0] | null = null;
+	let diskStatus = "";
+	let diskPlan = "";
+
+	if (firstIncomplete) {
+		diskCurrentPhase = firstIncomplete;
+		const nextPlan = firstIncomplete.summaries + 1;
+		diskStatus = `Executing Phase ${firstIncomplete.phaseNum}`;
+		diskPlan = `${nextPlan} of ${firstIncomplete.plans}`;
+	} else if (allComplete) {
+		if (firstUnplanned) {
+			diskCurrentPhase = firstUnplanned;
+			diskStatus = "Ready to plan";
+			diskPlan = "Not started";
+		} else {
+			const last = sortedPhases[sortedPhases.length - 1];
+			diskCurrentPhase = last;
+			diskStatus = "Milestone complete";
+			diskPlan = `${last.plans} of ${last.plans}`;
+		}
+	} else {
+		const nextNeedingWork = sortedPhases.find((p) => !p.complete);
+		if (nextNeedingWork) {
+			diskCurrentPhase = nextNeedingWork;
+			if (nextNeedingWork.plans > 0) {
+				diskStatus = "Ready to execute";
+				diskPlan = `1 of ${nextNeedingWork.plans}`;
+			} else {
+				diskStatus = "Ready to plan";
+				diskPlan = "Not started";
+			}
+		}
+	}
+
+	if (diskCurrentPhase) {
+		const statePhaseRaw = stateExtractField(stateContent, "Current Phase");
+		const stateStatusRaw = stateExtractField(stateContent, "Status");
+
+		const statePhaseNum = statePhaseRaw?.match(/^(\d+(?:\.\d+)?)/)?.[1] ?? null;
+		const diskPhaseNum = diskCurrentPhase.phaseNum;
+
+		const phaseMatches = statePhaseNum === diskPhaseNum;
+		const statusNeedsUpdate = !phaseMatches || (
+			stateStatusRaw &&
+			!stateStatusRaw.toLowerCase().includes(diskStatus.toLowerCase().split(" ")[0])
+		);
+
+		if (!phaseMatches) {
+			const phaseName = diskCurrentPhase.dir.replace(/^\d+(?:\.\d+)?-?/, "").replace(/-/g, " ");
+			const phaseDisplay = phasesTotal > 0
+				? `${diskPhaseNum} of ${phasesTotal}${phaseName ? ` (${phaseName})` : ""}`
+				: diskPhaseNum;
+
+			stateContent = stateReplaceFieldWithFallback(stateContent, "Current Phase", "Phase", phaseDisplay);
+			if (phaseName) {
+				stateContent = stateReplaceFieldWithFallback(stateContent, "Current Phase Name", null, phaseName);
+			}
+			changes.push(`Current Phase: ${statePhaseNum ?? "(unset)"} \u2192 ${diskPhaseNum}`);
+		}
+
+		if (statusNeedsUpdate) {
+			stateContent = stateReplaceFieldWithFallback(stateContent, "Status", null, diskStatus);
+			changes.push(`Status: ${stateStatusRaw ?? "(unset)"} \u2192 ${diskStatus}`);
+		}
+
+		const statePlanRaw = stateExtractField(stateContent, "Current Plan") ?? stateExtractField(stateContent, "Plan");
+		if (statePlanRaw !== diskPlan) {
+			stateContent = stateReplaceFieldWithFallback(stateContent, "Current Plan", "Plan", diskPlan);
+			changes.push(`Plan: ${statePlanRaw ?? "(unset)"} \u2192 ${diskPlan}`);
+		}
+
+		const stateTotalPhases = stateExtractField(stateContent, "Total Phases");
+		if (stateTotalPhases && parseInt(stateTotalPhases, 10) !== phasesTotal) {
+			stateContent = stateReplaceField(stateContent, "Total Phases", String(phasesTotal)) ?? stateContent;
+			changes.push(`Total Phases: ${stateTotalPhases} \u2192 ${phasesTotal}`);
+		}
+
+		stateContent = updateCurrentPositionFields(stateContent, {
+			status: diskStatus,
+			plan: diskPlan,
+		});
+	}
+
 	writeStateMd(pp.state, stateContent, cwd);
 
+	return {
+		reconciled: true,
+		changes,
+		phases_complete: phasesComplete,
+		phases_total: phasesTotal,
+		plans_complete: totalSummaries,
+		plans_total: totalPlans,
+		percent,
+	};
+}
+
+/**
+ * Reconcile STATE.md with disk truth.
+ * Scans all phase directories, counts plans/summaries, marks phases complete
+ * when all plans have summaries. Updates progress counters in STATE.md.
+ * Also reconciles body text fields (Current Phase, Status, Plan) from disk.
+ *
+ * Now delegates to reconcileState() for the actual work.
+ */
+export function cmdStateReconcile(cwd: string, raw: boolean): void {
+	const pp = planningPaths(cwd);
+	if (!fs.existsSync(pp.state)) {
+		output({ reconciled: false, reason: "no STATE.md" }, raw, "false");
+		return;
+	}
+	if (!fs.existsSync(pp.phases)) {
+		output({ reconciled: false, reason: "no phases dir" }, raw, "false");
+		return;
+	}
+
+	const result = reconcileState(cwd);
+
 	output(
-		{
-			reconciled: true,
-			changes: reconciled,
-			phases_complete: phasesComplete,
-			phases_total: phasesTotal,
-			plans_complete: totalSummaries,
-			plans_total: totalPlans,
-			percent,
-		},
+		result,
 		raw,
-		reconciled.length > 0
-			? `Reconciled: ${reconciled.join("; ")}`
-			: `State consistent (${phasesComplete}/${phasesTotal} phases, ${totalSummaries}/${totalPlans} plans)`,
+		result.changes.length > 0
+			? `Reconciled: ${result.changes.join("; ")}`
+			: `State consistent (${result.phases_complete}/${result.phases_total} phases, ${result.plans_complete}/${result.plans_total} plans)`,
 	);
 }

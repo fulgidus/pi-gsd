@@ -1,5 +1,52 @@
 <gsd-version v="1.12.4" />
 
+<gsd-execute>
+  <display msg="Loading session context..." />
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="state" />
+      <arg string="json" />
+      <arg string="--raw" />
+    </args>
+    <outs>
+      <suppress-errors />
+      <out type="string" name="state" />
+    </outs>
+  </shell>
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="current-timestamp" />
+      <arg string="--raw" />
+    </args>
+    <outs>
+      <out type="string" name="timestamp" />
+    </outs>
+  </shell>
+  <shell command="pi-gsd-tools">
+    <args>
+      <arg string="roadmap" />
+      <arg string="analyze" />
+      <arg string="--raw" />
+    </args>
+    <outs>
+      <suppress-errors />
+      <out type="string" name="roadmap" />
+    </outs>
+  </shell>
+</gsd-execute>
+
+## Session Context (pre-injected by WXP)
+
+**Generated:** <gsd-paste name="timestamp" />
+
+**State:**
+<gsd-paste name="state" />
+
+**Roadmap:**
+<gsd-paste name="roadmap" />
+
+---
+
 <purpose>
 Generate a post-session summary document capturing work performed, outcomes achieved, and estimated resource usage. Writes SESSION_REPORT.md to .planning/reports/ for human review and stakeholder sharing.
 </purpose>
