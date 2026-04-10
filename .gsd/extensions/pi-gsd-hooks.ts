@@ -164,9 +164,9 @@ export default function (pi: ExtensionAPI) {
             }
         }
         if (raw === null) {
-            errors.push("File not found: " + filePath);
-            
-            return null;
+            // Return an inline error marker so the LLM can respond and explain,
+            // instead of silently blocking the whole turn.
+            return `\n> ⚠️ **GSD include error:** workflow \`${filePath}\` not found.\n> Run \`/gsd-health\` to diagnose, or reinstall with \`npm install pi-gsd\`.\n`;
         }
 
         // ── Apply selector ─────────────────────────────────────────
@@ -290,7 +290,8 @@ export default function (pi: ExtensionAPI) {
 
         if (errors.length > 0) {
             ctx.ui.notify("\u274c GSD include failed:\n" + errors.map((e) => "  \u2022 " + e).join("\n"), "error");
-            return { messages: [] }; // block LLM call
+            // Fall through with whatever was resolved — broken tags replaced by
+            // inline error text above, so the LLM can respond and explain.
         }
 
         // ── WXP post-processing: run after <gsd-include> resolution (WXP-14) ──
@@ -339,6 +340,22 @@ export default function (pi: ExtensionAPI) {
             shellTimeoutMs: projectSettings.shellTimeoutMs ?? globalSettings.shellTimeoutMs ?? 30_000,
         };
 
+        // Snapshot message content before WXP mutations — used to restore on error
+        // so the LLM still receives something instead of an empty messages array.
+        const preWxpSnapshots = new Map<number, string | Array<{type:string;text?:string}>>();
+        for (let msgIdx = 0; msgIdx < messages.length; msgIdx++) {
+            const msg = messages[msgIdx];
+            if (msg.role !== "user") continue;
+            if (typeof msg.content === "string" && msg.content.includes("<gsd-")) {
+                preWxpSnapshots.set(msgIdx, msg.content);
+            } else if (Array.isArray(msg.content)) {
+                const blocks = msg.content as Array<{type:string;text?:string}>;
+                if (blocks.some(b => b.type === "text" && b.text?.includes("<gsd-"))) {
+                    preWxpSnapshots.set(msgIdx, blocks.map(b => ({ ...b })));
+                }
+            }
+        }
+
         try {
             for (let msgIdx = 0; msgIdx < messages.length; msgIdx++) {
                 const msg = messages[msgIdx];
@@ -360,11 +377,28 @@ export default function (pi: ExtensionAPI) {
         } catch (wxpErr) {
             if (wxpErr instanceof WxpProcessingError) {
                 ctx.ui.notify(wxpErr.message, "error");
-                return { messages: [] }; // WXP-09: no partial content reaches LLM
+                // Restore pre-WXP snapshots so the LLM still gets the original
+                // message content and can respond (e.g. explain the error).
+                // WXP tags are stripped to avoid confusing the model.
+                for (let msgIdx = 0; msgIdx < messages.length; msgIdx++) {
+                    const snap = preWxpSnapshots.get(msgIdx);
+                    if (snap === undefined) continue;
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    const msg = messages[msgIdx] as any;
+                    if (typeof msg.content === "string") {
+                        msg.content = snap as string;
+                    } else if (Array.isArray(msg.content)) {
+                        const snapArr = snap as Array<{type:string;text?:string}>;
+                        const blocks = msg.content as Array<{type:string;text?:string}>;
+                        for (let bi = 0; bi < blocks.length; bi++) {
+                            const b = blocks[bi];
+                            const sb = snapArr[bi];
+                            if (b.type === "text" && sb?.text !== undefined) b.text = sb.text;
+                        }
+                    }
+                }
             }
-            // Non-WXP error: log but don't block
-            const errMsg = wxpErr instanceof Error ? wxpErr.message : String(wxpErr);
-            ctx.ui.notify(`GSD WXP: unexpected context error: ${errMsg}`, "info");
+            // Non-WXP error: already logged above, fall through
         }
 
         return { messages };

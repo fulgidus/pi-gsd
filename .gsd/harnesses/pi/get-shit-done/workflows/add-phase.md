@@ -1,4 +1,4 @@
-<gsd-version v="1.12.4" />
+<gsd-version v="1.12.5" />
 
 <gsd-arguments>
   <settings>
@@ -47,121 +47,89 @@
   </if>
   <shell command="pi-gsd-tools">
     <args>
-      <arg string="state" />
-      <arg string="json" />
-      <arg string="--raw" />
+      <arg string="phase" />
+      <arg string="add-batch" />
+      <arg name="description" wrap='"' />
     </args>
     <outs>
-      <out type="string" name="state" />
+      <out type="string" name="batch-result" />
     </outs>
   </shell>
 </gsd-execute>
 
 ## Context (pre-injected by WXP)
 
-**Description:** <gsd-paste name="description" />
+**Init:**
+<gsd-paste name="init" />
 
-**Project State:**
-<gsd-paste name="state" />
+**Phases added:**
+<gsd-paste name="batch-result" />
 
 <process>
 
 <step name="parse_arguments">
-Parse the command arguments:
-- All arguments become the phase description
-- Example: `/gsd-add-phase Add authentication` → description = "Add authentication"
-- Example: `/gsd-add-phase Fix critical performance issues` → description = "Fix critical performance issues"
-
-If no arguments provided:
+If no description was provided (check `<gsd-paste name="description" />` is empty):
 
 ```
 ERROR: Phase description required
 Usage: /gsd-add-phase <description>
+       /gsd-add-phase <desc1> + <desc2> + ...
 Example: /gsd-add-phase Add authentication system
 ```
 
 Exit.
 </step>
 
-<step name="init_context">
-Load phase operation context:
+<step name="check_result">
+The `batch-result` JSON above was already executed by WXP before this message
+reached you. Parse it:
 
-<!-- Context pre-injected above via WXP - variables available via <gsd-paste name="..."> -->
+- If it contains an error field → report the error and exit.
+- Otherwise extract `phases[]` — each has `phase_number`, `padded`, `name`,
+  `slug`, `directory`.
 
-Check `roadmap_exists` from init JSON. If false:
-```
-ERROR: No roadmap found (.planning/ROADMAP.md)
-Run /gsd-new-project to initialize.
-```
-Exit.
-</step>
-
-<step name="add_phase">
-**Delegate the phase addition to gsd-tools:**
-
-```bash
-RESULT=$(pi-gsd-tools phase add "${description}")
-```
-
-The CLI handles:
-- Finding the highest existing integer phase number
-- Calculating next phase number (max + 1)
-- Generating slug from description
-- Creating the phase directory (`.planning/phases/{NN}-{slug}/`)
-- Inserting the phase entry into ROADMAP.md with Goal, Depends on, and Plans sections
-
-Extract from result: `phase_number`, `padded`, `name`, `slug`, `directory`.
-</step>
-
-<step name="update_project_state">
-Update STATE.md to reflect the new phase:
-
-1. Read `.planning/STATE.md`
-2. Under "## Accumulated Context" → "### Roadmap Evolution" add entry:
-   ```
-   - Phase {N} added: {description}
-   ```
-
-If "Roadmap Evolution" section doesn't exist, create it.
+Do NOT run `pi-gsd-tools phase add` again, do NOT inspect `.planning/phases/`
+or ROADMAP.md — everything is already done.
 </step>
 
 <step name="completion">
-Present completion summary:
+Present a completion summary:
 
 ```
-Phase {N} added to current milestone:
-- Description: {description}
-- Directory: .planning/phases/{phase-num}-{slug}/
-- Status: Not planned yet
+Added <count> phase(s):
+
+<for each phase in phases[]>
+• Phase <phase_number>: <name>
+  Directory: <directory>
+</for>
 
 Roadmap updated: .planning/ROADMAP.md
+State updated:   .planning/STATE.md
 
 ---
 
 ## ▶ Next Up
 
-**Phase {N}: {description}**
+**Phase <last phase_number>: <last name>**
 
-`/gsd-plan-phase {N}`
+`/gsd-plan-phase <last phase_number>`
 
-<sub>`/new` first → fresh context window</sub>
+<sub>`/clear` first → fresh context window</sub>
 
 ---
 
 **Also available:**
-- `/gsd-add-phase <description>` - add another phase
-- Review roadmap
-
----
+- `/gsd-add-phase <description>` — add another phase
+- `/gsd-plan-phase <N>` — plan any of the new phases
 ```
 </step>
 
 </process>
 
 <success_criteria>
-- [ ] `gsd-tools phase add` executed successfully
-- [ ] Phase directory created
-- [ ] Roadmap updated with new phase entry
-- [ ] STATE.md updated with roadmap evolution note
-- [ ] User informed of next steps
+- [ ] `pi-gsd-tools phase add-batch` executed by WXP (not by the agent)
+- [ ] Phase directories created under `.planning/phases/`
+- [ ] ROADMAP.md updated with all new phase entries
+- [ ] STATE.md Roadmap Evolution updated (handled inside add-batch)
+- [ ] Agent presented the pre-injected result — no filesystem exploration
 </success_criteria>

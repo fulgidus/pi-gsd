@@ -31,6 +31,21 @@ export class PhaseAddCommand extends BaseCommand {
   }
 }
 
+export class PhaseAddBatchCommand extends BaseCommand {
+  static override description =
+    "Add one or more phases from a description string. Multiple phases may be separated by ' + '.";
+  static override strict = false;
+  static override flags = { ...BaseCommand.baseFlags };
+
+  async run() {
+    const { flags, argv } = await this.parse(PhaseAddBatchCommand);
+    const { cwd, raw } = this.resolveContext(flags);
+    const phase = await import("../lib/phase.js");
+    const desc = (argv as string[]).join(" ");
+    phase.cmdPhaseAddBatch(cwd, desc, raw);
+  }
+}
+
 export class PhaseInsertCommand extends BaseCommand {
   static override description = "Insert a phase at position";
   static override args = {

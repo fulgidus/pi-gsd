@@ -41,6 +41,7 @@ import {
 	stateReplaceField,
 	stateReplaceFieldWithFallback,
 	writeStateMd,
+	cmdStateNote,
 } from "./state.js";
 
 // ─── cmdPhasesList ────────────────────────────────────────────────────────────
@@ -339,21 +340,33 @@ export function cmdPhasePlanIndex(
 	);
 }
 
-// ─── cmdPhaseAdd ─────────────────────────────────────────────────────────────
+// ─── cmdPhaseAdd / cmdPhaseAddBatch ──────────────────────────────────────────
 
-export function cmdPhaseAdd(
+interface PhaseAddResult {
+	phase_number: number | string;
+	padded: string;
+	name: string;
+	slug: string | null;
+	directory: string;
+	naming_mode: string;
+}
+
+/**
+ * Core phase-creation logic shared by cmdPhaseAdd and cmdPhaseAddBatch.
+ * Mutates disk (creates directory, updates ROADMAP.md) and returns structured
+ * result data — callers are responsible for output / state notes.
+ */
+function addPhaseCore(
 	cwd: string,
-	description: string | undefined,
-	raw: boolean,
+	description: string,
 	customId?: string | null,
-): void {
-	if (!description) gsdError("description required for phase add");
+): PhaseAddResult {
 	const config = loadConfig(cwd);
 	const roadmapPath = path.join(planningDir(cwd), "ROADMAP.md");
 	if (!fs.existsSync(roadmapPath)) gsdError("ROADMAP.md not found");
 	const rawContent = fs.readFileSync(roadmapPath, "utf-8");
 	const content = extractCurrentMilestone(rawContent, cwd);
-	const slug = generateSlugInternal(description!);
+	const slug = generateSlugInternal(description);
 	let newPhaseId: string | number, dirName: string;
 	if (customId || config.phase_naming === "custom") {
 		newPhaseId = customId || slug!.toUpperCase().replace(/-/g, "-");
@@ -387,26 +400,56 @@ export function cmdPhaseAdd(
 				rawContent.slice(lastSeparator)
 			: rawContent + phaseEntry;
 	fs.writeFileSync(roadmapPath, updatedContent, "utf-8");
-	output(
-		{
-			phase_number:
-				typeof newPhaseId === "number" ? newPhaseId : String(newPhaseId),
-			padded:
-				typeof newPhaseId === "number"
-					? String(newPhaseId).padStart(2, "0")
-					: String(newPhaseId),
-			name: description,
-			slug,
-			directory: toPosixPath(
-				path.join(path.relative(cwd, planningDir(cwd)), "phases", dirName),
-			),
-			naming_mode: config.phase_naming,
-		},
-		raw,
-		typeof newPhaseId === "number"
-			? String(newPhaseId).padStart(2, "0")
-			: String(newPhaseId),
-	);
+	return {
+		phase_number: typeof newPhaseId === "number" ? newPhaseId : String(newPhaseId),
+		padded:
+			typeof newPhaseId === "number"
+				? String(newPhaseId).padStart(2, "0")
+				: String(newPhaseId),
+		name: description,
+		slug,
+		directory: toPosixPath(
+			path.join(path.relative(cwd, planningDir(cwd)), "phases", dirName),
+		),
+		naming_mode: config.phase_naming,
+	};
+}
+
+export function cmdPhaseAdd(
+	cwd: string,
+	description: string | undefined,
+	raw: boolean,
+	customId?: string | null,
+): void {
+	if (!description) gsdError("description required for phase add");
+	const result = addPhaseCore(cwd, description!, customId);
+	output(result, raw, result.padded);
+}
+
+/**
+ * Add one or more phases from a single description string.
+ * Multiple phases may be separated by ` + ` (space-plus-space).
+ * Also appends a Roadmap Evolution note to STATE.md for each phase.
+ * Returns { phases: PhaseAddResult[], count: number }.
+ */
+export function cmdPhaseAddBatch(
+	cwd: string,
+	description: string | undefined,
+	raw: boolean,
+): void {
+	if (!description?.trim()) gsdError("description required for phase add-batch");
+	const descriptions = description!
+		.split(/ \+ /)
+		.map((d) => d.trim())
+		.filter(Boolean);
+	const phases: PhaseAddResult[] = [];
+	for (const desc of descriptions) {
+		const result = addPhaseCore(cwd, desc);
+		// Best-effort STATE.md note — ignore errors so batch continues
+		try { cmdStateNote(cwd, `Phase ${result.phase_number} added: ${desc}`, false); } catch { /* ignore */ }
+		phases.push(result);
+	}
+	output({ phases, count: phases.length }, raw);
 }
 
 // ─── cmdPhaseInsert ───────────────────────────────────────────────────────────

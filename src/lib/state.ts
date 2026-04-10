@@ -792,6 +792,63 @@ export function cmdStateAddDecision(
 	}
 }
 
+// ─── cmdStateNote ─────────────────────────────────────────────────────────────
+
+/**
+ * Append a bullet note to the "### Roadmap Evolution" section of STATE.md.
+ * Creates the section (and "## Accumulated Context" parent) if absent.
+ */
+export function cmdStateNote(
+	cwd: string,
+	note: string | undefined,
+	raw: boolean,
+): void {
+	if (!note?.trim()) gsdError("note text required");
+	const statePath = planningPaths(cwd).state;
+	if (!fs.existsSync(statePath)) {
+		output({ updated: false, reason: "STATE.md not found" }, raw, "false");
+		return;
+	}
+	let content = fs.readFileSync(statePath, "utf-8");
+	const bullet = `- ${note!.trim()}`;
+
+	// ── Try to append inside existing ### Roadmap Evolution section ─────────
+	const sectionRe =
+		/(###\s*Roadmap Evolution\s*\n)([\s\S]*?)(?=\n###|\n##[^#]|$)/i;
+	const secMatch = content.match(sectionRe);
+	if (secMatch) {
+		const body = (secMatch[2] ?? "").trimEnd();
+		content = content.replace(
+			sectionRe,
+			(_m, header) => `${header}${body ? body + "\n" : ""}${bullet}\n`,
+		);
+		writeStateMd(statePath, content, cwd);
+		output({ updated: true, note: bullet }, raw, "true");
+		return;
+	}
+
+	// ── Insert section under ## Accumulated Context ──────────────────────
+	const accRe = /(##\s*Accumulated Context\s*\n)/i;
+	const accMatch = content.match(accRe);
+	if (accMatch) {
+		const insertPos = accMatch.index! + accMatch[0].length;
+		content =
+			content.slice(0, insertPos) +
+			`\n### Roadmap Evolution\n${bullet}\n` +
+			content.slice(insertPos);
+		writeStateMd(statePath, content, cwd);
+		output({ updated: true, note: bullet }, raw, "true");
+		return;
+	}
+
+	// ── Fallback: append both sections at the end ──────────────────────────
+	content =
+		content.trimEnd() +
+		`\n\n## Accumulated Context\n\n### Roadmap Evolution\n${bullet}\n`;
+	writeStateMd(statePath, content, cwd);
+	output({ updated: true, note: bullet }, raw, "true");
+}
+
 export function cmdStateAddBlocker(
 	cwd: string,
 	options: { text?: string | null; text_file?: string | null } | string,

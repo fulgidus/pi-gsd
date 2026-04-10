@@ -43,6 +43,7 @@ async function buildCommandMap(): Promise<Record<string, CommandConstructor>> {
     ConfigEnsureSectionCommand,
     PhaseNextDecimalCommand,
     PhaseAddCommand,
+    PhaseAddBatchCommand,
     PhaseInsertCommand,
     PhaseRemoveCommand,
     PhaseCompleteCommand,
@@ -101,6 +102,7 @@ async function buildCommandMap(): Promise<Record<string, CommandConstructor>> {
     // phase
     "phase next-decimal": PhaseNextDecimalCommand as unknown as CommandConstructor,
     "phase add": PhaseAddCommand as unknown as CommandConstructor,
+    "phase add-batch": PhaseAddBatchCommand as unknown as CommandConstructor,
     "phase insert": PhaseInsertCommand as unknown as CommandConstructor,
     "phase remove": PhaseRemoveCommand as unknown as CommandConstructor,
     "phase complete": PhaseCompleteCommand as unknown as CommandConstructor,
