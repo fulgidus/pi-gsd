@@ -23,33 +23,38 @@ Individual commands:
 - `npm run typecheck` - Type-check TypeScript (no emit)
 - `npm run build` - Bundle `src/cli.ts` → `dist/pi-gsd-tools.js` (minified CJS)
 - `npm run dev` - Watch mode build
-- `npm run build:harnesses` - Assemble `.gsd/harnesses/` for publish
 - `node scripts/validate-model-profiles.cjs` - Confirm model-profiles.md ↔ .cjs sync
-- 
 
 ## Conventions
 
-- **CJS modules** in `.gsd/bin/pi/lib/` are the canonical source - never edit assembled output directly
-- **Hook files** in `.gsd/hooks/` are the canonical source for the pi extension
-- **Hook files are hardlinked** - `.gsd/hooks/`, `.agent/hooks/`, `.claude/hooks/`, `.gemini/hooks/`, `.opencode/hooks/` share a single inode. Editing one edits all. Never copy them.
-- **Command prefix rule** - `/gsd-<name>` (colon) is a Claude/Gemini internal dispatch mechanism only. Use `/gsd-<name>` (hyphen) everywhere else - in artefacts, error messages, ROADMAP entries.
-- **Published files** - only `skills/`, `dist/`, `scripts/postinstall.js` ship. Do not add harness runtime dirs to `package.json` `files` field.
+- **`gsd/` is the canonical source** - edit workflows, agents, references, templates, prompts, and hooks there. Never edit `.pi/gsd/` (consumer output).
+- **Hook files** in `gsd/hooks/` are the canonical source. They are hardlinked with `.agent/hooks/`, `.claude/hooks/`, `.gemini/hooks/`, `.opencode/hooks/`. Editing one edits all. Never copy them.
+- **Command prefix rule** - `/gsd-<name>` (hyphen) everywhere. Colon is a Claude/Gemini internal dispatch mechanism only.
+- **Published files** - `dist/`, `gsd/`, `scripts/postinstall.js` ship. Nothing else.
 - **Never touch** - `*.lock`, `.env*`, `.git/hooks/*`
 - **After ANY change to `model-profiles.cjs`** - run `validate-model-profiles.cjs` and stage updated markdown files
+- **`.pi/gsd/` is gitignored** - populated by `npm install .` (or `pi install npm:pi-gsd` for consumers)
 
 ## Directory Structure
 
 ```
 src/
-├── cli.ts              # CLI entry point (~9k lines, lazy-loaded command router)
-├── output.ts           # --output toon / --pick JSONPath formatting
+├── cli.ts              # CLI entry point (lazy-loaded command router)
+├── pi-gsd-hooks.ts     # Pi extension source (built → dist/pi-gsd-hooks.js)
+├── output.ts           # --output / --pick JSONPath formatting
 └── lib/                # All domain modules (state, roadmap, phase, verify, ...)
-skills/                 # 57 GSD skill definitions - published to npm
-scripts/                # Build pipeline + cross-harness audit/validation tooling
-.gsd/                   # Canonical hook source + per-harness CJS binary copies
-  ├── hooks/            # Hardlink anchor for all 5 hook files
-  └── bin/<harness>/    # Per-harness lib overrides (core.cjs, profile-output.cjs)
+gsd/                    # Single canonical source for all harness content (shipped)
+├── workflows/          # WXP workflow files
+├── agents/             # Subagent prompt definitions
+├── references/         # Reference docs (model profiles, UI brand, etc.)
+├── templates/          # File templates (PLAN, SUMMARY, STATE, etc.)
+├── prompts/            # Pi slash-command entry points (served from package)
+├── hooks/              # Hook scripts installed to consumer .pi/hooks/
+└── VERSION             # Harness version tag
+skills/                 # GSD skill definitions - published to npm
+scripts/                # Build pipeline + validation tooling
 dist/                   # Build output (gitignored)
+.pi/gsd/                # Gitignored - populated by npm install
 ```
 
 ## Testing
@@ -57,12 +62,10 @@ dist/                   # Build output (gitignored)
 No automated test suite. Validation is done via:
 
 1. `npm run typecheck` - compile-time correctness
-2. 
-3. `node scripts/validate-model-profiles.cjs` - model profile sync
+2. `node scripts/validate-model-profiles.cjs` - model profile sync
 
 ## Key Files
 
 - `TODO.md` - confirmed improvement backlog
-- `HARNESS_DIFF.md` - cross-harness diff analysis
-- `HOOKS_ARCHITECTURE.md` - hardlink model and hook install pipeline
+- `HOOKS_ARCHITECTURE.md` - hook install pipeline
 - `COMMAND_PREFIX_MAP.md` - complete command inventory

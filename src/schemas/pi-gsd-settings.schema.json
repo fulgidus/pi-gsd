@@ -35,7 +35,7 @@
                 },
                 {
                     "position": "pkg",
-                    "path": ".gsd/harnesses/pi/get-shit-done"
+                    "path": "gsd"
                 },
                 {
                     "position": "absolute",

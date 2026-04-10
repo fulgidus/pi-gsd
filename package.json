@@ -20,12 +20,11 @@
 		"lint": "eslint src/ --ext .ts"
 	},
 	"files": [
+		"gsd",
 		"dist",
 		"scripts/postinstall.js",
-		".gsd/harnesses",
 		"README.md",
-		"LICENSE",
-		"prompts"
+		"LICENSE"
 	],
 	"engines": {
 		"node": ">=18.0.0"
@@ -64,7 +63,7 @@
 			"./dist/pi-gsd-hooks.js"
 		],
 		"prompts": [
-			"./prompts"
+			"./gsd/prompts"
 		]
 	},
 	"dependencies": {

@@ -13,7 +13,7 @@ export default defineConfig([
     },
     // Pi extension - WXP engine bundled inline, footer hoists default export
     {
-        entry: { "pi-gsd-hooks": ".gsd/extensions/pi-gsd-hooks.ts" },
+        entry: { "pi-gsd-hooks": "src/pi-gsd-hooks.ts" },
         format: ["cjs"],
         outDir: "dist",
         splitting: false,

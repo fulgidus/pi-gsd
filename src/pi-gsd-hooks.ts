@@ -29,9 +29,9 @@ import {
 import { homedir } from "node:os";
 import { dirname, join, relative } from "node:path";
 import type { ContextUsage, ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { processWxpTrustedContent, WxpProcessingError, readWorkflowVersionTag } from "../../src/wxp/index.js";
-import { DEFAULT_SHELL_ALLOWLIST } from "../../src/wxp/security.js";
-import type { WxpSecurityConfig } from "../../src/schemas/wxp.zod.js";
+import { processWxpTrustedContent, WxpProcessingError, readWorkflowVersionTag } from "./wxp/index.js";
+import { DEFAULT_SHELL_ALLOWLIST } from "./wxp/security.js";
+import type { WxpSecurityConfig } from "./schemas/wxp.zod.js";
 
 /**
  * Ensures .pi/gsd/ in the project is a symlink to the harness files
@@ -240,7 +240,7 @@ export default function (pi: ExtensionAPI) {
         // Package harness fallback path
         const extFile = typeof __filename !== "undefined" ? __filename : "";
         const pkgHarness = extFile
-            ? join(dirname(extFile), "..", ".gsd", "harnesses", "pi", "get-shit-done")
+            ? join(dirname(extFile), "..", "gsd")
             : "";
 
         const errors: string[] = [];
@@ -325,7 +325,7 @@ export default function (pi: ExtensionAPI) {
             trustedPaths: [
                 ...(globalSettings.trustedPaths ?? []),
                 ...(projectSettings.trustedPaths ?? []),
-                { position: "pkg", path: ".gsd/harnesses/pi/get-shit-done" },
+                { position: "pkg", path: "gsd" },
                 { position: "project", path: ".pi/gsd" },
             ],
             untrustedPaths: [
@@ -410,7 +410,7 @@ export default function (pi: ExtensionAPI) {
         try {
             const extFile = typeof __filename !== "undefined" ? __filename : "";
             const pkgRoot = join(dirname(extFile), "..");
-            const pkgHarness = join(pkgRoot, ".gsd", "harnesses", "pi", "get-shit-done");
+            const pkgHarness = join(pkgRoot, "gsd");
             const projectHarness = join(ctx.cwd, ".pi", "gsd");
             if (existsSync(pkgHarness)) {
                 const { symlinksReplaced } = copyHarness(pkgHarness, projectHarness);

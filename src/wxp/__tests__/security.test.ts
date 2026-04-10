@@ -7,7 +7,7 @@ const PKG_ROOT = "/pkg";
 
 const cfg: WxpSecurityConfig = {
   trustedPaths: [
-    { position: "pkg", path: ".gsd/harnesses/pi/get-shit-done" },
+    { position: "pkg", path: "gsd" },
     { position: "project", path: ".pi/gsd" },
   ],
   untrustedPaths: [],
@@ -19,7 +19,7 @@ const cfg: WxpSecurityConfig = {
 describe("checkTrustedPath", () => {
   it("returns ok=true for file inside pkg harness", () => {
     const result = checkTrustedPath(
-      "/pkg/.gsd/harnesses/pi/get-shit-done/workflows/execute-phase.md",
+      "/pkg/gsd/workflows/execute-phase.md",
       cfg, PROJECT_ROOT, PKG_ROOT,
     );
     expect(result.ok).toBe(true);

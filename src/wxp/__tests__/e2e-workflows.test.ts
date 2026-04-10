@@ -3,7 +3,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join, basename } from "node:path";
 import { extractWxpTags } from "../parser.js";
 
-const WORKFLOWS_DIR = join(__dirname, "..", "..", "..", ".gsd", "harnesses", "pi", "get-shit-done", "workflows");
+const WORKFLOWS_DIR = join(__dirname, "..", "..", "..", "gsd", "workflows");
 const PROMPTS_DIR = join(__dirname, "..", "..", "..", "prompts");
 
 const VALID_INIT_WORKFLOWS = new Set([

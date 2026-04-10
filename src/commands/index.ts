@@ -29,6 +29,7 @@ export {
 export {
   PhaseNextDecimalCommand,
   PhaseAddCommand,
+  PhaseAddBatchCommand,
   PhaseInsertCommand,
   PhaseRemoveCommand,
   PhaseCompleteCommand,

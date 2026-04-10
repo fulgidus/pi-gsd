@@ -37,7 +37,7 @@ export class WxpProcessCommand extends Command {
     const config = {
       trustedPaths: [
         { position: "project" as const, path: ".pi/gsd" },
-        { position: "pkg" as const, path: ".gsd/harnesses/pi/get-shit-done" },
+        { position: "pkg" as const, path: "gsd" },
       ],
       untrustedPaths: [],
       shellAllowlist: [...DEFAULT_SHELL_ALLOWLIST],

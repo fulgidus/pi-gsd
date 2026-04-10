@@ -109,7 +109,7 @@ describe("WxpSecurityConfigSchema", () => {
   it("parses with structured trustedPaths", () => {
     const cfg = WxpSecurityConfigSchema.parse({
       trustedPaths: [
-        { position: "pkg", path: ".gsd/harnesses/pi/get-shit-done" },
+        { position: "pkg", path: "gsd" },
         { position: "project", path: ".pi/gsd" },
       ],
       shellAllowlist: ["pi-gsd-tools", "git"],
