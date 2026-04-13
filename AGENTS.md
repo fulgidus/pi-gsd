@@ -49,7 +49,7 @@ gsd/                    # Single canonical source for all harness content (shipp
 ├── references/         # Reference docs (model profiles, UI brand, etc.)
 ├── templates/          # File templates (PLAN, SUMMARY, STATE, etc.)
 ├── prompts/            # Pi slash-command entry points (served from package)
-├── hooks/              # Hook scripts installed to consumer .pi/hooks/
+├── hooks/              # Hook scripts installed to consumer .pi/gsd/hooks/
 └── VERSION             # Harness version tag
 skills/                 # GSD skill definitions - published to npm
 scripts/                # Build pipeline + validation tooling

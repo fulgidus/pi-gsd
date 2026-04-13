@@ -4,7 +4,7 @@
  *
  * Runs automatically after `npm install pi-gsd` (or `pi install npm:pi-gsd`).
  * Copies runtime harness content from this package's `gsd/` into the consumer
- * project's `.pi/gsd/`, and hook scripts into `.pi/hooks/`.
+ * project's `.pi/gsd/`, and hook scripts into `.pi/gsd/hooks/`.
  *
  * Version detection: each installed .md file carries a `<gsd-version v="X.Y.Z" />`
  * tag stamped with the npm package version that wrote it. On reinstall we read
@@ -14,7 +14,7 @@
  *
  * Excluded from the `.pi/gsd/` copy:
  *   gsd/prompts/  → served from npm package via pi.prompts (not installed locally)
- *   gsd/hooks/    → copied to .pi/hooks/ instead
+ *   gsd/hooks/    → copied to .pi/gsd/hooks/ instead
  */
 
 "use strict";
@@ -131,7 +131,7 @@ function main() {
     const gsdSrc    = path.join(PKG_DIR, "gsd");
     const gsdDest   = path.join(PROJECT_ROOT, ".pi", "gsd");
     const hooksSrc  = path.join(gsdSrc, "hooks");
-    const hooksDest = path.join(PROJECT_ROOT, ".pi", "hooks");
+    const hooksDest = path.join(PROJECT_ROOT, ".pi", "gsd", "hooks");
 
     // Detect installed version from a sample file's <gsd-version> tag.
     const sample = path.join(gsdDest, "workflows", "plan-phase.md");
@@ -164,11 +164,23 @@ function main() {
         log("skip", `.pi/gsd  (v${pkgVersion} already installed, ${gsdSkipped} files skipped)`);
     }
 
-    // ── Hook scripts → .pi/hooks/ ─────────────────────────────────────────────
+    // ── Hook scripts → .pi/gsd/hooks/ ──────────────────────────────────────────
     if (fs.existsSync(hooksSrc)) {
         const { copied: hCopied } = copyDir(hooksSrc, hooksDest, overwriteAll, null, pkgVersion);
         if (hCopied > 0) {
-            log("ok", `.pi/hooks  (${hCopied} hook${hCopied === 1 ? "" : "s"} installed)`);
+            log("ok", `.pi/gsd/hooks  (${hCopied} hook${hCopied === 1 ? "" : "s"} installed)`);
+        }
+    }
+
+    // ── Cleanup: stale .pi/hooks/ from old layout (pi ≥0.35 renames this dir) ──
+    const oldHooksDir = path.join(PROJECT_ROOT, ".pi", "hooks");
+    if (fs.existsSync(oldHooksDir)) {
+        const oldEntries = fs.readdirSync(oldHooksDir);
+        const allGsd = oldEntries.every((f) => f.startsWith("gsd-") && f.endsWith(".js"));
+        if (allGsd) {
+            for (const f of oldEntries) fs.rmSync(path.join(oldHooksDir, f));
+            fs.rmdirSync(oldHooksDir);
+            log("ok", ".pi/hooks  (removed - hooks moved to .pi/gsd/hooks/)");
         }
     }
 

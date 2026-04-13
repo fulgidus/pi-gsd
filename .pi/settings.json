@@ -8,7 +8,5 @@
 		"gsd-health",
 		"git-workflow"
 	],
-	"extensions": [
-		"/home/fulgidus/Documents/pi-gsd/.pi/extensions/gsd-hooks.ts"
-	]
+	"extensions": []
 }
