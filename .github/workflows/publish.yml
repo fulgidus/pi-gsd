@@ -28,6 +28,8 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        env:
+          GSD_SKIP_INSTALL: "1"
 
       - name: Verify version matches tag
         run: |
