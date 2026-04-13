@@ -107,12 +107,13 @@ itself interprets the colon syntax as an internal slash-command dispatcher:
 All 60+ commands use the `/gsd-<name>` dash prefix. Key commands by workflow stage:
 
 ### Project Setup
-| Command              | Workflow file      |
-| -------------------- | ------------------ |
-| `/gsd-new-project`   | `new-project.md`   |
-| `/gsd-new-milestone` | `new-milestone.md` |
-| `/gsd-map-codebase`  | `map-codebase.md`  |
-| `/gsd-settings`      | `settings.md`      |
+| Command                    | Workflow file           |
+| -------------------------- | ----------------------- |
+| `/gsd-new-project`         | `new-project.md`        |
+| `/gsd-discuss-milestone`   | `discuss-milestone.md`  |
+| `/gsd-new-milestone`       | `new-milestone.md`      |
+| `/gsd-map-codebase`        | `map-codebase.md`       |
+| `/gsd-settings`            | `settings.md`           |
 
 ### Phase Lifecycle
 | Command                   | Workflow file       |

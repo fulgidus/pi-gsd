@@ -230,11 +230,17 @@ Tag: v[X.Y]
 
 ## ▶ Next Up
 
-**Start Next Milestone** - questioning → research → requirements → roadmap
+**Start Next Milestone** - requirements → research → roadmap
 
 `/gsd-new-milestone`
 
 <sub>`/new` first → fresh context window</sub>
+
+---
+
+**Optional pre-step:** Capture scope intent before the planning session
+
+`/gsd-discuss-milestone` — crystallize what to build next, then run `/gsd-new-milestone`
 
 ---
 ```
