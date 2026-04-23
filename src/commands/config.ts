@@ -45,16 +45,19 @@ export class ConfigSetModelProfileCommand extends BaseCommand {
 
 export class ConfigNewProjectCommand extends BaseCommand {
   static override description = "Initialise a new project config";
+  static override args = {
+    choices: Args.string({ required: false, description: "Choices JSON (positional)" }),
+  };
   static override flags = {
     ...BaseCommand.baseFlags,
     choices: Flags.string({ description: "Choices JSON" }),
   };
 
   async run() {
-    const { flags } = await this.parse(ConfigNewProjectCommand);
+    const { flags, args } = await this.parse(ConfigNewProjectCommand);
     const { cwd, raw } = this.resolveContext(flags);
     const { cmdConfigNewProject } = await import("../lib/config.js");
-    cmdConfigNewProject(cwd, flags.choices, raw);
+    cmdConfigNewProject(cwd, flags.choices ?? args.choices, raw);
   }
 }
 
