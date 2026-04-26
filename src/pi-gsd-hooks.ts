@@ -235,6 +235,10 @@ export default function (pi: ExtensionAPI) {
     // resolves files, applies selectors, replaces tags with content.
     // On ANY failure: red error + return empty messages to block the LLM call.
     pi.on("context", async (event, ctx) => {
+        // Capture ctx locals early to avoid stale context crashes after session replacement/reload
+        const cwd = ctx.cwd;
+        const uiNotify = ctx.ui.notify.bind(ctx.ui);
+
         const includePattern = /<gsd-include\s+path="([^"]+)"(?:\s+select="([^"]*)")?\s*\/>/g;
 
         // Package harness fallback path
@@ -266,7 +270,7 @@ export default function (pi: ExtensionAPI) {
 
                 let transformed = msg.content;
                 for (const match of includes) {
-                    const replacement = resolveGsdInclude(match, ctx.cwd, pkgHarness, errors);
+                    const replacement = resolveGsdInclude(match, cwd, pkgHarness, errors);
                     if (replacement === null) continue;
                     transformed = transformed.replace(match[0], replacement);
                 }
@@ -279,7 +283,7 @@ export default function (pi: ExtensionAPI) {
 
                     let transformed = block.text;
                     for (const match of includes) {
-                        const replacement = resolveGsdInclude(match, ctx.cwd, pkgHarness, errors);
+                        const replacement = resolveGsdInclude(match, cwd, pkgHarness, errors);
                         if (replacement === null) continue;
                         transformed = transformed.replace(match[0], replacement);
                     }
@@ -289,7 +293,7 @@ export default function (pi: ExtensionAPI) {
         }
 
         if (errors.length > 0) {
-            ctx.ui.notify("\u274c GSD include failed:\n" + errors.map((e) => "  \u2022 " + e).join("\n"), "error");
+            uiNotify("\u274c GSD include failed:\n" + errors.map((e) => "  \u2022 " + e).join("\n"), "error");
             // Fall through with whatever was resolved — broken tags replaced by
             // inline error text above, so the LLM can respond and explain.
         }
@@ -315,7 +319,7 @@ export default function (pi: ExtensionAPI) {
             return {};
         };
         const globalSettings = loadSettings(join(homedir(), ".gsd", "pi-gsd-settings.json"));
-        const projectSettings = loadSettings(join(ctx.cwd, ".pi", "gsd", "pi-gsd-settings.json"));
+        const projectSettings = loadSettings(join(cwd, ".pi", "gsd", "pi-gsd-settings.json"));
         const mergedAllowlist = [
             ...DEFAULT_SHELL_ALLOWLIST,
             ...(globalSettings.shellAllowlist ?? []),
@@ -356,27 +360,45 @@ export default function (pi: ExtensionAPI) {
             }
         }
 
+        // WXP-HIST: only process the LAST user message containing <gsd-> tags.
+        // Processing all historical messages re-executes prior (possibly failed)
+        // invocations on every turn, causing phantom side-effects.
+        const lastGsdMsgIdx = (() => {
+            for (let i = messages.length - 1; i >= 0; i--) {
+                const msg = messages[i];
+                if (msg.role !== "user") continue;
+                const text = typeof msg.content === "string" ? msg.content
+                    : Array.isArray(msg.content)
+                        ? (msg.content as Array<{type:string;text?:string}>).filter(b => b.type === "text").map(b => b.text ?? "").join("")
+                        : "";
+                if (text.includes("<gsd-")) return i;
+            }
+            return -1;
+        })();
+
         try {
             for (let msgIdx = 0; msgIdx < messages.length; msgIdx++) {
+                // WXP-HIST: skip historical messages — only process the last one with <gsd-> tags
+                if (msgIdx !== lastGsdMsgIdx) continue;
                 const msg = messages[msgIdx];
                 if (msg.role !== "user") continue;
                 const rawArgs = rawArgsMap.get(msgIdx) ?? "";
                 if (typeof msg.content === "string") {
                     if (!msg.content.includes("<gsd-")) continue;
-                    const virtualPath = join(ctx.cwd, ".pi", "gsd", "workflows", "_message.md");
-                    msg.content = processWxpTrustedContent(msg.content, virtualPath, wxpSecurity, ctx.cwd, pkgRoot2, rawArgs, (m, lv) => ctx.ui.notify(m, lv === "error" ? "error" : "info"));
+                    const virtualPath = join(cwd, ".pi", "gsd", "workflows", "_message.md");
+                    msg.content = processWxpTrustedContent(msg.content, virtualPath, wxpSecurity, cwd, pkgRoot2, rawArgs, (m, lv) => uiNotify(m, lv === "error" ? "error" : "info"));
                 } else if (Array.isArray(msg.content)) {
                     for (const block of msg.content) {
                         if (block.type !== "text" || !block.text) continue;
                         if (!block.text.includes("<gsd-")) continue;
-                        const virtualPath = join(ctx.cwd, ".pi", "gsd", "workflows", "_message.md");
-                        block.text = processWxpTrustedContent(block.text, virtualPath, wxpSecurity, ctx.cwd, pkgRoot2, rawArgs, (m, lv) => ctx.ui.notify(m, lv === "error" ? "error" : "info"));
+                        const virtualPath = join(cwd, ".pi", "gsd", "workflows", "_message.md");
+                        block.text = processWxpTrustedContent(block.text, virtualPath, wxpSecurity, cwd, pkgRoot2, rawArgs, (m, lv) => uiNotify(m, lv === "error" ? "error" : "info"));
                     }
                 }
             }
         } catch (wxpErr) {
             if (wxpErr instanceof WxpProcessingError) {
-                ctx.ui.notify(wxpErr.message, "error");
+                uiNotify(wxpErr.message, "error");
                 // Restore pre-WXP snapshots so the LLM still gets the original
                 // message content and can respond (e.g. explain the error).
                 // WXP tags are stripped to avoid confusing the model.
