@@ -356,11 +356,18 @@ interface PhaseAddResult {
  * Mutates disk (creates directory, updates ROADMAP.md) and returns structured
  * result data — callers are responsible for output / state notes.
  */
+/** Strip surrounding quote characters that WXP may inject when a variable is empty (e.g. `""` → `""`). */
+function stripWxpQuotes(s: string): string {
+	return s.replace(/^["']+|["']+$/g, "").trim();
+}
+
 function addPhaseCore(
 	cwd: string,
 	description: string,
 	customId?: string | null,
 ): PhaseAddResult {
+	description = stripWxpQuotes(description);
+	if (!description) gsdError("description required for phase add");
 	const config = loadConfig(cwd);
 	const roadmapPath = path.join(planningDir(cwd), "ROADMAP.md");
 	if (!fs.existsSync(roadmapPath)) gsdError("ROADMAP.md not found");
@@ -437,8 +444,9 @@ export function cmdPhaseAddBatch(
 	description: string | undefined,
 	raw: boolean,
 ): void {
-	if (!description?.trim()) gsdError("description required for phase add-batch");
-	const descriptions = description!
+	const cleanDescription = stripWxpQuotes(description ?? "");
+	if (!cleanDescription) gsdError("description required for phase add-batch");
+	const descriptions = cleanDescription
 		.split(/ \+ /)
 		.map((d) => d.trim())
 		.filter(Boolean);
