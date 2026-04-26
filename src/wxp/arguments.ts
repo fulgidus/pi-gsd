@@ -28,7 +28,7 @@ export function parseArguments(node: XmlNode, rawArguments: string, vars: Variab
   const argDefs = node.children.filter((c) => c.tag === "arg");
   const consumed = new Set<number>();
 
-  // ── Pass 1: flags ──────────────────────────────────────────────────────────
+  // ── Pass 1: boolean flags ──────────────────────────────────────────────────
   for (const def of argDefs.filter((a) => a.attrs["type"] === "flag")) {
     const flagToken = def.attrs["flag"] ?? `--${def.attrs["name"]}`;
     const idx = tokens.indexOf(flagToken);
@@ -42,8 +42,50 @@ export function parseArguments(node: XmlNode, rawArguments: string, vars: Variab
     }
   }
 
+  // ── Pass 1.5: named value args (flag="--something" with non-flag type) ────
+  // Handles `--wave 2` style arguments where the flag takes a value.
+  for (const def of argDefs.filter(
+    (a) => a.attrs["flag"] && a.attrs["type"] !== "flag" && a.attrs["type"] !== undefined,
+  )) {
+    const flagToken = def.attrs["flag"]!;
+    const name = def.attrs["name"];
+    const type = def.attrs["type"] ?? "string";
+    if (!name) continue;
+    const idx = tokens.indexOf(flagToken);
+    if (idx === -1) {
+      if (!("optional" in def.attrs)) {
+        throw new WxpArgumentsError(`Missing required argument '${name}' (${flagToken})`);
+      }
+      vars.set(name, "", undefined);
+      continue;
+    }
+    const valueIdx = idx + 1;
+    if (valueIdx >= tokens.length) {
+      throw new WxpArgumentsError(`Argument '${name}' (${flagToken}) requires a value`);
+    }
+    const raw = tokens[valueIdx];
+    if (type === "number") {
+      const num = Number(raw);
+      if (isNaN(num)) throw new WxpArgumentsError(`Argument '${name}' expected a number, got '${raw}'`);
+      vars.set(name, String(num), undefined);
+    } else if (type === "boolean") {
+      const lower = raw.toLowerCase();
+      if (lower !== "true" && lower !== "false") {
+        throw new WxpArgumentsError(`Argument '${name}' expected true/false, got '${raw}'`);
+      }
+      vars.set(name, lower, undefined);
+    } else {
+      vars.set(name, raw, undefined);
+    }
+    consumed.add(idx);
+    consumed.add(valueIdx);
+  }
+
   // ── Pass 2: positionals ────────────────────────────────────────────────────
-  const positionals = argDefs.filter((a) => a.attrs["type"] !== "flag");
+  // Exclude named value args (flag + non-flag type) — already handled in Pass 1.5.
+  const positionals = argDefs.filter(
+    (a) => a.attrs["type"] !== "flag" && !(a.attrs["flag"] && a.attrs["type"] !== undefined),
+  );
   const remaining   = tokens.filter((_, i) => !consumed.has(i));
   let tokenIdx = 0;
 
