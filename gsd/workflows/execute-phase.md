@@ -3,14 +3,12 @@
 <gsd-arguments>
   <settings>
     <keep-extra-args />
-    <delimiters>
-      <delimiter type="string" value="\n" />
-    </delimiters>
   </settings>
   <arg name="auto-chain-active" type="flag" flag="--auto" optional />
   <arg name="no-transition" type="flag" flag="--no-transition" optional />
   <arg name="gaps-only" type="flag" flag="--gaps-only" optional />
   <arg name="interactive" type="flag" flag="--interactive" optional />
+  <arg name="wave" type="number" flag="--wave" optional />
   <arg name="phase" type="number" />
   <arg name="user-text" type="string" optional />
 </gsd-arguments>
