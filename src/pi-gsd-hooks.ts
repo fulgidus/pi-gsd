@@ -624,8 +624,10 @@ export default function (pi: ExtensionAPI) {
     }
     interface GsdHealth {
         status: string;
-        errors: Array<{ code: string; message: string; repair?: string }>;
-        warnings: Array<{ code: string; message: string }>;
+        errors: Array<{ code: string; message: string; fix?: string; repairable?: boolean }>;
+        warnings: Array<{ code: string; message: string; fix?: string; repairable?: boolean }>;
+        repairable_count?: number;
+        repairs_performed?: Array<{ action: string; success: boolean; path?: string; error?: string }>;
     }
 
     const runJson = <T>(args: string, cwd: string): T | null => {
@@ -769,7 +771,7 @@ export default function (pi: ExtensionAPI) {
             return "❌ No GSD project found. Run /gsd-new-project to initialise.";
 
         const icon =
-            data.status === "ok" ? "✅" : data.status === "broken" ? "❌" : "⚠️";
+            data.status === "healthy" ? "✅" : data.status === "broken" ? "❌" : "⚠️";
         const lines = [
             `━━ GSD Health ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
             `${icon}  Status: ${data.status.toUpperCase()}`,
@@ -779,7 +781,7 @@ export default function (pi: ExtensionAPI) {
             lines.push(``, `Errors (${data.errors.length}):`);
             for (const e of data.errors) {
                 lines.push(`  ✗ [${e.code}] ${e.message}`);
-                if (e.repair) lines.push(`      fix: ${e.repair}`);
+                if (e.fix) lines.push(`      fix: ${e.fix}`);
             }
         }
         if (data.warnings?.length) {
@@ -788,8 +790,14 @@ export default function (pi: ExtensionAPI) {
                 lines.push(`  ⚠ [${w.code}] ${w.message}`);
             }
         }
-        if (data.status !== "ok" && !repair) {
-            lines.push(``, `  → /gsd-health --repair   Auto-fix all issues`);
+        if (data.repairs_performed?.length) {
+            lines.push(``, `Repairs performed (${data.repairs_performed.length}):`);
+            for (const r of data.repairs_performed) {
+                lines.push(`  ${r.success ? "✓" : "✗"} ${r.action}${r.path ? ` → ${r.path}` : ""}${r.error ? `: ${r.error}` : ""}`);
+            }
+        }
+        if (data.status !== "healthy" && !repair && (data.repairable_count ?? 0) > 0) {
+            lines.push(``, `  → /gsd-health --repair   Auto-fix ${data.repairable_count} issue(s)`);
         }
         lines.push(``, `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
         return lines.join("\n");
