@@ -84,3 +84,63 @@ describe("parseArguments - two-pass (PRD §3.2)", () => {
         expect(vars.get("_extra")).toBe("extra stuff");
     });
 });
+
+describe("named value flags - Pass 1.5 (--flag value)", () => {
+    it("--wave 2 with a phase positional: wave gets 2, phase gets its value", () => {
+        const vars = createVariableStore();
+        parseArguments(argsNode({
+            args: [
+                { name: "phase", type: "number" },
+                { name: "wave", type: "number", flag: "--wave", optional: true },
+            ],
+        }), "--wave 2 1", vars);
+        expect(vars.get("wave")).toBe("2");
+        expect(vars.get("phase")).toBe("1");
+    });
+
+    it("--wave absent and optional: sets empty string, positional still works", () => {
+        const vars = createVariableStore();
+        parseArguments(argsNode({
+            args: [
+                { name: "phase", type: "number" },
+                { name: "wave", type: "number", flag: "--wave", optional: true },
+            ],
+        }), "3", vars);
+        expect(vars.get("wave")).toBe("");
+        expect(vars.get("phase")).toBe("3");
+    });
+
+    it("--wave notanumber: throws WxpArgumentsError", () => {
+        const vars = createVariableStore();
+        expect(() => parseArguments(argsNode({
+            args: [
+                { name: "wave", type: "number", flag: "--wave", optional: true },
+            ],
+        }), "--wave notanumber", vars)).toThrow(WxpArgumentsError);
+    });
+
+    it("--wave present but no following value: throws WxpArgumentsError", () => {
+        const vars = createVariableStore();
+        expect(() => parseArguments(argsNode({
+            args: [
+                { name: "wave", type: "number", flag: "--wave", optional: true },
+            ],
+        }), "--wave", vars)).toThrow(WxpArgumentsError);
+    });
+
+    it("mixed: '02 --auto --wave 3 fix the bug' with all arg types parsed correctly", () => {
+        const vars = createVariableStore();
+        parseArguments(argsNode({
+            args: [
+                { name: "phase", type: "number" },
+                { name: "auto-chain-active", type: "flag", flag: "--auto", optional: true },
+                { name: "wave", type: "number", flag: "--wave", optional: true },
+                { name: "user-text", type: "string", optional: true },
+            ],
+        }), "02 --auto --wave 3 fix the bug", vars);
+        expect(vars.get("phase")).toBe("2");
+        expect(vars.get("auto-chain-active")).toBe("true");
+        expect(vars.get("wave")).toBe("3");
+        expect(vars.get("user-text")).toBe("fix the bug");
+    });
+});
