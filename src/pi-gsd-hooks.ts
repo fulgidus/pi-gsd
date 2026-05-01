@@ -33,6 +33,65 @@ import { processWxpTrustedContent, WxpProcessingError, readWorkflowVersionTag } 
 import { DEFAULT_SHELL_ALLOWLIST } from "./wxp/security.js";
 import type { WxpSecurityConfig } from "./schemas/wxp.zod.js";
 
+type Locale = "en" | "es" | "fr" | "pt-BR";
+type Params = Record<string, string | number>;
+
+const translations: Record<Exclude<Locale, "en">, Record<string, string>> = {
+    es: {
+        "next.noProject": "❌ No se encontró un proyecto GSD. Ejecuta /gsd-new-project para inicializarlo.",
+        "next.allComplete": "✅  ¡Todas las fases están completas!",
+        "next.noPlans": "La fase {phase} aún no tiene planes: empieza con discusión",
+        "next.execute": "Fase {phase}: {summaries}/{plans} planes completados; continúa la ejecución",
+        "next.verify": "Fase {phase}: todos los planes están completos; verifica UAT",
+        "next.morePending": "    ({count} fase(s) más pendiente(s) después de esta)",
+    },
+    fr: {
+        "next.noProject": "❌ Aucun projet GSD trouvé. Exécutez /gsd-new-project pour l’initialiser.",
+        "next.allComplete": "✅  Toutes les phases sont terminées !",
+        "next.noPlans": "La phase {phase} n’a pas encore de plans : commencez par la discussion",
+        "next.execute": "Phase {phase} : {summaries}/{plans} plans terminés ; continuez l’exécution",
+        "next.verify": "Phase {phase} : tous les plans sont terminés ; vérifiez l’UAT",
+        "next.morePending": "    ({count} phase(s) encore en attente après celle-ci)",
+    },
+    "pt-BR": {
+        "next.noProject": "❌ Nenhum projeto GSD encontrado. Execute /gsd-new-project para inicializar.",
+        "next.allComplete": "✅  Todas as fases foram concluídas!",
+        "next.noPlans": "A fase {phase} ainda não tem planos: comece pela discussão",
+        "next.execute": "Fase {phase}: {summaries}/{plans} planos concluídos; continue a execução",
+        "next.verify": "Fase {phase}: todos os planos foram concluídos; verifique o UAT",
+        "next.morePending": "    ({count} fase(s) pendente(s) depois desta)",
+    },
+};
+
+let currentLocale: Locale = "en";
+
+function initI18n(pi: ExtensionAPI): void {
+    const events = pi.events as { emit?: (event: string, payload: unknown) => void } | undefined;
+    events?.emit?.("pi-core/i18n/registerBundle", {
+        namespace: "pi-gsd",
+        defaultLocale: "en",
+        locales: translations,
+    });
+    events?.emit?.("pi-core/i18n/requestApi", {
+        onReady: (api: { getLocale?: () => string; onLocaleChange?: (cb: (locale: string) => void) => void }) => {
+            const locale = api.getLocale?.();
+            if (isLocale(locale)) currentLocale = locale;
+            api.onLocaleChange?.((next) => {
+                if (isLocale(next)) currentLocale = next;
+            });
+        },
+    });
+}
+
+function t(key: string, fallback: string, params: Params = {}): string {
+    const template = currentLocale === "en" ? fallback : translations[currentLocale]?.[key] ?? fallback;
+    return template.replace(/\{(\w+)\}/g, (_, name) => String(params[name] ?? `{${name}}`));
+}
+
+function isLocale(locale: string | undefined): locale is Locale {
+    return locale === "en" || locale === "es" || locale === "fr" || locale === "pt-BR";
+}
+
 /**
  * Ensures .pi/gsd/ in the project is a symlink to the harness files
  * inside the pi-gsd package. Creates the symlink on first run; skips
@@ -133,6 +192,8 @@ function extractRawArguments(content: string): string {
 }
 
 export default function (pi: ExtensionAPI) {
+    initI18n(pi);
+
     /** Resolve a single <gsd-include> match: file lookup + selector extraction. */
     function resolveGsdInclude(
         match: RegExpMatchArray,
@@ -867,7 +928,7 @@ export default function (pi: ExtensionAPI) {
             const data = runJson<GsdProgress>("progress json", ctx.cwd);
             if (!data) {
                 ctx.ui.notify(
-                    "❌ No GSD project found. Run /gsd-new-project to initialise.",
+                    t("next.noProject", "❌ No GSD project found. Run /gsd-new-project to initialise."),
                     "error",
                 );
                 ctx.ui.setEditorText("/gsd-new-project");
@@ -880,7 +941,7 @@ export default function (pi: ExtensionAPI) {
                 ctx.ui.notify(
                     [
                         `━━ GSD Next ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-                        `✅  All phases complete!`,
+                        t("next.allComplete", "✅  All phases complete!"),
                         `→   /gsd-audit-milestone`,
                         `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
                     ].join("\n"),
@@ -897,13 +958,13 @@ export default function (pi: ExtensionAPI) {
 
             if (next.plans === 0) {
                 action = `/gsd-discuss-phase ${n}`;
-                reason = `Phase ${n} has no plans yet - start with discussion`;
+                reason = t("next.noPlans", "Phase {phase} has no plans yet - start with discussion", { phase: n });
             } else if (next.summaries < next.plans) {
                 action = `/gsd-execute-phase ${n}`;
-                reason = `Phase ${n}: ${next.summaries}/${next.plans} plans done - continue execution`;
+                reason = t("next.execute", "Phase {phase}: {summaries}/{plans} plans done - continue execution", { phase: n, summaries: next.summaries, plans: next.plans });
             } else {
                 action = `/gsd-verify-work ${n}`;
-                reason = `Phase ${n}: all plans done - verify UAT`;
+                reason = t("next.verify", "Phase {phase}: all plans done - verify UAT", { phase: n });
             }
 
             ctx.ui.notify(
@@ -913,7 +974,7 @@ export default function (pi: ExtensionAPI) {
                     `→   ${action}`,
                     ...(pending.length > 1
                         ? [
-                            `    (${pending.length - 1} more phase${pending.length > 2 ? "s" : ""} pending after this)`,
+                            t("next.morePending", "    ({count} more phase(s) pending after this)", { count: pending.length - 1 }),
                         ]
                         : []),
                     `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
