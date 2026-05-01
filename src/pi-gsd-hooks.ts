@@ -28,6 +28,7 @@ import {
 } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join, relative } from "node:path";
+import { initI18n, t } from "./i18n";
 import type { ContextUsage, ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { processWxpTrustedContent, WxpProcessingError, readWorkflowVersionTag } from "./wxp/index.js";
 import { DEFAULT_SHELL_ALLOWLIST } from "./wxp/security.js";
@@ -133,6 +134,7 @@ function extractRawArguments(content: string): string {
 }
 
 export default function (pi: ExtensionAPI) {
+    initI18n(pi);
     /** Resolve a single <gsd-include> match: file lookup + selector extraction. */
     function resolveGsdInclude(
         match: RegExpMatchArray,
@@ -697,7 +699,7 @@ export default function (pi: ExtensionAPI) {
         const data = runJson<GsdProgress>("progress json", cwd);
         if (!data)
             return {
-                text: "❌ No GSD project found. Run /gsd-new-project to initialise.",
+                text: t("next.noProject", "❌ No GSD project found. Run /gsd-new-project to initialise."),
                 data: null,
             };
 
@@ -731,7 +733,7 @@ export default function (pi: ExtensionAPI) {
         const data = runJson<GsdStats>("stats json", cwd);
         if (!data)
             return {
-                text: "❌ No GSD project found. Run /gsd-new-project to initialise.",
+                text: t("next.noProject", "❌ No GSD project found. Run /gsd-new-project to initialise."),
                 data: null,
             };
 
@@ -768,7 +770,7 @@ export default function (pi: ExtensionAPI) {
             cwd,
         );
         if (!data)
-            return "❌ No GSD project found. Run /gsd-new-project to initialise.";
+            return t("next.noProject", "❌ No GSD project found. Run /gsd-new-project to initialise.");
 
         const icon =
             data.status === "healthy" ? "✅" : data.status === "broken" ? "❌" : "⚠️";
@@ -819,7 +821,7 @@ export default function (pi: ExtensionAPI) {
     };
 
     pi.registerCommand("gsd-progress", {
-        description: "Show project progress with next steps (instant)",
+        description: t("cmd.progress", "Show project progress with next steps (instant)"),
         handler: async (_args, ctx) => {
             const { text, data } = formatProgress(ctx.cwd);
             ctx.ui.notify(text, "info");
@@ -833,7 +835,7 @@ export default function (pi: ExtensionAPI) {
     });
 
     pi.registerCommand("gsd-stats", {
-        description: "Show project statistics (instant)",
+        description: t("cmd.stats", "Show project statistics (instant)"),
         handler: async (_args, ctx) => {
             const { text, data } = formatStats(ctx.cwd);
             ctx.ui.notify(text, "info");
@@ -845,7 +847,7 @@ export default function (pi: ExtensionAPI) {
     });
 
     pi.registerCommand("gsd-health", {
-        description: "Check .planning/ integrity (instant)",
+        description: t("cmd.health", "Check .planning/ integrity (instant)"),
         handler: async (args, ctx) => {
             ctx.ui.notify(
                 formatHealth(ctx.cwd, !!args?.includes("--repair")),
@@ -854,20 +856,20 @@ export default function (pi: ExtensionAPI) {
         },
         getArgumentCompletions: (prefix) => {
             const options = [
-                { value: "--repair", label: "--repair  Auto-fix issues" },
+                { value: "--repair", label: t("cmd.health.repair", "--repair  Auto-fix issues") },
             ];
             return options.filter((o) => o.value.startsWith(prefix));
         },
     });
 
     pi.registerCommand("gsd-next", {
-        description: "Auto-advance to the next GSD action (instant, no LLM)",
+        description: t("cmd.next", "Auto-advance to the next GSD action (instant, no LLM)"),
         handler: async (_args, ctx) => {
 			reconcile(ctx.cwd);
             const data = runJson<GsdProgress>("progress json", ctx.cwd);
             if (!data) {
                 ctx.ui.notify(
-                    "❌ No GSD project found. Run /gsd-new-project to initialise.",
+                    t("next.noProject", "❌ No GSD project found. Run /gsd-new-project to initialise."),
                     "error",
                 );
                 ctx.ui.setEditorText("/gsd-new-project");
@@ -880,7 +882,7 @@ export default function (pi: ExtensionAPI) {
                 ctx.ui.notify(
                     [
                         `━━ GSD Next ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-                        `✅  All phases complete!`,
+                        t("next.allComplete", "✅  All phases complete!"),
                         `→   /gsd-audit-milestone`,
                         `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
                     ].join("\n"),
@@ -897,13 +899,13 @@ export default function (pi: ExtensionAPI) {
 
             if (next.plans === 0) {
                 action = `/gsd-discuss-phase ${n}`;
-                reason = `Phase ${n} has no plans yet - start with discussion`;
+                reason = t("next.noPlans", "Phase {phase} has no plans yet - start with discussion", { phase: n });
             } else if (next.summaries < next.plans) {
                 action = `/gsd-execute-phase ${n}`;
-                reason = `Phase ${n}: ${next.summaries}/${next.plans} plans done - continue execution`;
+                reason = t("next.execute", "Phase {phase}: {summaries}/{plans} plans done - continue execution", { phase: n, summaries: next.summaries, plans: next.plans });
             } else {
                 action = `/gsd-verify-work ${n}`;
-                reason = `Phase ${n}: all plans done - verify UAT`;
+                reason = t("next.verify", "Phase {phase}: all plans done - verify UAT", { phase: n });
             }
 
             ctx.ui.notify(
@@ -913,7 +915,7 @@ export default function (pi: ExtensionAPI) {
                     `→   ${action}`,
                     ...(pending.length > 1
                         ? [
-                            `    (${pending.length - 1} more phase${pending.length > 2 ? "s" : ""} pending after this)`,
+                            t("next.morePending", "    ({count} more phase(s) pending after this)", { count: pending.length - 1 }),
                         ]
                         : []),
                     `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
@@ -925,7 +927,7 @@ export default function (pi: ExtensionAPI) {
     });
 
     pi.registerCommand("gsd-help", {
-        description: "List all GSD commands (instant)",
+        description: t("cmd.help", "List all GSD commands (instant)"),
         handler: async (_args, ctx) => {
             ctx.ui.notify(
                 [
@@ -1029,12 +1031,12 @@ export default function (pi: ExtensionAPI) {
             let msg: string;
             if (isCritical) {
                 msg = isGsdActive
-                    ? `🔴 CONTEXT CRITICAL: ${usedPct}% used (${remaining}% left). GSD state is in STATE.md. Inform user to run /gsd-pause-work.`
-                    : `🔴 CONTEXT CRITICAL: ${usedPct}% used (${remaining}% left). Inform user context is nearly exhausted.`;
+                    ? t("context.criticalGsd", "🔴 CONTEXT CRITICAL: {used}% used ({remaining}% left). GSD state is in STATE.md. Inform user to run /gsd-pause-work.", { used: usedPct, remaining })
+                    : t("context.critical", "🔴 CONTEXT CRITICAL: {used}% used ({remaining}% left). Inform user context is nearly exhausted.", { used: usedPct, remaining });
             } else {
                 msg = isGsdActive
-                    ? `⚠️ CONTEXT WARNING: ${usedPct}% used (${remaining}% left). Avoid starting new complex work.`
-                    : `⚠️ CONTEXT WARNING: ${usedPct}% used (${remaining}% left). Context is getting limited.`;
+                    ? t("context.warningGsd", "⚠️ CONTEXT WARNING: {used}% used ({remaining}% left). Avoid starting new complex work.", { used: usedPct, remaining })
+                    : t("context.warning", "⚠️ CONTEXT WARNING: {used}% used ({remaining}% left). Context is getting limited.", { used: usedPct, remaining });
             }
 
             ctx.ui.notify(msg, isCritical ? "error" : "info");
