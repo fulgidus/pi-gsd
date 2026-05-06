@@ -46,6 +46,18 @@ import type { WxpSecurityConfig } from "./schemas/wxp.zod.js";
  * - Copies missing files; never overwrites existing real files.
  * - Silent on any failure (non-blocking).
  */
+/** Version from the globally installed pi-gsd package (authoritative after `npm i -g`). */
+function readPiGsdPackageVersion(pkgRoot: string): string | null {
+    try {
+        const pkgJsonPath = join(pkgRoot, "package.json");
+        if (!existsSync(pkgJsonPath)) return null;
+        const v = (JSON.parse(readFileSync(pkgJsonPath, "utf8")) as { version?: string }).version?.trim();
+        return v || null;
+    } catch {
+        return null;
+    }
+}
+
 function copyHarness(
     src: string,
     dest: string,
@@ -406,10 +418,11 @@ export default function (pi: ExtensionAPI) {
 
     // ── session_start: GSD update check ──────────────────────────────────────
     pi.on("session_start", async (_event, ctx) => {
+        const extFile = typeof __filename !== "undefined" ? __filename : "";
+        const pkgRoot = join(dirname(extFile), "..");
+
         // Copy-on-first-run harness distribution (HRN-01, HRN-03)
         try {
-            const extFile = typeof __filename !== "undefined" ? __filename : "";
-            const pkgRoot = join(dirname(extFile), "..");
             const pkgHarness = join(pkgRoot, "gsd");
             const projectHarness = join(ctx.cwd, ".pi", "gsd");
             if (existsSync(pkgHarness)) {
@@ -466,11 +479,27 @@ export default function (pi: ExtensionAPI) {
                     const ageSeconds =
                         Math.floor(Date.now() / 1000) - (cache.checked ?? 0);
 
+                    const pkgInstalled = readPiGsdPackageVersion(pkgRoot);
+                    const effectiveInstalled = pkgInstalled ?? cache.installed;
+
                     if (cache.update_available && cache.latest) {
-                        ctx.ui.notify(
-                            `GSD update available: ${cache.installed ?? "?"} → ${cache.latest}. Run: npm i -g pi-gsd`,
-                            "info",
-                        );
+                        if (pkgInstalled && pkgInstalled === cache.latest) {
+                            // Stale cache: npm package already matches registry latest
+                            writeFileSync(
+                                cacheFile,
+                                JSON.stringify({
+                                    ...cache,
+                                    update_available: false,
+                                    installed: pkgInstalled,
+                                    checked: Math.floor(Date.now() / 1000),
+                                }),
+                            );
+                        } else if (effectiveInstalled && effectiveInstalled !== cache.latest) {
+                            ctx.ui.notify(
+                                `GSD update available: ${effectiveInstalled} → ${cache.latest}. Run: npm i -g pi-gsd`,
+                                "info",
+                            );
+                        }
                     }
 
                     // Cache is fresh - skip network check
@@ -485,19 +514,21 @@ export default function (pi: ExtensionAPI) {
                 try {
                     mkdirSync(cacheDir, { recursive: true });
 
-                    // Resolve installed version from project or global GSD install
-                    let installed = "0.0.0";
-                    const versionPaths = [
-                        join(ctx.cwd, ".pi", "gsd", "VERSION"),
-                        join(homedir(), ".pi", "gsd", "VERSION"),
-                    ];
-                    for (const vp of versionPaths) {
-                        if (existsSync(vp)) {
-                            try {
-                                installed = readFileSync(vp, "utf8").trim();
-                                break;
-                            } catch {
-                                /* skip unreadable */
+                    // Prefer the live npm package version; fall back to copied harness VERSION
+                    let installed = readPiGsdPackageVersion(pkgRoot) ?? "0.0.0";
+                    if (installed === "0.0.0") {
+                        const versionPaths = [
+                            join(ctx.cwd, ".pi", "gsd", "VERSION"),
+                            join(homedir(), ".pi", "gsd", "VERSION"),
+                        ];
+                        for (const vp of versionPaths) {
+                            if (existsSync(vp)) {
+                                try {
+                                    installed = readFileSync(vp, "utf8").trim();
+                                    break;
+                                } catch {
+                                    /* skip unreadable */
+                                }
                             }
                         }
                     }
